@@ -1,0 +1,34 @@
+matrix:
+  include:
+    #Frontend
+    - language: node_js
+      node_js:
+        - "10.15"
+
+      before_install:
+        - cd Library-Frontend
+        - npm install
+
+      script:
+        - npm build
+
+      deploy:
+        provider: heroku
+        api_key:
+          secure: "60c508cc-c2ec-48e6-8ea5-30f264d5036a"
+        app: library-frontend-d1
+
+
+    #Backend
+    - language: java
+       
+      before_install: 
+        - chmod +x gradlew
+      script:
+        - ./gradlew build
+
+      deploy:
+        provider: heroku
+        api_key:
+          secure: "60c508cc-c2ec-48e6-8ea5-30f264d5036a"
+        app: library-backend-d1

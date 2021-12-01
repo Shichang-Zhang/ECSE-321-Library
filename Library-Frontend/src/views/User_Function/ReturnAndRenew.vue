@@ -1,0 +1,67 @@
+<template>
+  <div>
+    <b-form inline>
+<!--      <b-dropdown id="dropdown-left" text="Show By Reservation Status" variant="primary" class="m-2">-->
+<!--        <b-dropdown-item @click="showAllItemReservation" href="#">All</b-dropdown-item>-->
+<!--        <b-dropdown-item @click="showValidItemReservation" href="#">Valid</b-dropdown-item>-->
+<!--        <b-dropdown-item @click="showExpiredItemReservation" href="#">Expired</b-dropdown-item>-->
+<!--      </b-dropdown>-->
+      <b-form-select
+        id="input-3"
+        v-model="selectedItemReservationStatus"
+        :options="itemReservationStatus"
+        required
+      ></b-form-select>
+      <b-button v-on:click="showItemReservation(selectedItemReservationStatus)" variant="primary" >Show</b-button>
+
+    </b-form>
+    <div class="table" style="overflow: auto;height: 51vh;">
+      <b-table style="margin-top: 40px;" hover :items="itemReservationDisplay"
+               @row-selected="onRowSelected"
+               select-mode="single"
+               selectable>
+      </b-table>
+    </div>
+
+    <div style="display: flex;justify-content: flex-end;">
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="my-table"
+      ></b-pagination>
+    </div>
+
+    <div class="btns" style="text-align: right;border-top: #e7e7e7 1px solid;padding-top: 20px">
+      <b-button variant="outline-primary" @click="handleCancel">Close</b-button>
+      <b-button variant="primary" @click="handleRenewChooseDate(selectedItemReservation)" style="margin-left: 30px;">Renew</b-button>
+      <b-button v-on:click="returnItem(selectedItemReservation)" variant="primary" >Return</b-button>
+      <b-button v-on:click="cancelItemReservation(selectedItemReservation)" variant="primary" >Cancel</b-button>
+    </div>
+
+    <b-modal id="date-modal" title="Choose Date" @ok="handleRenewConfirm(currentUserId,selectedItemReservation,renewEndDate,renewEndTime)">
+      <div>
+        <b-form >
+          <b-form-group
+            label="Extended End Date："
+            label-for="datepicker1"
+          >
+            <b-form-datepicker id="datepicker1" v-model="renewEndDate" class="mb-2" locale="en"></b-form-datepicker>
+          </b-form-group>
+          <b-form-group
+            label="Extended End Time:"
+            label-for="endTime"
+          >
+            <b-form-timepicker v-model="renewEndTime" locale="en" id="endTime" :hour12="false" ></b-form-timepicker>
+          </b-form-group>
+        </b-form>
+      </div>
+    </b-modal>
+  </div>
+</template>
+
+<script src="./ReturnAndRenewJS.js">
+</script>
+
+<style scoped>
+</style>

@@ -1,0 +1,114 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.jetbrains:annotations:20.1.0'
+    runtimeOnly 'org.postgresql:postgresql'
+
+	//test time
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine' // MAKE SURE TO IGNORE
+	}
+	testImplementation 'org.mockito:mockito-core:2.+'
+	testImplementation 'org.mockito:mockito-junit-jupiter:2.18.3'
+
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2' // IMPORTANT VERSION
+
+	// extra lib
+	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
+	implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
+	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+
+	runtimeOnly 'org.postgresql:postgresql'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
+
+task integrationTest() {
+	//please run the application before use task integrationTest()
+//	//init
+//	exec {
+//		println '\ninit'
+//		commandLine 'curl', '-X', 'GET', 'http://localhost:8080/init'
+//	}
+//	//BusinessHourTest
+//	exec {
+//		println '\ngetAllBusinessHours'
+//		commandLine 'curl', '-X', 'GET', 'http://localhost:8080/businessHours/businessHourList'
+//	}
+//	exec {
+//		println '\ncreateBusinessHours'
+//		commandLine 'curl', '-X', 'POST', 'http://localhost:8080/businessHours/createBusinessHour?dayOfWeek=5&startTime=00:00:00&endTime=23:59:59'
+//	}
+//	exec {
+//		println '\nupdateBusinessHours'
+//		commandLine 'curl', '-X', 'PUT', 'http://localhost:8080/businessHours/updateBusinessHourTime?dayOfWeek=5&startTime=00:00:00&endTime=16:59:59'
+//	}
+//	//UserTest
+//	exec {
+//		println '\ngetAllUser'
+//		commandLine 'curl', '-X', 'GET', 'http://localhost:8080/users/userList'
+//	}
+//	exec {
+//		println '\ncreateUser'
+//		commandLine 'curl', '-X', 'POST', 'http://localhost:8080/users/createUser?name=joe&address=luna&isLocal=true'
+//	}
+//	//LibrarianTest
+//	exec {
+//		println '\ngetAllLibrarian'
+//		commandLine 'curl', '-X', 'GET', 'http://localhost:8080/librarians/librarianList'
+//	}
+//	//EventTest
+//	exec {
+//		println '\ngetAllEvent'
+//		commandLine 'curl', '-X', 'GET', 'http://localhost:8080/events/eventList'
+//	}
+//	exec {
+//		println '\ncreateEvent'
+//		commandLine 'curl', '-X', 'POST', 'http://localhost:8080/events/createEvent?name=party1&startDate=2031-09-06&endDate=2031-09-06&startTime=00:00:00&endTime=00:00:01'
+//	}
+//	//EventRegistrationTest
+//	exec {
+//		println '\ngetAllEventRegistration'
+//		commandLine 'curl', '-X', 'GET', 'http://localhost:8080/eventRegistrations/getEventRegistrationList'
+//	}
+//	//ItemTest
+//	exec {
+//		println '\ngetAllItem'
+//		commandLine 'curl', '-X', 'GET', 'http://localhost:8080/items/itemList'
+//	}
+//	exec {
+//		println '\ncreateItem'
+//		commandLine 'curl', '-X','POST', 'http://localhost:8080/items/createItem?name=Book&itemCategory=Book'
+//	}
+//	//ItemReservationTest
+//	exec {
+//		println '\ngetAllItemReservation'
+//		commandLine 'curl', '-X', 'GET', 'http://localhost:8080/itemReservations/getItemReservationList'
+//	}
+}

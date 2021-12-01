@@ -1,0 +1,77 @@
+namespace ca.mcgill.ecse223.carshop.model2;
+
+class LibrarySystem{
+  1 <@>- 0..* BusinessHour;
+  1 <@>- 0..* Event;
+  1 <@>- 0..* User;
+  1 <@>- 0..* Librarian;
+  1 <@>- 0..* OnlineAccount;
+  1 <@>- 0..* Item;
+  1 <@>- 0..* TimeSlot timeSlots;
+  1 <@>- 0..* EventRegistration;
+  1 <@>- 0..* ItemOperation;
+}
+
+class BusinessHour {
+  enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
+  DayOfWeek dayOfWeek;
+  Time startTime;
+  Time endTime;
+}
+
+class Item{
+  enum ItemCategory{ Book, Movie, MusicAlbum, Newspaper, Archive }
+  unique id;
+  ItemCategory itemCategory;
+  Boolean isInLibrary;
+  Boolean isReserved;
+}
+
+class TimeSlot{
+  Date startDate;
+  Time startTime;
+  Date endDate;
+  Time endTime;
+}
+
+class Person{
+  abstract;
+  name;
+  address;
+  unique id;
+}
+
+class Event{
+  0..1 -> 1 TimeSlot;
+  name;
+  unique id;
+}
+
+class User{
+  1 -- 0..1 OnlineAccount;
+  isA Person;
+  Boolean isLocal;
+}
+
+class OnlineAccount{
+  unique username;
+  password;
+  email;
+
+}
+class Librarian{
+  0..1 -> * BusinessHour;
+  isA Person;
+  Boolean isHeadLibrarian;
+}
+
+class EventRegistration{
+  0..1 -> 1 Person;
+  0..1 -> 1 Event;
+}
+
+class ItemOperation{
+  0..1 -> 1 Person;
+  0..1 -> 1 Item;
+  0..1 -> 1 TimeSlot;
+}
