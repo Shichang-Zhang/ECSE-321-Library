@@ -1,2 +1,7 @@
 /.gradle/
 /bin/
+/.idea
+/.settings
+/.vscode
+.classpath
+.project

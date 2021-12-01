@@ -1,1 +1,1 @@
-web: export NODE_OPTIONS=--max_old_space_size=4096 && echo $PORT && export PORT && npm start
+web: java -jar Library-Backend/build/libs/Library-Backend-0.0.1-SNAPSHOT.jar
