@@ -11,7 +11,7 @@ module.exports = {
     productionSourceMap: true,
     host: 'library-frontend-d1.herokuapp.com',
     port: 443,
-    backendHost: 'library-backend-d1.herokuapp.com',
+    backendHost: 'zsc-library-backend-1024.herokuapp.com',
     backendPort: 443,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
