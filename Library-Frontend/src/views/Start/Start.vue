@@ -2,7 +2,7 @@
 <template>
   <div class="Start">
         <div class="StartMenu">
-          Welcome to Group 18 Library!
+          Welcome to Group 18 Library!!!!
         </div>
     <b-form-group style="height: 60vh ">
       <div style="text-align: center">
