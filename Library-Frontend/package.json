@@ -6,8 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
-    "start": "node --trace-warnings build/dev-server.js",
-    "build": "node --trace-warnings build/build.js",
+    "start": "node --trace-warnings --optimize_for_size --max_old_space_size=920 build/dev-server.js",
+    "build": "node --trace-warnings --optimize_for_size --max_old_space_size=920 build/build.js",
     "postinstall": "node build/build.js",
     "vue-build": "vue-cli-service build",
     "e2e": "node test/e2e/runner.js",
