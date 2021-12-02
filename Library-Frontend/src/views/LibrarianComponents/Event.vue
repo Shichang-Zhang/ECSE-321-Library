@@ -1,6 +1,6 @@
 
 <template>
-  <div class="Start">
+  <div>
 		<div class="LibrarianEvents">
 		 <h2>Events</h2>
 		 <br>
@@ -188,9 +188,6 @@
 </script>
 <style>
 .Start{
-  background-image: linear-gradient(90deg, rgba(180, 180, 180, 0.15) 10%, rgba(0, 0, 0, 0) 10%),
-  linear-gradient(rgba(180, 180, 180, 0.15) 10%, rgba(0, 0, 0, 0) 10%); background-size: 10px 10px;
-  height: 100vh;
 }
 .Event {
   font-size: 32px;

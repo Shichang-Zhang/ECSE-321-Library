@@ -1,5 +1,5 @@
 <template>
-  <div class="Start">
+  <div>
     <b-form inline>
       <b-form-group id="input-group-3" style="margin: 0px;" label-for="input-1">
         <b-form-input
