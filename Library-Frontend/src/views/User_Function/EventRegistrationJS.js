@@ -1,10 +1,9 @@
 import axios from 'axios'
 import currentUserData from './CurrentUserData'
-import {getCurrentTime} from './CurrentUserData'
 var config = require('../../../config')
 
-var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'https://' + config.dev.backendHost + ':' + config.dev.backendPort
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
@@ -62,16 +61,18 @@ export default {
                   .then(response => {
                     this.eventRegistrationDisplay=[]
                     for(var index in response.data){
-                      this.eventRegistrationDisplay.push(
-                        { eventRegistrationId:response.data[index].id,
-                          eventId:response.data[index].eventDto.id,
-                          eventName:response.data[index].eventDto.name,
-                          startDate:response.data[index].eventDto.timeSlotDto.startDate,
-                          startTime:response.data[index].eventDto.timeSlotDto.startTime,
-                          endDate:response.data[index].eventDto.timeSlotDto.endDate,
-                          endTime:response.data[index].eventDto.timeSlotDto.endTime,
-                        }
-                      )
+                      if(response.data[index].personDto.id==this.currentUserId){
+                        this.eventRegistrationDisplay.push(
+                          { eventRegistrationId:response.data[index].id,
+                            eventId:response.data[index].eventDto.id,
+                            eventName:response.data[index].eventDto.name,
+                            startDate:response.data[index].eventDto.timeSlotDto.startDate,
+                            startTime:response.data[index].eventDto.timeSlotDto.startTime,
+                            endDate:response.data[index].eventDto.timeSlotDto.endDate,
+                            endTime:response.data[index].eventDto.timeSlotDto.endTime,
+                          }
+                        )
+                      }
                     }
                     this.eventRegistrationList=this.eventRegistrationDisplay
                   })
@@ -120,6 +121,7 @@ export default {
   },
 
   created: function () {
+    this.currentUserId=decodeURIComponent((new RegExp('[?|&]' + "uid" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
     let param={
       pid:parseInt(this.currentUserId)
     }
@@ -127,16 +129,18 @@ export default {
       .then(response => {
         this.eventRegistrationDisplay=[]
         for(var index in response.data){
-          this.eventRegistrationDisplay.push(
-            { eventRegistrationId:response.data[index].id,
-              eventId:response.data[index].eventDto.id,
-              eventName:response.data[index].eventDto.name,
-              startDate:response.data[index].eventDto.timeSlotDto.startDate,
-              startTime:response.data[index].eventDto.timeSlotDto.startTime,
-              endDate:response.data[index].eventDto.timeSlotDto.endDate,
-              endTime:response.data[index].eventDto.timeSlotDto.endTime,
-            }
-          )
+          if(response.data[index].personDto.id==this.currentUserId){
+            this.eventRegistrationDisplay.push(
+              { eventRegistrationId:response.data[index].id,
+                eventId:response.data[index].eventDto.id,
+                eventName:response.data[index].eventDto.name,
+                startDate:response.data[index].eventDto.timeSlotDto.startDate,
+                startTime:response.data[index].eventDto.timeSlotDto.startTime,
+                endDate:response.data[index].eventDto.timeSlotDto.endDate,
+                endTime:response.data[index].eventDto.timeSlotDto.endTime,
+              }
+            )
+          }
         }
         this.eventRegistrationList=this.eventRegistrationDisplay
       })

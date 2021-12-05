@@ -3,8 +3,8 @@ import currentUserData from './CurrentUserData'
 import {getCurrentTime} from './CurrentUserData'
 var config = require('../../../config')
 
-var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'https://' + config.dev.backendHost + ':' + config.dev.backendPort
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
@@ -258,6 +258,7 @@ export default {
     }
   },
   created: function () {
+    this.currentUserId=decodeURIComponent((new RegExp('[?|&]' + "uid" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
     this.itemReservationDisplay=[]
     let param={
       pid:parseInt(this.currentUserId)
@@ -265,17 +266,19 @@ export default {
     AXIOS.get('/itemReservations/getItemReservationList',{params:param})
       .then(response => {
         for(var index in response.data){
-          this.itemReservationDisplay.push(
-            { reservationId:response.data[index].id,
-              itemId:response.data[index].itemDto.id,
-              itemName:response.data[index].itemDto.name,
-              itemCategory:response.data[index].itemDto.itemCategory,
-              startDate:response.data[index].timeSlotDto.startDate,
-              startTime:response.data[index].timeSlotDto.startTime,
-              endDate:response.data[index].timeSlotDto.endDate,
-              endTime:response.data[index].timeSlotDto.endTime
-            }
-          )
+          if(response.data[index].personDto.id==this.currentUserId){
+            this.itemReservationDisplay.push(
+              { reservationId:response.data[index].id,
+                itemId:response.data[index].itemDto.id,
+                itemName:response.data[index].itemDto.name,
+                itemCategory:response.data[index].itemDto.itemCategory,
+                startDate:response.data[index].timeSlotDto.startDate,
+                startTime:response.data[index].timeSlotDto.startTime,
+                endDate:response.data[index].timeSlotDto.endDate,
+                endTime:response.data[index].timeSlotDto.endTime
+              }
+            )
+          }
         }
         this.itemReservationList=this.itemReservationDisplay
       })
