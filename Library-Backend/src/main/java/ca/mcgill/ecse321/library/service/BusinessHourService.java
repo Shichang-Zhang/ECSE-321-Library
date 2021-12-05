@@ -21,6 +21,15 @@ public class BusinessHourService {
     LibrarySystemRepository librarySystemRepository;
 
     /**
+     * when the library is bulit, set the default business hour
+     */
+    @Transactional
+    public void initBusinessHour(){
+        this.createBusinessHour(1,Time.valueOf("10:00:00"), Time.valueOf("18:00:00"));
+        this.createBusinessHour(3,Time.valueOf("10:00:00"), Time.valueOf("18:00:00"));
+    }
+
+    /**
      * create a business hour
      * @param dayOfWeek ex. 1->Monday, 2->Tuesday
      * @param startTime

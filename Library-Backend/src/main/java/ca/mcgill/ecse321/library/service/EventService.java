@@ -25,6 +25,16 @@ public class EventService {
     private LibrarySystemRepository librarySystemRepository;
 
     /**
+     * when the library is built, three events is created for the initialization.
+     */
+    @Transactional
+    public void initEvent(){
+        this.createEvent("event1",Date.valueOf("2021-12-20"),Date.valueOf("2021-12-21"),Time.valueOf("10:00:00"),Time.valueOf("12:00:00"));
+        this.createEvent("event2",Date.valueOf("2021-12-22"),Date.valueOf("2021-12-23"),Time.valueOf("10:00:00"),Time.valueOf("12:00:00"));
+        this.createEvent("event3",Date.valueOf("2021-12-24"),Date.valueOf("2021-12-25"),Time.valueOf("10:00:00"),Time.valueOf("12:00:00"));
+    }
+
+    /**
      * create an event with the event name and event holding time period parameters.
      * @param name event name
      * @param startDate

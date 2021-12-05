@@ -30,6 +30,22 @@ public class LibrarianService extends PersonService
     LibrarySystemRepository librarySystemRepository;
 
     /**
+     * when a library system is built, two librarian is hired automatically
+     */
+    @Transactional
+    public void initLibrarian(){
+        //create first librarian
+        Librarian librarian=(Librarian)createPerson("Joe","LibraryAddress1","Librarian");
+        librarian.setIsHeadLibrarian(false);
+        librarianRepository.save(librarian);
+
+        //create second librarian
+        Librarian librarian1=(Librarian)createPerson("Messi","LibraryAddress1","Librarian");
+        librarian1.setIsHeadLibrarian(false);
+        librarianRepository.save(librarian1);
+    }
+
+    /**
      * when a library system is built, a head librarian should be created.
      */
     @Transactional

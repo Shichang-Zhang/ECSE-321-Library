@@ -22,6 +22,25 @@ public class ItemService {
     private PersonRepository personRepository;
 
     /**
+     * when the library is created, 5 item is created
+     */
+    @Transactional
+    public void initItem(){
+        Item.ItemCategory book = Item.ItemCategory.Book;
+
+        //create 5 books
+        for(int i=0; i<5; i++){
+            Item item=new Item();
+            item.setId(item.hashCode()*book.hashCode());
+            item.setItemCategory(book);
+            item.setName("book"+i);
+            item.setIsInLibrary(true);
+            item.setIsReserved(false);
+            itemRepository.save(item);
+        }
+    }
+
+    /**
      * Add a new item in the library.
      * Add a new item record in the library database.
      * @param itemCategoryString category : {Book, Movie, MusicAlbum, Newspaper, Archive}
