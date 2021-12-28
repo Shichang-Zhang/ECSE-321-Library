@@ -170,16 +170,20 @@ export default {
      * check whether the user input the correct old password
      */
     checkOldPassword() {
+      console.log(this.form)
+      console.log(this.currentUserId)
+      console.log(this.form.confirmPassword)
       const form_data = new FormData()
-      form_data.append('uid', parseInt(uid))
-      form_data.append('email', this.form.confirmPassword)
-      AXIOS.put('/users/checkPasswordCorrectness/', form_data, {})
+      form_data.append('uid', parseInt(this.currentUserId))
+      form_data.append('password', this.form.confirmPassword)
+      AXIOS.post('/users/checkPasswordCorrectness/', form_data, {})
         .then(response => {
           // JSON responses are automatically parsed.
           this.form.error = ""
           this.$bvModal.msgBoxOk(`old password correct`)
           //show next part
           this.showNewPasswordInputBox = true;
+          console.log(this.showNewPasswordInputBox)
         })
         .catch(e => {
           this.form.error = 'incorrect old password'
@@ -288,7 +292,7 @@ export default {
      * @param newPassword
      */
     updatePassword(uid, newPassword) {
-      if (this.formInputError.emailInputError !== '') {
+      if (this.formInputError.passwordInputError !== '') {
         alert("please check the input comment!")
         return
       }
@@ -299,8 +303,8 @@ export default {
         .then(response => {
           // JSON responses are automatically parsed.
           this.form.error = ""
-          this.$bvModal.msgBoxOk(`Success update password`)
-          window.location.href = frontendUrl + '/#/login'
+          confirm("Success update password")
+          this.$router.push('/login')
         })
         .catch(e => {
           this.form.error = 'update fail, please check the input comment'

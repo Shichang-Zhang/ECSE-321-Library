@@ -118,6 +118,7 @@
                       id="confirmPassword"
                       v-model="form.confirmPassword"
                       placeholder="Enter your old password"
+                      type="password"
                       required
                     ></b-form-input>
                   </b-form-group>

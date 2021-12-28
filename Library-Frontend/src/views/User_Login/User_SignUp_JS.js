@@ -195,7 +195,6 @@ export default {
       AXIOS.post('/users/checkUsernameExistence/', form_data2, {})
         .then(response => {
           // JSON responses are automatically parsed.
-          console.log(response.data)
           if (response.data) {
             this.formInputError.usernameInputError = ""
           } else {

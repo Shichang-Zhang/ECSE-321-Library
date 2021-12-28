@@ -103,7 +103,7 @@
                 {{ formInputError.passwordInputError }}
               </div>
             </b-form-group>
-            <!--Confirm passoword-->
+            <!--Confirm password-->
             <b-form-group id="input-group-6" label="Confirm password:" label-for="confirmPassword"
                           @blur.native.capture="confirmPassword()">
               <b-form-input
