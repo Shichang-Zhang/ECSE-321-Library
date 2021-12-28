@@ -158,6 +158,7 @@ export default {
     }
   },
   created: function () {
+    this.currentUserId = decodeURIComponent((new RegExp('[?|&]' + "uid" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
     this.eventDisplay = []
     AXIOS.get('/events/eventList')
       .then(response => {

@@ -54,8 +54,10 @@ export default {
             lid:parseInt(this.currentLibrarianId),
             uid:parseInt(user[0].userId)
           }
+          console.log(param)
           AXIOS.delete('/librarians/deleteUser',{params:param})
             .then(response => {
+              console.log(response)
               this.$bvModal.msgBoxOk(`Success Delete ${user[0].name}`)
               // this.userDisplayList.pop(user[0])
                 .then(value => {
@@ -96,7 +98,7 @@ export default {
 
   created: function () {
     // this.userDisplayList=[]
-    this.currentLibrarianId=currentLibrarianData.currentLibrarianId
+    this.currentLibrarianId=decodeURIComponent((new RegExp('[?|&]' + "id" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
     let param={
       pid:parseInt(this.currentUserId)
     }

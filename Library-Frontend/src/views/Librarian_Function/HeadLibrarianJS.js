@@ -77,6 +77,7 @@ export default {
     }
   },
   created: function () {
+    this.currentLibrarianId=decodeURIComponent((new RegExp('[?|&]' + "id" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null,
     AXIOS.get('/librarians/getLibrarianById', {params: {id: this.currentLibrarianId}})
       .then(response => {
         this.currentLibrarianName = response.data.name

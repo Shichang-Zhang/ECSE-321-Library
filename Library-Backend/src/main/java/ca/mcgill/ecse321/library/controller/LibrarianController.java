@@ -127,7 +127,7 @@ public class LibrarianController {
             librarianService.deleteUser(lid,uid);
             flag=true;
         }catch (Exception e){
-            e.printStackTrace();
+            throw new IllegalArgumentException(e);
         }
         return flag;
     }
