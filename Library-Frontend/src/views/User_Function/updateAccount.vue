@@ -3,9 +3,10 @@
 
     <div class="mainBody" style="height: 65vh">
       <!--Buttons to select the information want to update, located in the left of the page-->
-      <div class="leftBar" style="">
+      <div class="leftBar">
         <div @click="showAddressUpdateContent()">Update Address</div>
         <div @click="showUsernameUpdateContent()">Update Username</div>
+        <div @click="showPasswordUpdateContent()">Update Password</div>
         <div @click="showEmailUpdateContent">Update Email</div>
       </div>
 
@@ -100,6 +101,53 @@
             </b-form>
 
           </div>
+          <!--form to update password-->
+          <div class="updatePasswordForm" v-show=passwordUpdateShow>
+
+            <b-form v-if="show">
+              <div>
+                Password Update:
+              </div>
+
+              <div class="innerForm">
+
+                <div class="confirmPassword">
+                  <b-form-group label="confirmPassword" label-for="confirmPassword"
+                                @blur.native.capture="checkOldPassword()">
+                    <b-form-input
+                      id="confirmPassword"
+                      v-model="form.confirmPassword"
+                      placeholder="Enter your old password"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+                  <div class="formInputError">
+                    {{ formInputError.confirmPasswordInputError}}
+                  </div>
+                </div>
+
+                <b-form-group id="input-group-1" label="New password:" label-for="password" description=""
+                              @blur.native.capture="checkPassword()" v-show="showNewPasswordInputBox">
+                  <b-form-input
+                    id="password"
+                    v-model="form.password"
+                    type="password"
+                    placeholder="Enter password"
+                  ></b-form-input>
+                  <div class="formInputError">
+                    {{ formInputError.passwordInputError }}
+                  </div>
+                </b-form-group>
+              </div>
+
+              <div class="errorMessage">
+                <p>
+                  {{ form.error }}
+                </p>
+              </div>
+            </b-form>
+
+          </div>
           <!--form to update email-->
           <div class="updateEmailForm" v-show=emailUpdateShow>
 
@@ -132,7 +180,6 @@
             </b-form>
 
           </div>
-
         </div>
 
       </div>
@@ -179,13 +226,13 @@
 .leftBar {
   border: 1px solid gray;
   float: left;
-  height: 60vh;
+  height: 65vh;
   width: 200px;
 }
 
 .leftBar div {
-  height: 33.3%;
-  padding: 25% 0;
+  height: 25%;
+  padding: 20% 0;
   text-align: center;
   border: 1px solid gray;
 }

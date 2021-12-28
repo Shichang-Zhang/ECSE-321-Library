@@ -26,7 +26,7 @@ public class UserController {
      * @param address user's address
      * @param isLocal whether user is local
      * @return the data transfer object of the created user object
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException create user exception
      */
     @PostMapping("/createUser")
     public UserDto createUsers(@RequestParam("name") String name,
@@ -49,16 +49,15 @@ public class UserController {
     /**
      * update the user's attribute isLocal
      * @param uid user id
-     * @param isLocal
+     * @param isLocal is local attribute
      * @return the data transfer object of the user object with the update attribute isLocal
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException update isLocal exception
      */
     @PutMapping("/updateIsLocal")
     public UserDto updateIsLocal(@RequestParam("uid") int uid,@RequestParam("isLocal") boolean isLocal)
             throws IllegalArgumentException{
         User user=userService.updateIsLocal(uid,isLocal);
-        UserDto userDto=HelperMethods.convertToDto(user);
-        return userDto;
+        return HelperMethods.convertToDto(user);
     }
 
     /**
@@ -66,7 +65,7 @@ public class UserController {
      * @param uid user id
      * @param address user's address
      * @return the data transfer object of the user object with the update attribute address
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException update address exception
      */
     @PutMapping("/updateAddress")
     public UserDto updateAddress(@RequestParam("uid") int uid,@RequestParam("address") String address)throws IllegalArgumentException{
@@ -78,11 +77,11 @@ public class UserController {
      * update the user's online account information.
      * If the user does not have the online account, an online account with the input information will be created.
      * @param uid user id
-     * @param username
-     * @param password
-     * @param email
+     * @param username username
+     * @param password password
+     * @param email email
      * @return the data transfer object of the user object with the update online account
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException update online account fail
      */
     @PutMapping("/updateOnlineAccount")
     public UserDto updateOnlineAccount(@RequestParam("uid") int uid, @RequestParam("username") String username,
@@ -98,9 +97,9 @@ public class UserController {
      * update the user's online account username
      * If the user does not have the online account, an online account with the input information will be created.
      * @param uid user id
-     * @param username
+     * @param username username
      * @return the data transfer object of the user object with the update online account
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException  update online account username fail
      */
     @PutMapping("/updateOnlineAccountUsername")
     public UserDto updateOnlineAccountUsername(@RequestParam("uid") int uid, @RequestParam("username") String username)
@@ -111,10 +110,33 @@ public class UserController {
         return userDto;
     }
 
+    /**
+     * update online account email
+     * @param uid user id
+     * @param email email
+     * @return user dto
+     * @throws IllegalArgumentException update email fail
+     */
     @PutMapping("/updateOnlineAccountEmail")
     public UserDto updateOnlineAccountEmail(@RequestParam("uid") int uid, @RequestParam("email") String email)
             throws IllegalArgumentException{
         User user=userService.updateOnlineAccountEmail(uid, email);
+        UserDto userDto=HelperMethods.convertToDto(user);
+        userDto.setOnlineAccountDto(HelperMethods.convertToDto(user.getOnlineAccount()));
+        return userDto;
+    }
+
+    /**
+     * update password
+     * @param uid user id
+     * @param password new password
+     * @return user dto
+     * @throws IllegalArgumentException password update exception
+     */
+    @PutMapping("/updateOnlineAccountPassword")
+    public UserDto updateOnlineAccountPassword(@RequestParam("uid") int uid, @RequestParam("password") String password)
+            throws IllegalArgumentException{
+        User user=userService.updateOnlineAccountPassword(uid, password);
         UserDto userDto=HelperMethods.convertToDto(user);
         userDto.setOnlineAccountDto(HelperMethods.convertToDto(user.getOnlineAccount()));
         return userDto;
@@ -125,7 +147,7 @@ public class UserController {
      * get user by id
      * @param uid user id
      * @return the data transfer object of the user with input id
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException get user fail
      */
     @GetMapping("/getUserById")
     public UserDto getUserById(@RequestParam("uid") int uid) throws IllegalArgumentException {
@@ -139,8 +161,8 @@ public class UserController {
      * the message contains "error:{error message}".
      * Ex. return "success:12345678"
      * Ex. return "error:password incorrect!"
-     * @param username
-     * @param password
+     * @param username username
+     * @param password password
      * @return If login successfully, the message contains "success:{uid}". If fail to login, the message contrains "error:{error message}".
      */
     @PostMapping("/login")
@@ -161,9 +183,7 @@ public class UserController {
             throw new IllegalArgumentException(message);
         }
 
-        UserDto userDto=HelperMethods.convertToDto(onlineAccount.getUser());
-
-        return userDto;
+        return HelperMethods.convertToDto(onlineAccount.getUser());
     }
 
     /**
@@ -171,7 +191,7 @@ public class UserController {
      * if return true, means username not exist, if return false, means username has existed.
      * @param username the username of the user's online account
      * @return if return true, means username not exist, if return false, means username has existed.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException username does not exist
      */
     @PostMapping("/checkUsernameExistence")
     public boolean checkUsernameExistence(@RequestParam("username") String username) throws IllegalArgumentException{
@@ -189,13 +209,28 @@ public class UserController {
     }
 
     /**
+     * check whether the user input the correct old password
+     * @param uid user id
+     * @param password old password
+     * @return true means correct, otherwise throw exception
+     */
+    @PostMapping("/checkPasswordCorrectness")
+    public boolean checkPasswordCorrectness(@RequestParam("uid") int uid, @RequestParam("password") String password){
+        if (userService.checkPasswordCorrectness(uid, password)){
+            return true;
+        }else{
+            throw new IllegalArgumentException("incorrect old password");
+        }
+    }
+
+    /**
      * a user clicks the sign up online account
      * @param uid user id
-     * @param username
-     * @param password
-     * @param email
+     * @param username username
+     * @param password password
+     * @param email email
      * @return a empty message means sign up successfully, otherwise an error message with alert
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException sign up exception
      */
     @PostMapping("/signUpOnlineAccount")
     public String signUp (@RequestParam("uid") int uid,

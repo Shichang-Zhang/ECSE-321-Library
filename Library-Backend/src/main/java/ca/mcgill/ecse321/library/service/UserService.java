@@ -162,7 +162,7 @@ public class UserService extends PersonService {
     }
 
     /**
-     * update the username email address
+     * update the user email address
      *
      * @param uid user id
      * @param email user's email
@@ -190,6 +190,61 @@ public class UserService extends PersonService {
         onlineAccountRepository.save(onlineAccount);
         userRepository.save(user);
         return user;
+    }
+
+    /**
+     * update the user password
+     *
+     * @param uid user id
+     * @param password new password
+     * @return update info user
+     */
+    @Transactional
+    public User updateOnlineAccountPassword(int uid, String password) {
+        //check input
+        User user = getUserById(uid);
+        if (user == null) {
+            throw new IllegalArgumentException("non-existing user");
+        }
+        if (password == null || password.trim().length() == 0) {
+            throw new IllegalArgumentException("password is empty");
+        }
+        OnlineAccount onlineAccount = user.getOnlineAccount();
+        if (onlineAccount==null) {
+            throw new IllegalArgumentException("the user has no online account");
+        }
+
+        //update the email
+        onlineAccount.setPassword(password);
+        user.setOnlineAccount(onlineAccount);
+        onlineAccount.setUser(user);
+        onlineAccountRepository.save(onlineAccount);
+        userRepository.save(user);
+        return user;
+    }
+
+    /**
+     * check whether user input correct password
+     *
+     * @param uid user id
+     * @param password old password
+     * @return true if correct, otherwise false
+     */
+    @Transactional
+    public boolean checkPasswordCorrectness(int uid, String password) {
+        //check input
+        User user = getUserById(uid);
+        if (user == null) {
+            throw new IllegalArgumentException("non-existing user");
+        }
+        if (password == null || password.trim().length() == 0) {
+            throw new IllegalArgumentException("password is empty");
+        }
+        OnlineAccount onlineAccount = user.getOnlineAccount();
+        if (onlineAccount==null) {
+            throw new IllegalArgumentException("the user has no online account");
+        }
+        return password.equals(onlineAccount.getPassword());
     }
 
     /**
