@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 var config = require('../../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -8,106 +9,103 @@ var AXIOS = axios.create({
   baseURL: backendUrl,
   headers: {'Access-Control-Allow-Origin': frontendUrl}
 })
+
 export default {
-  name: 'events',
+  name: "bookList",
   data() {
     return {
-      events: [],
-      //data used to create an event
-      createEventInput: {
-        name: '',
-        startDate: '',
-        startTime: '',
-        endDate: '',
-        endTime: ''
+      //UI set up data
+      perPage: 3,
+      currentPage: 1,
+
+      form: {
+        isInLibrary: '',
+        Name: '',
+        ItemCategory: null,
+        isReserved: null
       },
-      //data used to update an event
-      updateEventInput: {
-        id: '',
-        startDate: '',
-        startTime: '',
-        endDate: '',
-        endTime: ''
-      },
-      errorEvent: '',
-      response: [],
+      ItemCategory: [{text: 'Select One', value: null}, 'Book', 'Movie', 'MusicAlbum', 'Newspaper', 'Archive'],
+      items: [],
+      //current user data
+      currentLibrarianId: '',
+      //event data
+      eventList: [],
+      eventDisplay: [],
+      selectedEvent: [],
+      //event search
+      eventSearchName:'',
+      //create event data
+      newEventName:'',
+      newEventStartDate:'',
+      newEventStartTime:'',
+      newEventEndDate:'',
+      newEventEndTime:'',
+      //error data
+      error: '',
+    }
+  },
+  computed: {
+    rows() {
+      return this.items.length
     }
   },
   methods: {
-    createEvent: function (name, startTime, startDate, endTime, endDate) {
-      AXIOS.post('/events/createEvent?name=' + name + '&startDate=' + startDate + '&endDate=' + endDate + '&startTime=' + startTime + '&endTime=' + endTime)
-        .then(response => {
-          this.events.push(response.data)
-        })
-        .catch(e => {
-          this.errorEvent = e
-        })
+    //page setup methods
+    linkGen(pageNum) {
+      return pageNum === 1 ? '?' : `?page=${pageNum}`
     },
-    updateEventName: function (eventId, eventName) {
-      AXIOS.put('/events/updateEventName?id=' + eventId + '&name=' + eventName)
-        .then(response => {
-          this.events = response.data
-          this.$emit('close')
-        })
-        .catch(e => {
-          this.errorEvent = e
-        })
-    },
-    updateEventTimeslot: function (id, eventstartTime, eventstartDate, eventendTime, eventendDate) {
-      AXIOS.put('/events/updateEventTimeSlot?id=' + id + '&startDate=' + eventstartDate + '&endDate=' + eventendDate + '&startTime=' + eventstartTime + '&endTime=' + eventendTime)
-        .then(response => {
-          AXIOS.get('/events/eventList')
-            .then(response => {
-              this.events = response.data
-            })
-            .catch(e => {
-              this.errorEvent = e
-            })
-        })
-        .catch(e => {
-          this.errorEvent = e
-        })
-
-      AXIOS.get('/events/eventList')
-        .then(response => {
-          this.events = response.data
-        })
-        .catch(e => {
-          this.errorEvent = e
-        })
-    },
-    deleteEvent: function (eventId) {
-      AXIOS.delete('/events/deleteEvent?id=' + eventId)
-        .then(response => {
-          AXIOS.get('/events/eventList')
-            .then(response => {
-              this.events = response.data
-            })
-            .catch(e => {
-              this.errorEvent = e
-            })
-        })
-        .catch(e => {
-          this.errorEvent = e
-        })
-
-
+    onRowSelected(items) {
+      this.selectedEvent = items;
     },
     handleCancel() {
       this.$emit('close');
     },
+    handleCreateStep1(){
+        this.$bvModal.show('createNewEventPanel');
+    },
+    handleCreateStep2(name, startTime, startDate, endTime, endDate){
+      AXIOS.post('/events/createEvent?name=' + name + '&startDate=' + startDate + '&endDate=' + endDate + '&startTime=' + startTime + '&endTime=' + endTime)
+        .then(response => {
+          this.refreshEvent()
+        })
+        .catch(e => {
+          this.errorEvent = e
+        })
+
+
+    },
+    handleUpdate(){
+
+    },
+    /**
+     * Refresh event in display table
+     */
+    refreshEvent(){
+      this.eventDisplay = []
+      AXIOS.get('/events/eventList')
+        .then(response => {
+          for (var index in response.data) {
+            this.eventDisplay.push(
+              {
+                eventId: response.data[index].id,
+                name: response.data[index].name,
+                startDate: response.data[index].timeSlotDto.startDate,
+                startTime: response.data[index].timeSlotDto.startTime,
+                endDate: response.data[index].timeSlotDto.endDate,
+                endTime: response.data[index].timeSlotDto.endTime,
+                // eventRegistrationNumber:
+              }
+            )
+          }
+          this.eventList = this.eventDisplay
+        })
+        .catch(e => {
+          this.errorItem = e
+        })
+    }
   },
-
   created: function () {
-    AXIOS.get('/events/eventList')
-      .then(response => {
-        this.events = response.data
-      })
-      .catch(e => {
-        this.errorEvent = e
-      })
-
+    this.currentLibrarianId = decodeURIComponent((new RegExp('[?|&]' + "id" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+    this.refreshEvent()
   }
-
-
 }
