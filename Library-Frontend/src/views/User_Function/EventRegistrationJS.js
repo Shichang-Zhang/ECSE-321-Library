@@ -58,29 +58,7 @@ export default {
           .then(response => {
             this.$bvModal.msgBoxOk(`Success Unregister ${eventRegistration[0].eventName}`)
               .then(value => {
-                AXIOS.get('/eventRegistrations/getEventRegistrationList/', {params: param})
-                  .then(response => {
-                    this.eventRegistrationDisplay = []
-                    for (var index in response.data) {
-                      if (response.data[index].personDto.id == this.currentUserId) {
-                        this.eventRegistrationDisplay.push(
-                          {
-                            eventRegistrationId: response.data[index].id,
-                            eventId: response.data[index].eventDto.id,
-                            eventName: response.data[index].eventDto.name,
-                            startDate: response.data[index].eventDto.timeSlotDto.startDate,
-                            startTime: response.data[index].eventDto.timeSlotDto.startTime,
-                            endDate: response.data[index].eventDto.timeSlotDto.endDate,
-                            endTime: response.data[index].eventDto.timeSlotDto.endTime,
-                          }
-                        )
-                      }
-                    }
-                    this.eventRegistrationList = this.eventRegistrationDisplay
-                  })
-                  .catch(e => {
-                    this.error = e
-                  })
+                this.refreshEventRegistration()
               })
               .catch(err => {
                 // An error occurred
@@ -109,8 +87,37 @@ export default {
         });
       }
     },
-
-
+    /**
+     * refresh item registration in the display table
+     */
+    refreshEventRegistration(){
+      let param = {
+        pid: parseInt(this.currentUserId)
+      }
+      AXIOS.get('/eventRegistrations/getEventRegistrationList/', {params: param})
+        .then(response => {
+          this.eventRegistrationDisplay = []
+          for (var index in response.data) {
+            if (response.data[index].personDto.id == this.currentUserId) {
+              this.eventRegistrationDisplay.push(
+                {
+                  eventRegistrationId: response.data[index].id,
+                  eventId: response.data[index].eventDto.id,
+                  eventName: response.data[index].eventDto.name,
+                  startDate: response.data[index].eventDto.timeSlotDto.startDate,
+                  startTime: response.data[index].eventDto.timeSlotDto.startTime,
+                  endDate: response.data[index].eventDto.timeSlotDto.endDate,
+                  endTime: response.data[index].eventDto.timeSlotDto.endTime,
+                }
+              )
+            }
+          }
+          this.eventRegistrationList = this.eventRegistrationDisplay
+        })
+        .catch(e => {
+          this.error = e
+        })
+    },
     linkGen(pageNum) {
       return pageNum === 1 ? '?' : `?page=${pageNum}`
     },
@@ -124,31 +131,6 @@ export default {
 
   created: function () {
     this.currentUserId = decodeURIComponent((new RegExp('[?|&]' + "uid" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
-    let param = {
-      pid: parseInt(this.currentUserId)
-    }
-    AXIOS.get('/eventRegistrations/getEventRegistrationList/', {params: param})
-      .then(response => {
-        this.eventRegistrationDisplay = []
-        for (var index in response.data) {
-          if (response.data[index].personDto.id == this.currentUserId) {
-            this.eventRegistrationDisplay.push(
-              {
-                eventRegistrationId: response.data[index].id,
-                eventId: response.data[index].eventDto.id,
-                eventName: response.data[index].eventDto.name,
-                startDate: response.data[index].eventDto.timeSlotDto.startDate,
-                startTime: response.data[index].eventDto.timeSlotDto.startTime,
-                endDate: response.data[index].eventDto.timeSlotDto.endDate,
-                endTime: response.data[index].eventDto.timeSlotDto.endTime,
-              }
-            )
-          }
-        }
-        this.eventRegistrationList = this.eventRegistrationDisplay
-      })
-      .catch(e => {
-        this.error = e
-      })
+    this.refreshEventRegistration()
   }
 }

@@ -117,13 +117,7 @@ export default {
           .then(response => {
             this.itemReservationList = response.data
             this.$bvModal.msgBoxOk(`Success checkout: ${item[0].name}`)
-            AXIOS.get('/items/itemList')
-              .then(response => {
-                this.itemList = response.data
-              })
-              .catch(e => {
-                this.errorItem = e
-              })
+            this.refreshItem()
           })
           .catch(error => {
             var errorMsg = error.message
@@ -199,6 +193,18 @@ export default {
 
 
     },
+    /**
+     * Refresh Item Display Table
+     */
+    refreshItem(){
+      AXIOS.get('/items/itemList')
+        .then(response => {
+          this.itemList = response.data
+        })
+        .catch(e => {
+          this.errorItem = e
+        })
+    },
     linkGen(pageNum) {
       return pageNum === 1 ? '?' : `?page=${pageNum}`
     },
@@ -214,13 +220,7 @@ export default {
   }
   ,
   created: function () {
-    AXIOS.get('/items/itemList')
-      .then(response => {
-        this.itemList = response.data
-      })
-      .catch(e => {
-        this.errorItem = e
-      })
+    this.refreshItem()
   }
 
 }
