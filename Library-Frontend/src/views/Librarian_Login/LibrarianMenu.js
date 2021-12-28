@@ -1,8 +1,8 @@
 import axios from 'axios'
 var config = require('../../../config')
 
-var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'https://' + config.dev.backendHost + ':' + config.dev.backendPort
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
@@ -47,7 +47,10 @@ export default {
         this.show = true
       })
     },
-
+    /**
+     * librarian logs in with its id
+     * @param id id of the librarian
+     */
     logIn:function(id){
       const form_data=new FormData()
       form_data.append('id',id)

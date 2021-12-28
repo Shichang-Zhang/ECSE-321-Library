@@ -1,26 +1,29 @@
 import axios from 'axios'
+
 var config = require('../../../config')
 
-var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'https://' + config.dev.backendHost + ':' + config.dev.backendPort
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { 'Access-Control-Allow-Origin': frontendUrl }
+  headers: {'Access-Control-Allow-Origin': frontendUrl}
 })
 
 
 export default {
   data() {
     return {
+      //data of login
       form: {
         email: '',
         username: '',
-        password:'',
-        error:''
+        password: '',
+        error: ''
       },
-      formInputError : {
-        usernameInputError:'',
+      //error
+      formInputError: {
+        usernameInputError: '',
       },
       show: true,
     }
@@ -32,7 +35,7 @@ export default {
      */
     onSubmit(event) {
       event.preventDefault()
-      this.logIn(this.form.username,this.form.password)
+      this.logIn(this.form.username, this.form.password)
     },
 
     /**
@@ -44,8 +47,8 @@ export default {
       // Reset our form values
       this.form.email = ''
       this.form.username = ''
-      this.password=''
-      this.error=''
+      this.password = ''
+      this.error = ''
       // Trick to reset/clear native browser form validation state
       this.show = false
       this.$nextTick(() => {
@@ -53,13 +56,13 @@ export default {
       })
     },
 
-    logIn:function (username,userPassword){
-      const form_data=new FormData()
-      form_data.append('username',username)
-      form_data.append('password',userPassword)
-      AXIOS.post('/users/login',form_data,{})
+    logIn: function (username, userPassword) {
+      const form_data = new FormData()
+      form_data.append('username', username)
+      form_data.append('password', userPassword)
+      AXIOS.post('/users/login', form_data, {})
         .then(response => {
-          this.form.error=''
+          this.form.error = ''
           window.location.href = frontendUrl + '/#/user-side?uid=' + response.data.id
         })
         .catch(e => {
@@ -70,16 +73,16 @@ export default {
     /**
      * if the user does not have an online account, go to the sign up page
      */
-    signUpPage(){
+    signUpPage() {
       this.$router.push('/signup');
     },
 
-    checkUsername(){
+    checkUsername() {
       let reg = /^[a-zA-Z0-9_-]{6,16}$/;
       let flag = reg.exec(this.form.username)
-      this.formInputError.usernameInputError = (flag)? '' : 'Username should be 6-16 characters long'
+      this.formInputError.usernameInputError = (flag) ? '' : 'Username should be 6-16 characters long'
     },
-    gotoStart(){
+    gotoStart() {
       this.$router.push('/');
     }
 

@@ -6,8 +6,8 @@ import updateAccount from "./updateAccount.vue"
 import axios from 'axios'
 var config = require('../../../config')
 
-var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'https://' + config.dev.backendHost + ':' + config.dev.backendPort
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
@@ -28,6 +28,7 @@ export default {
   //Setup of buttons
   data() {
     return {
+      //Setting of buttons in the user home page
       userHomeButtonSetup:[
         {
           name:'Borrow',

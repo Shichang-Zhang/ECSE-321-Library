@@ -17,13 +17,15 @@ import java.util.List;
  * existsByPersonAndEvent will return whether the person has registered the event.
  * deleteEventRegistrationsByEvent will delete all event registration records that related to the event.
  */
-@RepositoryRestResource(collectionResourceRel = "eventRegistration_data",path = "eventRegistration_data")
-public interface EventRegistrationRepository extends CrudRepository<EventRegistration,Integer> {
+@RepositoryRestResource(collectionResourceRel = "eventRegistration_data", path = "eventRegistration_data")
+public interface EventRegistrationRepository extends CrudRepository<EventRegistration, Integer> {
     EventRegistration findByPersonAndEvent(Person person, Event event);
+
     List<EventRegistration> findByPerson(Person p);
+
     List<EventRegistration> findByEvent(Event e);
-    boolean existsByPersonAndEvent(Person person,Event event);
-    EventRegistration findEventRegistrationById(int id);
-    List<EventRegistration> deleteEventRegistrationsByEvent(Event event);
-    List<EventRegistration> findEventRegistrationsByPerson(Person person);
+
+    boolean existsByPersonAndEvent(Person person, Event event);
+
+    void deleteEventRegistrationsByEvent(Event event);
 }

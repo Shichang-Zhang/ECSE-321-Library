@@ -2,10 +2,10 @@ package ca.mcgill.ecse321.library.model;
 import javax.persistence.*;
 
 /**
- * item reservation record is generated when a person reserve/checkout an item
- * item reservations have their own id
- * item reservations records the person who wants to reserve/checkout an item and the item will be reserved/checkout
- * item reservations also contain the reserve/checkout start time and expected return time, by using a timeslot
+ * item reservation record is generated when a person reserve/checkout an item.
+ * item reservations have their own id.
+ * item reservations records the person who wants to reserve/checkout an item and the item will be reserved/checkout.
+ * item reservations also contain the reserve/checkout start time and expected return time, by using a timeslot.
  */
 @Entity
 public class ItemReservation {

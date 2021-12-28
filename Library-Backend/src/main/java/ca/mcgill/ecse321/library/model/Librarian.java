@@ -4,9 +4,9 @@ import javax.persistence.*;
 import java.util.*;
 
 /**
- * the librarian who help the users and control the library
- * the librarian has attribute indicating whether the librarian is a head librarian
- * the librarian has a set of business hours that indicate the work time of librarians
+ * the librarian who help the users and control the library.
+ * the librarian has attribute indicating whether the librarian is a head librarian.
+ * the librarian has a set of business hours that indicate the work time of librarians.
  */
 @Entity
 public class Librarian extends Person

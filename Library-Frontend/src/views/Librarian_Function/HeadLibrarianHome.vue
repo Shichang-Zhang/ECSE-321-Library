@@ -2,9 +2,9 @@
   <div class="user-main">
     <!--    User's information and current time display-->
     <div class="user-info">
-      <div>Welcome: {{currentLibrarianName}}</div>
-      <div>      </div>
-      <div style="padding-left: 65%">{{currentDateAndTime}}</div>
+      <div>Welcome: {{ currentLibrarianName }}</div>
+      <div></div>
+      <div style="padding-left: 65%">{{ currentDateAndTime }}</div>
     </div>
     <div>
     </div>
@@ -12,14 +12,14 @@
     <div class="menu-items">
       <div class="menu-item"
            @click="execCommand(item)"
-           v-for="item in NormalLibrarianHomeSetup" :key="item.code">
+           v-for="item in headLibrarianHomeSetup" :key="item.code">
         {{ item.name }}
       </div>
     </div>
     <!--    Setting of function when clicking the buttons -->
     <div class="myModel" v-if="curView">
       <div class="myModel-inner">
-        <div class="myModel-title">{{modelTitle}}</div>
+        <div class="myModel-title">{{ modelTitle }}</div>
         <component :is="curView" @close="curView=''"></component>
       </div>
     </div>
@@ -27,7 +27,7 @@
   </div>
 </template>
 
-<script src="./LibrarianJS.js">
+<script src="./HeadLibrarianJS.js">
 </script>
 
 <style scoped>
@@ -71,7 +71,7 @@
 }
 
 .menu-item:hover {
-  transform:rotateZ(5deg);
+  transform: rotateZ(5deg);
 }
 
 .menu-item:active {
@@ -79,26 +79,28 @@
   top: 2px;
 }
 
-.myModel{
+.myModel {
   position: fixed;
-  background: rgba(0,0,0,.6);
+  background: rgba(0, 0, 0, .6);
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
 }
-.myModel-inner{
+
+.myModel-inner {
   width: 1200px;
   height: 80vh;
-  padding:20px 40px;
+  padding: 20px 40px;
   border-radius: 10px;
   background: #ffffff;
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
-.myModel-title{
+
+.myModel-title {
   font-size: 24px;
   font-weight: bold;
   border-bottom: solid 1px #e7e7e7;

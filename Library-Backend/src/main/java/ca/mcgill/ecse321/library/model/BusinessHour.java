@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.sql.Time;
 
 /**
- * the class illustrates the the opening hour of library and the work time of librarians
+ * the class illustrates the opening hour of library and the work time of librarians
  * the class contains the id of the business, the day of week(ex. Monday), and the start time and
  * end time of the day.
  */

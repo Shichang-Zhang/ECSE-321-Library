@@ -14,8 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * test the persistence of item reservation model
@@ -51,13 +50,13 @@ public class ItemReservationPersistenceTesting {
      * model in the database
      */
     @Test
-    public void testItemReservation(){
+    public void testItemReservation() {
         int id = 1024;
         ItemReservation itemReservation = new ItemReservation();
         itemReservation.setId(id);
 
         //Set person who borrows the book
-        Person p =new User();
+        Person p = new User();
         p.setName("Joe");
         p.setId(1234);
         p.setAddress("luna");
@@ -66,7 +65,7 @@ public class ItemReservationPersistenceTesting {
 
 
         //Set item
-        Item i=new Item();
+        Item i = new Item();
         i.setItemCategory(Item.ItemCategory.Book);
         i.setIsReserved(true);
         i.setIsInLibrary(false);
@@ -76,9 +75,9 @@ public class ItemReservationPersistenceTesting {
 
         //Set the borrow timeslot
         TimeSlot timeSlot = new TimeSlot();
-        Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
-        Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-        Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
+        Date date = Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
+        Time startTime = Time.valueOf(LocalTime.of(11, 35));
+        Time endTime = Time.valueOf(LocalTime.of(13, 25));
         timeSlot.setId(1);
         timeSlot.setStartTime(startTime);
         timeSlot.setEndTime(endTime);
@@ -90,25 +89,23 @@ public class ItemReservationPersistenceTesting {
         itemReservationRepository.save(itemReservation);
 
         //get from the database
-        ItemReservation itemReservation1 = null;
-        //Read from repository
-        itemReservation1 = itemReservationRepository.findItemReservationById(id);
+        ItemReservation itemReservation1 = itemReservationRepository.findItemReservationById(id);
 
         assertNotNull(itemReservation1);
-        assertEquals(1024,itemReservation.getId());
+        assertEquals(1024, itemReservation1.getId());
 
-        Person p1 = itemReservation1.getPerson();
-        Item i1 = itemReservation1.getItem();
-        TimeSlot t1 = itemReservation1.getTimeSlot();
-        assertNotNull(p1);
-        assertNotNull(i1);
-        assertNotNull(t1);
+        Person person1 = itemReservation1.getPerson();
+        Item item1 = itemReservation1.getItem();
+        TimeSlot timeSlot1 = itemReservation1.getTimeSlot();
+        assertNotNull(person1);
+        assertNotNull(item1);
+        assertNotNull(timeSlot1);
 
-        assertEquals("Joe",p1.getName());
-        assertEquals("luna",p1.getAddress());
-        assertEquals(Item.ItemCategory.Book,i1.getItemCategory());
-        assertEquals(true,i1.getIsReserved());
-        assertEquals(date,t1.getEndDate());
-        assertEquals(startTime,t1.getStartTime());
+        assertEquals("Joe", person1.getName());
+        assertEquals("luna", person1.getAddress());
+        assertEquals(Item.ItemCategory.Book, item1.getItemCategory());
+        assertTrue(item1.getIsReserved());
+        assertEquals(date, timeSlot1.getEndDate());
+        assertEquals(startTime, timeSlot1.getStartTime());
     }
 }

@@ -3,11 +3,11 @@ package ca.mcgill.ecse321.library.dto;
 import java.util.Set;
 
 /**
- * data transfer object of librarian model
- * extends the person DTO so it can also access the name, address and id of the librarian
- * has the field isHeadLibrarian showing whether the librarian is head librarian
- * contains the business hour DTO for librarian work time
- * have getter and setter methods for private fields
+ * data transfer object of librarian model.
+ * extends the person DTO so it can also access the name, address and id of the librarian.
+ * has the field isHeadLibrarian showing whether the librarian is head librarian.
+ * contains the business hour DTO for librarian work time.
+ * have getter and setter methods for private fields.
  */
 public class LibrarianDto extends PersonDto{
     private boolean isHeadLibrarian;

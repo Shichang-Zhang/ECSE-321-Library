@@ -3,11 +3,11 @@ package ca.mcgill.ecse321.library.model;
 import javax.persistence.*;
 
 /**
- * items in the library
- * items have categories: Book, Movie, MusicAlbum, Newspaper, Archive
- * items have attribute isInLibrary telling whether the item is checked out
- * items have attribute isReserved telling whether the item is reserved
- * items have attribute name showing their tiles
+ * items in the library.
+ * items have categories: Book, Movie, MusicAlbum, Newspaper, Archive.
+ * items have the attribute isInLibrary telling whether the item is checked out.
+ * items have the attribute isReserved telling whether the item is reserved.
+ * items have attribute name showing their tiles.
  * items have their own id.
  */
 @Entity

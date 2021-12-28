@@ -84,13 +84,13 @@ public class EventRegistrationService {
         Event event = eventRepository.findEventById(eid);
         error= error + checkPersonAndEventInput(person,event);
 
+        //check whether it is a late event unregister
+        error=error+checkRegisterAvailability(event);
+
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-
-        //check whether it is a late event unregister
-        error=error+checkRegisterAvailability(event);
 
         EventRegistration eventRegistration = this.getEventRegistrationByPersonAndEvent(pid,eid);
         if (eventRegistration==null){
@@ -108,7 +108,9 @@ public class EventRegistrationService {
     public List<Person> getPersonsByEvent(int eid){
         ArrayList<Person> personList = new ArrayList<>();
         Event event = eventRepository.findEventById(eid);
+        //find the event registration related with the event
         List<EventRegistration> eventRegistrations=eventRegistrationRepository.findByEvent(event);
+        //add the person to the person list
         for (EventRegistration eventRegistration : eventRegistrations){
             Person person = eventRegistration.getPerson();
             if (person==null || personList.contains(person)) {
@@ -128,7 +130,9 @@ public class EventRegistrationService {
     public List<Event> getEventsByPerson(int pid){
         ArrayList<Event> eventList = new ArrayList<>();
         Person person = personRepository.findPersonById(pid);
+        //get the event registration related with the person
         List<EventRegistration> eventRegistrations=eventRegistrationRepository.findByPerson(person);
+        //add the event to the event list
         for (EventRegistration eventRegistration : eventRegistrations){
             Event event = eventRegistration.getEvent();
             if (event==null || eventList.contains(event)) {
@@ -160,23 +164,6 @@ public class EventRegistrationService {
         return eventRegistrationRepository.findByPersonAndEvent(person,event);
     }
 
-    public List<EventRegistration> getEventRegistrationByPerson(int pid){
-        Person person = personRepository.findPersonById(pid);
-        if (person==null){
-            throw new IllegalArgumentException("person does not exist");
-        }
-        return eventRegistrationRepository.findEventRegistrationsByPerson(person);
-    }
-
-    /**
-     * find the number of participants of an event
-     * @param eid event id
-     * @return the number of participants who attend the event
-     */
-    public int getParticipantsSizeByEvent(int eid){
-        return this.getPersonsByEvent(eid).size();
-    }
-
     /**
      * when an event is cancelled, all related event registration records should be deleted
      * @param eid cancelled event id
@@ -187,6 +174,7 @@ public class EventRegistrationService {
         if (event==null){
             throw new IllegalArgumentException("no such event");
         }
+        //get all event registrations with the event and delete them.
         List<EventRegistration> eventRegistrations = eventRegistrationRepository.findByEvent(event);
         for (EventRegistration e : eventRegistrations){
             eventRegistrationRepository.deleteById(e.getId());
@@ -195,8 +183,8 @@ public class EventRegistrationService {
 
     /**
      * check whether the input person or event is null
-     * @param person
-     * @param event
+     * @param person person
+     * @param event event
      * @return empty error message if parameters are not null, otherwise an error message will be returned
      */
     private String checkPersonAndEventInput(Person person,Event event){
@@ -212,7 +200,7 @@ public class EventRegistrationService {
 
     /**
      * check whether the person register/unregister the event after the event ends
-     * @param event
+     * @param event event
      * @return empty error message if normal register, otherwise an error message will be send to alert the late register
      */
     private String checkRegisterAvailability(Event event){

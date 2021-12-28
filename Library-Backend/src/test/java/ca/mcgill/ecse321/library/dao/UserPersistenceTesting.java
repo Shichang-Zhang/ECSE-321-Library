@@ -35,35 +35,33 @@ public class UserPersistenceTesting {
      * model in the database
      */
     @Test
-    public void testPersistAndLoadUser(){
+    public void testPersistAndLoadUser() {
         int id = 111;
-        User u=new User();
-        u.setId(id);
-        u.setName("Micheal");
-        u.setAddress("Montreal");
+        User user = new User();
+        user.setId(id);
+        user.setName("Micheal");
+        user.setAddress("Montreal");
 
-        OnlineAccount account=new OnlineAccount();
-        account.setUser(u);
+        OnlineAccount account = new OnlineAccount();
+        account.setUser(user);
         account.setId(1111);
         account.setUsername("ECSE321");
         account.setPassword("qwerty");
         account.setEmail("qqmail");
-        u.setOnlineAccount(account);
-        userRepository.save(u);
+        user.setOnlineAccount(account);
+        userRepository.save(user);
         onlineAccountRepository.save(account);
 
-        User u1 = null;
-        OnlineAccount account1 = null;
-        u1=userRepository.findUserById(id);
-        assertNotNull(u1);
-        assertEquals("Micheal",u.getName());
-        assertEquals("Montreal",u.getAddress());
+        User user1 = userRepository.findUserById(id);
+        assertNotNull(user1);
+        assertEquals("Micheal", user.getName());
+        assertEquals("Montreal", user.getAddress());
 
-        account1=u1.getOnlineAccount();
+        OnlineAccount account1 = user1.getOnlineAccount();
         assertNotNull(account1);
-        assertEquals(1111,account.getId());
-        assertEquals("ECSE321",account.getUsername());
-        assertEquals("qwerty",account.getPassword());
-        assertEquals("qqmail",account.getEmail());
+        assertEquals(1111, account.getId());
+        assertEquals("ECSE321", account.getUsername());
+        assertEquals("qwerty", account.getPassword());
+        assertEquals("qqmail", account.getEmail());
     }
 }

@@ -9,8 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * containing methods that can interact with the person table in the database.
  * findPersonById method will return the person object with the given id.
  */
-@RepositoryRestResource(collectionResourceRel = "person_data",path = "person_data")
-public interface PersonRepository extends CrudRepository<Person,Integer>{
-	Person findPersonById(int id);
-	Person findPersonByName(String name);
+@RepositoryRestResource(collectionResourceRel = "person_data", path = "person_data")
+public interface PersonRepository extends CrudRepository<Person, Integer> {
+    Person findPersonById(int id);
 }

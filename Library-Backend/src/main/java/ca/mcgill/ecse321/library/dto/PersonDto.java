@@ -1,9 +1,9 @@
 package ca.mcgill.ecse321.library.dto;
 
 /**
- * data transfer object of person model
- * have id, name, address fields
- * have getter and setter methods for private fields
+ * data transfer object of person model.
+ * have id, name, address fields.
+ * have getter and setter methods for private fields.
  */
 public class PersonDto {
 

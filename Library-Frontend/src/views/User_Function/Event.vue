@@ -10,7 +10,8 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-button @click="findEventsByName(eventSearchName)" variant="primary" style="margin-left: 30px;">Search</b-button>
+      <b-button @click="findEventsByName(eventSearchName)" variant="primary" style="margin-left: 30px;">Search
+      </b-button>
       <b-button @click="showAllEvents" variant="primary" style="margin-left: 30px;">Show All</b-button>
     </b-form>
     <div class="table" style="overflow: auto;height: 51vh;">

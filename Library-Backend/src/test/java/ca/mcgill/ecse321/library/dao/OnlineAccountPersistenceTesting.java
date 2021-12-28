@@ -35,38 +35,36 @@ public class OnlineAccountPersistenceTesting {
      * model in the database
      */
     @Test
-    public void testPersistAndLoadOnlineAccount(){
-        int id=1111;
-        OnlineAccount account=new OnlineAccount();
+    public void testPersistAndLoadOnlineAccount() {
+        int id = 1111;
+        OnlineAccount account = new OnlineAccount();
         account.setId(id);
 
-        User u=new User();
-        u.setId(5678);
-        u.setName("x");
-        u.setIsLocal(true);
-        account.setUser(u);
+        User user = new User();
+        user.setId(5678);
+        user.setName("x");
+        user.setIsLocal(true);
+        account.setUser(user);
 
         account.setUsername("user1234");
         account.setPassword("123456");
         account.setEmail("gmail");
-        u.setOnlineAccount(account);
-        userRepository.save(u);
+        user.setOnlineAccount(account);
+        userRepository.save(user);
         onlineAccountRepository.save(account);
 
-        OnlineAccount account1 = null;
-        User u1 = null;
+        OnlineAccount account1 = onlineAccountRepository.findOnlineAccountById(id);
 
-        account1 = onlineAccountRepository.findOnlineAccountById(id);
         assertNotNull(account1);
-        assertEquals(account.getUsername(),account1.getUsername());
-        assertEquals(account.getPassword(),account1.getPassword());
-        assertEquals(account.getEmail(),account1.getEmail());
+        assertEquals(account.getUsername(), account1.getUsername());
+        assertEquals(account.getPassword(), account1.getPassword());
+        assertEquals(account.getEmail(), account1.getEmail());
 
-        u1 = account1.getUser();
-        assertNotNull(u1);
-        assertEquals(u.getId(),u1.getId());
-        assertEquals(u.getName(),u1.getName());
-        assertEquals(u.getIsLocal(),u1.getIsLocal());
+        User user1 = account1.getUser();
+        assertNotNull(user1);
+        assertEquals(user.getId(), user1.getId());
+        assertEquals(user.getName(), user1.getName());
+        assertEquals(user.getIsLocal(), user1.getIsLocal());
     }
 
 }

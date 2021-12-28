@@ -1,9 +1,9 @@
 package ca.mcgill.ecse321.library.dto;
 
 /**
- * data transfer object of event registration model
- * have association with person DTO and event DTO
- * have getter and setter methods for private fields
+ * data transfer object of event registration model.
+ * have association with person DTO and event DTO.
+ * have getter and setter methods for private fields.
  */
 public class EventRegistrationDto {
 

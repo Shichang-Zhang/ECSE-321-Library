@@ -28,7 +28,7 @@ public class LibraryApplication {
 
     @RequestMapping("/")
     public String greeting() {
-        return "Welcome to Group 18 CarShop!!!!!!!";
+        return "Welcome to Group 18 Library System!";
     }
 
     @GetMapping("/init")
@@ -56,3 +56,4 @@ public class LibraryApplication {
 
 
 }
+

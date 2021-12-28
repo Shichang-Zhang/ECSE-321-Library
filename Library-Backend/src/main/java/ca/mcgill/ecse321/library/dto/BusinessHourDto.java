@@ -6,9 +6,9 @@ import ca.mcgill.ecse321.library.model.BusinessHour;
 import java.sql.Time;
 
 /**
- * data transfer object of business hour model
- * have id, dayOfWeek, startTime, endTime fields
- * have getter and setter methods for private fields
+ * data transfer object of business hour model.
+ * have id, dayOfWeek, startTime, endTime fields.
+ * have getter and setter methods for private fields.
  */
 public class BusinessHourDto {
     private int id;

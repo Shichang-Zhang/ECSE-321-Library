@@ -1,9 +1,9 @@
 package ca.mcgill.ecse321.library.dto;
 
 /**
- * data transfer object of business hour model
- * have id, dayOfWeek, startTime, endTime fields
- * have getter and setter methods for private fields
+ * data transfer object of business hour model.
+ * have id, dayOfWeek, startTime, endTime fields.
+ * have getter and setter methods for private fields.
  */
 public class ItemReservationDto {
     private int id;

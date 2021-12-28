@@ -2,8 +2,8 @@ package ca.mcgill.ecse321.library.model;
 import javax.persistence.*;
 
 /**
- * users, have an attribute isLocal that librarian will or will not charge them when they using facilities
- * users can choose whether should link to an online account
+ * users, have an attribute isLocal that librarian will or will not charge them when using facilities.
+ * users can choose whether he or she should link to an online account.
  */
 @Entity
 public class User extends Person {

@@ -82,7 +82,7 @@ public class LibrarySystemPersistenceTesting {
      * -----------------------------------------------------------------------------------
      */
     @Test
-    public void testPersistAndLoadLibrarySystem(){
+    public void testPersistAndLoadLibrarySystem() {
         int id = 112;
         LibrarySystem librarySystem = new LibrarySystem();
         librarySystem.setId(id);
@@ -113,14 +113,14 @@ public class LibrarySystemPersistenceTesting {
         timeSlots.add(timeSlot);
         librarySystem.setTimeSlots(timeSlots);
 
-        Event e = new Event();
+        Event event = new Event();
         String name = "PARTY";
-        e.setId(12345678);
-        e.setName(name);
-        e.setTimeSlot(timeSlot);
-        eventRepository.save(e);
+        event.setId(12345678);
+        event.setName(name);
+        event.setTimeSlot(timeSlot);
+        eventRepository.save(event);
         Set<Event> events = new HashSet<>();
-        events.add(e);
+        events.add(event);
         librarySystem.setEvents(events);
 
         Librarian librarian = new Librarian();
@@ -137,55 +137,55 @@ public class LibrarySystemPersistenceTesting {
         librarians.add(librarian);
         librarySystem.setLibrarians(librarians);
 
-        User u=new User();
-        u.setId(id++);
-        u.setName("Micheal");
-        u.setAddress("Montreal");
-        OnlineAccount account=new OnlineAccount();
-        account.setUser(u);
+        User user = new User();
+        user.setId(id++);
+        user.setName("Micheal");
+        user.setAddress("Montreal");
+        OnlineAccount account = new OnlineAccount();
+        account.setUser(user);
         account.setId(1111);
         account.setUsername("ECSE321");
         account.setPassword("qwerty");
         account.setEmail("qqmail");
-        u.setOnlineAccount(account);
-        userRepository.save(u);
-        personRepository.save(u);
+        user.setOnlineAccount(account);
+        userRepository.save(user);
+        personRepository.save(user);
         onlineAccountRepository.save(account);
         Set<User> users = new HashSet<>();
-        users.add(u);
+        users.add(user);
         librarySystem.setUsers(users);
         Set<OnlineAccount> onlineAccounts = new HashSet<>();
         onlineAccounts.add(account);
         librarySystem.setOnlineAccounts(onlineAccounts);
 
-        Item i=new Item();
-        i.setId(id++);
-        i.setIsInLibrary(false);
-        i.setItemCategory(Item.ItemCategory.Book);
-        i.setIsReserved(true);
-        itemRepository.save(i);
+        Item item = new Item();
+        item.setId(id++);
+        item.setIsInLibrary(false);
+        item.setItemCategory(Item.ItemCategory.Book);
+        item.setIsReserved(true);
+        itemRepository.save(item);
         Set<Item> items = new HashSet<>();
-        items.add(i);
+        items.add(item);
         librarySystem.setItems(items);
 
         Set<Person> persons = new HashSet<>();
-        persons.add(u);
+        persons.add(user);
         persons.add(librarian);
         librarySystem.setPersons(persons);
 
         EventRegistration eventRegistration = new EventRegistration();
         eventRegistration.setId(id++);
-        eventRegistration.setEvent(e);
-        eventRegistration.setPerson(u);
+        eventRegistration.setEvent(event);
+        eventRegistration.setPerson(user);
         eventRegistrationRepository.save(eventRegistration);
         Set<EventRegistration> eventRegistrations = new HashSet<>();
         eventRegistrations.add(eventRegistration);
         librarySystem.setEventRegistrations(eventRegistrations);
 
-        ItemReservation itemReservation  = new ItemReservation();
-        itemReservation.setId(id++);
-        itemReservation.setItem(i);
-        itemReservation.setPerson(u);
+        ItemReservation itemReservation = new ItemReservation();
+        itemReservation.setId(++id);
+        itemReservation.setItem(item);
+        itemReservation.setPerson(user);
         itemReservation.setTimeSlot(timeSlot);
         itemReservationRepository.save(itemReservation);
         Set<ItemReservation> itemReservations = new HashSet<>();
@@ -194,43 +194,50 @@ public class LibrarySystemPersistenceTesting {
 
         librarySystemRepository.save(librarySystem);
 
-        LibrarySystem librarySystem1 = null;
-        librarySystem1 = librarySystemRepository.findLibrarySystemById(librarySystem.getId());
+        LibrarySystem librarySystem1 = librarySystemRepository.findLibrarySystemById(librarySystem.getId());
         assertNotNull(librarySystem1);
 
-        Set<Event> events1 = null;
-        events1 = librarySystem1.getEvents();
-        assertNotNull(events1);
+        Set<Event> eventSet = librarySystem1.getEvents();
+        assertNotNull(eventSet);
         boolean flag = false;
-        for(Event ee : events1){
-            if(ee.getId()==e.getId() && ee.getName().equals(e.getName())) flag=true;
+        for (Event event1 : eventSet) {
+            if (event1.getId() == event.getId() && event1.getName().equals(event.getName())) {
+                flag = true;
+                break;
+            }
         }
         assertTrue(flag);
 
-        Set<User> users1 = null;
-        users1 = librarySystem1.getUsers();
-        assertNotNull(users1);
+        Set<User> userSet = librarySystem1.getUsers();
+        assertNotNull(userSet);
         flag = false;
-        for(User uu : users1){
-            if(uu.getId()==u.getId() && uu.getName().equals(u.getName())) flag=true;
+        for (User user1 : userSet) {
+            if (user1.getId() == user.getId() && user1.getName().equals(user.getName())) {
+                flag = true;
+                break;
+            }
         }
         assertTrue(flag);
 
-        Set<OnlineAccount> onlineAccounts1 = null;
-        onlineAccounts1 = librarySystem1.getOnlineAccounts();
-        assertNotNull(onlineAccounts1);
+        Set<OnlineAccount> onlineAccountSet = librarySystem1.getOnlineAccounts();
+        assertNotNull(onlineAccountSet);
         flag = false;
-        for(OnlineAccount account11 : onlineAccounts1){
-            if(account11.getId()==account.getId() && account11.getUsername().equals(account.getUsername())) flag=true;
+        for (OnlineAccount account1 : onlineAccountSet) {
+            if (account1.getId() == account.getId() && account1.getUsername().equals(account.getUsername())) {
+                flag = true;
+                break;
+            }
         }
         assertTrue(flag);
 
-        Set<ItemReservation> itemReservations1 = null;
-        itemReservations1 = librarySystem1.getItemReservations();
-        assertNotNull(itemReservations1);
+        Set<ItemReservation> itemReservationSet = librarySystem1.getItemReservations();
+        assertNotNull(itemReservationSet);
         flag = false;
-        for(ItemReservation iii : itemReservations1){
-            if(iii.getId()==itemReservation.getId() && iii.getItem().getId()==(itemReservation.getItem().getId())) flag=true;
+        for (ItemReservation itemReservation1 : itemReservationSet) {
+            if (itemReservation1.getId() == itemReservation.getId() && itemReservation1.getItem().getId() == (itemReservation.getItem().getId())) {
+                flag = true;
+                break;
+            }
         }
         assertTrue(flag);
 

@@ -4,10 +4,10 @@ import java.sql.Date;
 import java.sql.Time;
 
 /**
- * data transfer object of timeslot model, indicating a period of time
- * have startTime, endTime, startDate, endDate fields
- * have the id of the time slot
- * have getter and setter methods for private fields
+ * data transfer object of timeslot model, indicating a period of time.
+ * have startTime, endTime, startDate, endDate fields.
+ * have the id of the time slot.
+ * have getter and setter methods for private fields.
  */
 public class TimeSlotDto {
     private int id;

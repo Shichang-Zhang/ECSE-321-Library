@@ -35,24 +35,23 @@ public class BusinessHourPersistenceTesting {
      */
     @Test
     public void testPersistAndLoadBusinessHour() {
-        BusinessHour bh = new BusinessHour();
+        BusinessHour businessHour = new BusinessHour();
         int id = 1111;
         BusinessHour.DayOfWeek dayOfWeek = BusinessHour.DayOfWeek.Monday;
         Time startTime = Time.valueOf(LocalTime.of(11, 20));
         Time endTime = Time.valueOf(LocalTime.of(11, 35));
-        bh.setId(id);
-        bh.setDayOfWeek(dayOfWeek);
-        bh.setEndTime(endTime);
-        bh.setStartTime(startTime);
+        businessHour.setId(id);
+        businessHour.setDayOfWeek(dayOfWeek);
+        businessHour.setEndTime(endTime);
+        businessHour.setStartTime(startTime);
 
-        businessHourRepository.save(bh);
+        businessHourRepository.save(businessHour);
 
-        BusinessHour bhInDB = null;
-        bhInDB = businessHourRepository.findBusinessHourById(bh.getId());
+        BusinessHour businessHourInDateBase = businessHourRepository.findBusinessHourById(businessHour.getId());
 
-        assertNotNull(bhInDB);
-        assertEquals(bhInDB.getDayOfWeek(), bh.getDayOfWeek());
-        assertEquals(bhInDB.getEndTime(), endTime);
-        assertEquals(bhInDB.getStartTime(), startTime);
+        assertNotNull(businessHourInDateBase);
+        assertEquals(businessHourInDateBase.getDayOfWeek(), businessHour.getDayOfWeek());
+        assertEquals(businessHourInDateBase.getEndTime(), endTime);
+        assertEquals(businessHourInDateBase.getStartTime(), startTime);
     }
 }

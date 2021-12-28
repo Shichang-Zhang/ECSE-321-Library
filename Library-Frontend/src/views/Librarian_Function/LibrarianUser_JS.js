@@ -1,9 +1,9 @@
 import axios from 'axios'
-import currentLibrarianData from "../librarian-side/LibrarianMenu"
+import currentLibrarianData from "../Librarian_Login/LibrarianMenu"
 var config = require('../../../config')
 
-var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'https://' + config.dev.backendHost + ':' + config.dev.backendPort
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
@@ -11,7 +11,7 @@ var AXIOS = axios.create({
 })
 
 export default {
-  name: "librarianUserControll",
+  name: "librarianUserControl",
   data() {
     return {
       //UI set up data
@@ -44,6 +44,10 @@ export default {
     handleCancel() {
       this.$emit('close');
     },
+    /**
+     * Delete a user
+     * @param user selected user's transfer object
+     */
     deleteUser(user){
         if(user.length>0){
           let param={

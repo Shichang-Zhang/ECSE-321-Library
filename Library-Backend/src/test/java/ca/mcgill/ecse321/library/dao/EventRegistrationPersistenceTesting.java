@@ -56,14 +56,13 @@ public class EventRegistrationPersistenceTesting {
         event.setName("Party");
         eventRepository.save(event);
         //Create
-        EventRegistration reg=new EventRegistration();
-        reg.setId(3333);
-        reg.setPerson(person);
-        reg.setEvent(event);
-        eventRegistrationRepository.save(reg);
-        reg=null;
-        reg=eventRegistrationRepository.findByPersonAndEvent(person,event);
-        assertEquals(3333,reg.getId());
+        EventRegistration eventRegistration=new EventRegistration();
+        eventRegistration.setId(3333);
+        eventRegistration.setPerson(person);
+        eventRegistration.setEvent(event);
+        eventRegistrationRepository.save(eventRegistration);
+        EventRegistration eventRegistrationInDataBase=eventRegistrationRepository.findByPersonAndEvent(person,event);
+        assertEquals(3333,eventRegistrationInDataBase.getId());
     }
 
 }

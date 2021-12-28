@@ -22,23 +22,24 @@ public class PersonService {
 
     /**
      * create a member for the library
-     * @param name
-     * @param address
+     *
+     * @param name     person's name
+     * @param address  person's address
      * @param userRole Librarian or User, indicating the member's position
      * @return the created person with the input information
      */
     @Transactional
-    public Person createPerson(String name, String address, String userRole){
+    public Person createPerson(String name, String address, String userRole) {
         String error = "";
+        //check the input parameters
         if (name == null || name.trim().length() == 0) {
-            error=error+("Person name cannot be empty!");
+            error = error + ("Person name cannot be empty!");
         }
         if (address == null || address.trim().length() == 0) {
-            error=error+("Person address cannot be empty!");
+            error = error + ("Person address cannot be empty!");
         }
-
-        if(!userRole.equals("Librarian")&&!userRole.equals("User")||userRole==null){
-            error=error+("Invalid Userrole input, please input Librarian or User!");
+        if (userRole == null || !userRole.equals("Librarian") && !userRole.equals("User")) {
+            error = error + ("Invalid Userrole input, please input Librarian or User!");
         }
 
         error = error.trim();
@@ -46,13 +47,14 @@ public class PersonService {
             throw new IllegalArgumentException(error);
         }
 
+        //create the person
         Person person;
-        if(userRole.equals("Librarian")){
-            person=new Librarian();
-        }else{
-            person=new User();
+        if (userRole.equals("Librarian")) {
+            person = new Librarian();
+        } else {
+            person = new User();
         }
-        person.setId((person.hashCode()+name.hashCode())*(address.hashCode()-userRole.hashCode()));
+        person.setId((person.hashCode() + name.hashCode()) * (address.hashCode() - userRole.hashCode()));
         person.setName(name);
         person.setAddress(address);
 
@@ -63,22 +65,22 @@ public class PersonService {
 
     /**
      * update the member's address.
-     * @param pid person id
+     *
+     * @param pid     person id
      * @param address person's address
      * @return the person object with the update address
      */
     @Transactional
-    public Person updateAddress(int pid,String address){
-
-        if (address==null || address.trim().length() == 0){
+    public Person updateAddress(int pid, String address) {
+        //check the input
+        if (address == null || address.trim().length() == 0) {
             throw new IllegalArgumentException("address cannot be empty!");
         }
-
         Person person = getPersonById(pid);
-        if (person==null){
+        if (person == null) {
             throw new IllegalArgumentException("operator must be a user or librarian");
         }
-
+        //update the address
         person.setAddress(address);
         personRepository.save(person);
 
@@ -87,21 +89,23 @@ public class PersonService {
 
     /**
      * get person by id
+     *
      * @param pid person id
      * @return the person with the input id
      */
     @Transactional
-    public Person getPersonById(int pid){
+    public Person getPersonById(int pid) {
         return personRepository.findPersonById(pid);
     }
 
 
     /**
      * get all members of the library system
+     *
      * @return a list of people
      */
     @Transactional
-    public List<Person> getAllPerson(){
+    public List<Person> getAllPerson() {
         return HelperMethods.toList(personRepository.findAll());
     }
 

@@ -1,9 +1,9 @@
 package ca.mcgill.ecse321.library.dto;
 
 /**
- * data transfer object of online account
- * have id, username,email fields
- * have getter and setter methods for private fields
+ * data transfer object of online account.
+ * have id, username,email fields.
+ * have getter and setter methods for private fields.
  */
 public class OnlineAccountDto {
 

@@ -10,7 +10,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * containing methods that can interact with the timeSlot table in the database.
  * findTimeSlotById method can return a time slot object that has the input id
  */
-@RepositoryRestResource(collectionResourceRel = "timeSlot_data",path = "timeSlot_data")
-public interface TimeSlotRepository extends CrudRepository<TimeSlot,Integer> {
+@RepositoryRestResource(collectionResourceRel = "timeSlot_data", path = "timeSlot_data")
+public interface TimeSlotRepository extends CrudRepository<TimeSlot, Integer> {
     TimeSlot findTimeSlotById(int id);
 }

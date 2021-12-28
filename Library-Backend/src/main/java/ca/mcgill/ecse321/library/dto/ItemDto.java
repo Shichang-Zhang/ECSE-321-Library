@@ -3,9 +3,9 @@ package ca.mcgill.ecse321.library.dto;
 import ca.mcgill.ecse321.library.model.Item;
 
 /**
- * data transfer object of item model
- * have id, item category, isInlibrary, name fields
- * have getter and setter methods for private fields
+ * data transfer object of item model.
+ * have id, item category, isInLibrary, name fields.
+ * have getter and setter methods for private fields.
  */
 public class ItemDto {
     private int id;

@@ -12,10 +12,13 @@ import java.util.List;
  * findItemById method will return an item object if the item's id is the input.
  * findByName method will return a list of items whose name is the input name.
  */
-@RepositoryRestResource(collectionResourceRel = "item_data",path = "item_data")
-public interface ItemRepository extends CrudRepository<Item,Integer>{
-	Item findItemById(int id);
-	List<Item> findByName(String name);
-	List<Item> findByNameAndItemCategory(String name, Item.ItemCategory itemCategory);
-	List<Item> findByItemCategory(Item.ItemCategory itemCategory);
+@RepositoryRestResource(collectionResourceRel = "item_data", path = "item_data")
+public interface ItemRepository extends CrudRepository<Item, Integer> {
+    Item findItemById(int id);
+
+    List<Item> findByName(String name);
+
+    List<Item> findByNameAndItemCategory(String name, Item.ItemCategory itemCategory);
+
+    List<Item> findByItemCategory(Item.ItemCategory itemCategory);
 }

@@ -31,10 +31,10 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {},
-    host: 'library-frontend-d13.herokuapp.com',
-    port: 443,
-    backendHost: 'library-backend-d24.herokuapp.com',
-    backendPort: 443,
+    host: '127.0.0.1',
+    port: 8087,
+    backendHost: '127.0.0.1',
+    backendPort: 8080,
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
     // (https://github.com/webpack/css-loader#sourcemaps)

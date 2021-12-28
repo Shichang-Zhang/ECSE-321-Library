@@ -1,16 +1,17 @@
-
 <template>
   <div class="Start">
-        <div class="StartMenu">
-          Welcome to Group 18 Library!!
-        </div>
+    <div class="StartMenu">
+      Welcome to Group 18 Library!
+    </div>
     <b-form-group style="height: 60vh ">
+      <!--      Button of User-->
       <div style="text-align: center">
-            <div @click="gotoUser()" class="goToUser">
-              User
-            </div>
+        <div @click="gotoUser()" class="goToUser">
+          User
+        </div>
       </div>
-      <div style="text-align: center" >
+      <!--      Button of Librarian-->
+      <div style="text-align: center">
         <div @click="gotoLibrarian()" class="goToLibrarian">
           Librarian
         </div>
@@ -20,29 +21,34 @@
   </div>
 </template>
 <script>
-import userStart from '../User_Login/UserStart'
-import LibrarianMenu from '../librarian-side/LibrarianMenu'
- export default{
- methods:{
-   gotoUser(){
-   this.$router.push('/userStart');
-   },
 
-   gotoLibrarian(){
-   this.$router.push('/LibrarianMenu');
-   }
-   }
+export default {
+  methods: {
+    /**
+     * Goes to user start page
+     */
+    gotoUser() {
+      this.$router.push('/userStart');
+    },
+    /**
+     * Goes to librarian login page
+     */
+    gotoLibrarian() {
+      this.$router.push('/LibrarianMenu');
+    }
+  }
 
- }
+}
 
 </script>
 <style>
-.Start{
+.Start {
   background-image: url("../image/Library_BookShelves.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: scroll;
 }
+
 .StartMenu {
   font-size: 32px;
   font-weight: bold;
@@ -52,21 +58,11 @@ import LibrarianMenu from '../librarian-side/LibrarianMenu'
   padding: 10px;
   background: #fff;
 }
-#Userbutton {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    color: #2c3e50;
-    background: #f2ece8;
-  }
-#Librarianbutton {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    color: #2c3e50;
-    background: #f2ece8;
-  }
 
-.goToUser{
-  height:120px;
+.goToUser {
+  height: 120px;
   padding: 2% 0 5% 0;
-  margin : 5% 40%;
+  margin: 5% 40%;
   border-radius: 15px;
   font-size: 40px;
   color: white;
@@ -74,10 +70,10 @@ import LibrarianMenu from '../librarian-side/LibrarianMenu'
   cursor: pointer;
 }
 
-.goToLibrarian{
-  height:120px;
+.goToLibrarian {
+  height: 120px;
   padding: 2% 0 5% 0;
-  margin : 5% 40%;
+  margin: 5% 40%;
   border-radius: 15px;
   font-size: 40px;
   color: white;
@@ -85,11 +81,11 @@ import LibrarianMenu from '../librarian-side/LibrarianMenu'
   cursor: pointer;
 }
 
-.goToUser:hover{
+.goToUser:hover {
   background-color: #0000ff;
 }
 
-.goToLibrarian:hover{
+.goToLibrarian:hover {
   background-color: #0000ff;
 }
 </style>

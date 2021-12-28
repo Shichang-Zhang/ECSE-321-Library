@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * test the persistence of item model
@@ -32,19 +31,19 @@ public class ItemPersistenceTesting {
      */
     @Test
     public void testPersistAndLoadItem() {
-        Item i=new Item();
-        i.setId(1234);
-        i.setIsInLibrary(false);
-        i.setItemCategory(Item.ItemCategory.Book);
-        i.setIsReserved(true);
-        itemRepository.save(i);
-        i=null;
-        i=itemRepository.findItemById(1234);
-        assertNotNull(i);
-        assertEquals(1234,i.getId());
-        assertEquals(false,i.getIsInLibrary());
-        assertEquals(Item.ItemCategory.Book,i.getItemCategory());
-        assertEquals(true,i.getIsReserved());
+        Item item=new Item();
+        item.setId(1234);
+        item.setIsInLibrary(false);
+        item.setItemCategory(Item.ItemCategory.Book);
+        item.setIsReserved(true);
+        itemRepository.save(item);
+
+        Item itemInDataBase=itemRepository.findItemById(1234);
+        assertNotNull(itemInDataBase);
+        assertEquals(1234,itemInDataBase.getId());
+        assertFalse(itemInDataBase.getIsInLibrary());
+        assertEquals(Item.ItemCategory.Book,itemInDataBase.getItemCategory());
+        assertTrue(itemInDataBase.getIsReserved());
     }
 
 }

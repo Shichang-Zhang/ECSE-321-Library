@@ -15,14 +15,17 @@ import java.util.List;
  * findByItem method returns a list of item reservation that was related to the input item.
  * deleteItemReservationsByItem method will delete the records of the item reservation that were related to the input item.
  */
-@RepositoryRestResource(collectionResourceRel = "itemReservation_data",path = "itemReservation_data")
-public interface ItemReservationRepository extends CrudRepository<ItemReservation,Integer> {
+@RepositoryRestResource(collectionResourceRel = "itemReservation_data", path = "itemReservation_data")
+public interface ItemReservationRepository extends CrudRepository<ItemReservation, Integer> {
     List<ItemReservation> findByPersonAndItem(Person p, Item i);
-    ItemReservation findItemReservationById(int id);
-    ItemReservation findItemReservationByPersonAndItemAndTimeSlot(Person person, Item item, TimeSlot timeSlot);
-    List<ItemReservation> findByPerson(Person p);
-    List<ItemReservation> findByItem(Item i);
-    List<ItemReservation> deleteItemReservationsByItem(Item i);
-    List<ItemReservation> findItemReservationByPerson(Person p);
 
+    ItemReservation findItemReservationById(int id);
+
+    ItemReservation findItemReservationByPersonAndItemAndTimeSlot(Person person, Item item, TimeSlot timeSlot);
+
+    List<ItemReservation> findByPerson(Person p);
+
+    List<ItemReservation> findByItem(Item i);
+
+    List<ItemReservation> deleteItemReservationsByItem(Item i);
 }

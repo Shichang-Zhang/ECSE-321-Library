@@ -1,21 +1,22 @@
 <template id="signup">
   <div class="user-main">
     <div class="user-info">
-      <b-button  @click="gotoStart" variant="primary">Home</b-button>
+      <b-button @click="gotoStart" variant="primary">Home</b-button>
       <div style="padding-left: 40%">
         Sign Up
       </div>
     </div>
 
     <div class="menu-items">
-      <div class = "signup-form">
+      <div class="signup-form">
 
 
         <div class="signup-form-title" style="font-size: 50px">
           Welcome
         </div>
+        <!--        Form of submitting sign up request-->
         <b-form @submit="onSubmit" @reset="onReset" v-if="show" style="color: black;font-weight: bold">
-
+          <!--name-->
           <b-form-group id="input-group-9" label="Name:" label-for="realName" @blur.native.capture="checkName()">
             <b-form-input
               id="realName"
@@ -23,24 +24,25 @@
               placeholder="Enter your name"
               required
             ></b-form-input>
-            <div class = "formInputError">
-              {{formInputError.nameInputError}}
+            <div class="formInputError">
+              {{ formInputError.nameInputError }}
             </div>
           </b-form-group>
-
-          <b-form-group id="input-group-10" label="Street:" label-for="addressStreet" @blur.native.capture="checkAddressStreet()">
+          <!--Street (address)-->
+          <b-form-group id="input-group-10" label="Street:" label-for="addressStreet"
+                        @blur.native.capture="checkAddressStreet()">
             <b-form-input
               id="addressStreet"
               v-model="form.addressStreet"
               placeholder="Enter your address"
               required
             ></b-form-input>
-
+            <!--Town (address)-->
             <div>
               <div class="selectTown">
                 <b-form-group label="Town:" label-for="townSelection">
                   <b-form-select
-                    id = "townSelection"
+                    id="townSelection"
                     v-model="form.addressTown"
                     :options="[{ text: 'Choose...', value: null }, 'videha(local)', 'Apara-godaniya', 'Uttarakuru','Jambu-dvipa']"
                     :value="null"
@@ -48,7 +50,7 @@
                   ></b-form-select>
                 </b-form-group>
               </div>
-
+              <!--Post Code (address)-->
               <div class="postCode">
                 <b-form-group label="PostCode" label-for="emailPostalCode" @blur.native.capture="checkPostalCode()">
                   <b-form-input
@@ -60,73 +62,78 @@
                 </b-form-group>
               </div>
             </div>
-
-            <div class = "formInputError">
-              {{formInputError.addressInputError}}
+            <!--error-->
+            <div class="formInputError">
+              {{ formInputError.addressInputError }}
             </div>
           </b-form-group>
 
           <div></div>
-
-           <b-form-group id="input-group-5" label="Want an online account?" v-slot="{ ariaDescribedby }">
-            <b-form-checkbox v-model="isShow" name="check-button"  switch>
-              <b>{{(isShow?"Yes":"No") }}</b>
+          <!--Select whether to have an online account-->
+          <b-form-group id="input-group-5" label="Want an online account?" v-slot="{ ariaDescribedby }">
+            <b-form-checkbox v-model="isShow" name="check-button" switch>
+              <b>{{ (isShow ? "Yes" : "No") }}</b>
             </b-form-checkbox>
-           </b-form-group>
+          </b-form-group>
 
-
+          <!--Online account information-->
           <div id="onlineAccountInfo" class="onlineAccountInfo" v-show="isShow">
-            <b-form-group id="input-group-2" label="Username:" label-for="username"  @blur.native.capture="checkUsername()">
+            <!--Username-->
+            <b-form-group id="input-group-2" label="Username:" label-for="username"
+                          @blur.native.capture="checkUsername()">
               <b-form-input
                 id="username"
                 v-model="form.username"
                 placeholder="Enter username"
               ></b-form-input>
-              <div class = "formInputError">
-                {{formInputError.usernameInputError}}
+              <div class="formInputError">
+                {{ formInputError.usernameInputError }}
               </div>
             </b-form-group>
-
-            <b-form-group id="input-group-5" label="Password:" label-for="password" @blur.native.capture="checkPassword()">
+            <!--Password-->
+            <b-form-group id="input-group-5" label="Password:" label-for="password"
+                          @blur.native.capture="checkPassword()">
               <b-form-input
                 id="password"
                 v-model="form.password"
                 placeholder="Enter password"
                 type="password"
               ></b-form-input>
-              <div class = "formInputError">
-                {{formInputError.passwordInputError}}
+              <div class="formInputError">
+                {{ formInputError.passwordInputError }}
               </div>
             </b-form-group>
-
-            <b-form-group id="input-group-6" label="Confirm password:" label-for="confirmPassword"  @blur.native.capture="confirmPassword()">
+            <!--Confirm passoword-->
+            <b-form-group id="input-group-6" label="Confirm password:" label-for="confirmPassword"
+                          @blur.native.capture="confirmPassword()">
               <b-form-input
                 id="confirmPassword"
                 v-model="form.confirmPassword"
                 placeholder="Confirm password"
                 type="password"
               ></b-form-input>
-              <div class = "formInputError">
-                {{formInputError.confirmPasswordError}}
+              <div class="formInputError">
+                {{ formInputError.confirmPasswordError }}
               </div>
             </b-form-group>
-
-            <b-form-group id="input-group-1" label="Email address:" label-for="email" description="" @blur.native.capture="checkEmail()">
+            <!--Email-->
+            <b-form-group id="input-group-1" label="Email address:" label-for="email" description=""
+                          @blur.native.capture="checkEmail()">
               <b-form-input
                 id="email"
                 v-model="form.email"
                 type="email"
                 placeholder="Enter email"
               ></b-form-input>
-              <div class = "formInputError">
-                {{formInputError.emailInputError}}
+              <div class="formInputError">
+                {{ formInputError.emailInputError }}
               </div>
             </b-form-group>
           </div>
 
           <div class="errorMessage" id="errorMessage">
             <p>
-              {{form.error}}
+              {{ form.error }}
             </p>
           </div>
 
@@ -136,12 +143,6 @@
           </div>
         </b-form>
 
-<!--        <b-card class="mt-3" header="Form Data Result">-->
-<!--          <pre class="m-0">{{ form }}</pre>-->
-<!--        </b-card>-->
-<!--        <b-card class="mt-3" header="Form Data Result">-->
-<!--          <pre class="m-0">{{ formInputError }}</pre>-->
-<!--        </b-card>-->
         <div style="padding-top: 200px"></div>
 
       </div>
@@ -153,14 +154,12 @@
 </script>
 <style>
 .user-main {
-  /*background-image: linear-gradient(90deg, rgba(180, 180, 180, 0.15) 10%, rgba(0, 0, 0, 0) 10%),*/
-  /*linear-gradient(rgba(180, 180, 180, 0.15) 10%, rgba(0, 0, 0, 0) 10%); background-size: 10px 10px;*/
-  /*height: 100vh;*/
   background-image: url("../image/Library_BookShelves.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
 }
+
 .user-info {
   font-size: 32px;
   font-weight: bold;
@@ -187,19 +186,19 @@
   margin-bottom: 20px;
 }
 
-.errorMessage{
+.errorMessage {
   color: #dd2222;
 }
 
-.formInputError{
+.formInputError {
   color: #dd2222;
 }
 
-.selectTown{
+.selectTown {
   margin: 15px 0px 15px 0px;
 }
 
-.postCode{
+.postCode {
   margin: 0px 0px 15px 0px;
 }
 

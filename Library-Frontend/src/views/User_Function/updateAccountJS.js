@@ -2,8 +2,8 @@ import axios from 'axios'
 import currentUserData from './CurrentUserData'
 var config = require('../../../config')
 
-var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'https://' + config.dev.backendHost + ':' + config.dev.backendPort
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
@@ -17,6 +17,7 @@ export default {
   name: "reservation",
   data() {
     return {
+      //update account data
       form: {
         address:'',
         addressStreet:'',
@@ -26,6 +27,7 @@ export default {
         username: '',
         error:''
       },
+      //error
       formInputError:{
         addressInputError:'',
         usernameInputError:'',
@@ -187,11 +189,15 @@ export default {
           // JSON responses are automatically parsed.
           this.form.error = ""
           this.$bvModal.msgBoxOk(`Success update: ${"address: "+response.data.address}`)
-            .then(value => {
-              this.$emit('close');
+          AXIOS.get('/users/getUserById',{params:{uid:this.currentUserId}})
+            .then(response => {
+              this.currentUserAddress = response.data.address
+              this.currentUserUsername = response.data.onlineAccountDto.username
+              this.currentUserEmail = response.data.onlineAccountDto.email
             })
-            .catch(err => {
-              // An error occurred
+            .catch(e => {
+              this.error=e.message
+              console.log(this.error)
             })
 
         })
@@ -219,11 +225,15 @@ export default {
           // JSON responses are automatically parsed.
           this.form.error = ""
           this.$bvModal.msgBoxOk(`Success update: ${"\n new username :"+ response.data.onlineAccountDto.username}`)
-            .then(value => {
-              this.$emit('close');
+          AXIOS.get('/users/getUserById',{params:{uid:this.currentUserId}})
+            .then(response => {
+              this.currentUserAddress = response.data.address
+              this.currentUserUsername = response.data.onlineAccountDto.username
+              this.currentUserEmail = response.data.onlineAccountDto.email
             })
-            .catch(err => {
-              // An error occurred
+            .catch(e => {
+              this.error=e.message
+              console.log(this.error)
             })
         })
         .catch(e => {
@@ -250,11 +260,15 @@ export default {
           // JSON responses are automatically parsed.
           this.form.error = ""
           this.$bvModal.msgBoxOk(`Success update: ${"\nnew email address : "+response.data.onlineAccountDto.email}`)
-            .then(value => {
-              this.$emit('close');
+          AXIOS.get('/users/getUserById',{params:{uid:this.currentUserId}})
+            .then(response => {
+              this.currentUserAddress = response.data.address
+              this.currentUserUsername = response.data.onlineAccountDto.username
+              this.currentUserEmail = response.data.onlineAccountDto.email
             })
-            .catch(err => {
-              // An error occurred
+            .catch(e => {
+              this.error=e.message
+              console.log(this.error)
             })
         })
         .catch(e => {

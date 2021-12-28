@@ -1,10 +1,10 @@
 package ca.mcgill.ecse321.library.dto;
 
 /**
- * data transfer object of user model
- * extends the person DTO, so it can also have access to the user's name, address and id
- * link to a nullable online DTO which is the user's online account
- * have getter and setter methods for private fields
+ * data transfer object of user model.
+ * extends the person DTO, so it can also have access to the user's name, address and id.
+ * link to a nullable online DTO which is the user's online account.
+ * have getter and setter methods for private fields.
  */
 public class UserDto extends PersonDto{
     private boolean isLocal;

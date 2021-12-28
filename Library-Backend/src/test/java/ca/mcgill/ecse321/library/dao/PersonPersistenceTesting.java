@@ -33,16 +33,16 @@ public class PersonPersistenceTesting {
      */
     @Test
     public void testPersistAndLoadPerson(){
-        Person p=new Librarian();
-        p.setName("Joe");
-        p.setId(1234);
-        p.setAddress("luna");
-        personRepository.save(p);
+        Person person=new Librarian();
+        person.setName("Joe");
+        person.setId(1234);
+        person.setAddress("luna");
+        personRepository.save(person);
 
-        p=personRepository.findPersonById(1234);
-        assertNotNull(p);
-        assertEquals("Joe",p.getName());
-        assertEquals(p.getAddress(),"luna");
+        person=personRepository.findPersonById(1234);
+        assertNotNull(person);
+        assertEquals("Joe",person.getName());
+        assertEquals(person.getAddress(),"luna");
     }
 
 }

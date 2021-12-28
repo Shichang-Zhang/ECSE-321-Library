@@ -39,17 +39,16 @@ public class TimeSlotPersistenceTesting {
     @Test
     public void testPersistAndLoadTimeSlot() {
         TimeSlot timeSlot = new TimeSlot();
-        Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
-        Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-        Time endTime = java.sql.Time.valueOf(LocalTime.of(13, 25));
+        Date date = Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
+        Time startTime = Time.valueOf(LocalTime.of(11, 35));
+        Time endTime = Time.valueOf(LocalTime.of(13, 25));
         timeSlot.setId(1);
         timeSlot.setStartTime(startTime);
         timeSlot.setEndTime(endTime);
         timeSlot.setStartDate(date);
         timeSlot.setEndDate(date);
         timeSlotRepository.save(timeSlot);
-        TimeSlot timeSlot1 = null;
-        timeSlot1 = timeSlotRepository.findTimeSlotById(1);
+        TimeSlot timeSlot1 = timeSlotRepository.findTimeSlotById(1);
         assertNotNull(timeSlot1);
         assertEquals(date,timeSlot1.getEndDate());
         assertEquals(startTime,timeSlot1.getStartTime());

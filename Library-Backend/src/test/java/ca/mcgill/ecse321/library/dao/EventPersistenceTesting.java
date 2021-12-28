@@ -46,11 +46,11 @@ public class EventPersistenceTesting {
      * model in the database
      */
     @Test
-    public void testPersistAndLoadEvent(){
-        Event e = new Event();
+    public void testPersistAndLoadEvent() {
+        Event event = new Event();
         String name = "PARTY";
-        e.setId(123444);
-        e.setName(name);
+        event.setId(123444);
+        event.setName(name);
 
         TimeSlot timeSlot = new TimeSlot();
         Date startDate = Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
@@ -62,21 +62,19 @@ public class EventPersistenceTesting {
         timeSlot.setEndTime(endTime);
         timeSlot.setStartDate(startDate);
         timeSlot.setEndDate(endDate);
-        e.setTimeSlot(timeSlot);
+        event.setTimeSlot(timeSlot);
         timeSlotRepository.save(timeSlot);
 
-        eventRepository.save(e);
+        eventRepository.save(event);
+ 
+        Event eventInDataBase = eventRepository.findEventById(event.getId());
 
-        Event eInDB = null;
+        assertNotNull(eventInDataBase);
+        assertEquals(eventInDataBase.getId(), event.getId());
+        assertEquals(eventInDataBase.getName(), event.getName());
 
-        eInDB = eventRepository.findEventById(e.getId());
-
-        assertNotNull(eInDB);
-        assertEquals(eInDB.getId(),e.getId());
-        assertEquals(eInDB.getName(), e.getName());
-
-        assertNotNull(eInDB.getTimeSlot());
-        assertEquals(eInDB.getTimeSlot().getId(), e.getTimeSlot().getId());
-        assertEquals(eInDB.getTimeSlot().getStartTime(), e.getTimeSlot().getStartTime());
+        assertNotNull(eventInDataBase.getTimeSlot());
+        assertEquals(eventInDataBase.getTimeSlot().getId(), event.getTimeSlot().getId());
+        assertEquals(eventInDataBase.getTimeSlot().getStartTime(), event.getTimeSlot().getStartTime());
     }
 }

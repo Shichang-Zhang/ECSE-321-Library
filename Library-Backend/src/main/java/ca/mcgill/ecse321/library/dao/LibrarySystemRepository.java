@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * library system repository
  * containing methods that can interact with the librarySystem table in the database
  */
-@RepositoryRestResource(collectionResourceRel = "librarySystem_data",path = "librarySystem_data")
-public interface LibrarySystemRepository extends CrudRepository<LibrarySystem,Integer> {
+@RepositoryRestResource(collectionResourceRel = "librarySystem_data", path = "librarySystem_data")
+public interface LibrarySystemRepository extends CrudRepository<LibrarySystem, Integer> {
     LibrarySystem findLibrarySystemById(int id);
 }

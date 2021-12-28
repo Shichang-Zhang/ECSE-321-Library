@@ -1,9 +1,10 @@
 package ca.mcgill.ecse321.library.model;
+
 import javax.persistence.*;
 
 /**
- * person involves the librarian and the user
- * person contains a unique id, a name and a address
+ * person involves the librarian and the user.
+ * person contains a unique id, a name and an address.
  */
 @Entity
 @Table(name = "person")
@@ -19,34 +20,28 @@ public abstract class Person {
     private String address;
 
 
-    public void setName(String aName)
-    {
+    public void setName(String aName) {
         name = aName;
     }
 
-    public void setAddress(String aAddress)
-    {
+    public void setAddress(String aAddress) {
         address = aAddress;
     }
 
-    public void setId(int aId)
-    {
+    public void setId(int aId) {
         id = aId;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public String getAddress()
-    {
+    public String getAddress() {
         return address;
     }
 
     @Id
-    public int getId()
-    {
+    public int getId() {
         return id;
     }
 
