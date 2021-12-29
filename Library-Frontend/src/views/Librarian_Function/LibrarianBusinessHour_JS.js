@@ -1,5 +1,4 @@
 import axios from 'axios'
-import {getCurrentTime} from "../User_Function/CurrentUserData";
 
 var config = require('../../../config')
 
@@ -25,6 +24,8 @@ export default {
       businessHourDayOfWeek: '',
       businessHourStartTime: '',
       businessHourEndTime: '',
+      //Option of selecting day of week (Monday - Sunday) when creating business hour
+      dayOfWeekOptions:[{text:'Monday',value:1},{text:'Tuesday',value:2},{text:'Wednesday',value:3},{text:'Thursday',value:4},{text:'Friday',value:5},{text:'Saturday',value:6},{text:'Sunday',value:7}]
     }
   },
   computed: {
@@ -33,92 +34,115 @@ export default {
     }
   },
   methods: {
+    onRowSelected(businessHours) {
+      this.selectedBusinessHours = businessHours
+    },
+    handleCancel() {
+      this.$emit('close');
+    },
     /**
-     * Show all business hour
+     * Refresh business hours in the display table
      */
-    showAllBusinessHour: function () {
+    refreshBusinessHour(){
+      this.businessHours=[]
       AXIOS.get('/businessHours/businessHourList')
         .then(response => {
-          this.businessHours = response.data
+          for (var index in response.data) {
+            this.businessHours.push(
+              {
+                id: response.data[index].id,
+                dayOfWeek: response.data[index].dayOfWeek.toString(),
+                startTime: response.data[index].startTime,
+                endTime: response.data[index].endTime,
+              }
+            )
+          }
         })
         .catch(e => {
           this.errorBusinessHour = e
         })
     },
+    toastMessage(content){
+      this.$bvToast.toast(content, {
+        title: 'Tips',
+        autoHideDelay: 2000,
+        variant: 'warning',
+        solid: true,
+        appendToast: false
+      });
+    },
     /**
-     * Create a new business hour
-     * @param dayOfWeek  day of week of the business hour
-     * @param startTime  start time
-     * @param endTime  end time
+     * Step 1 of creating business hour:
+     * Open the panel of selecting day of week, start time and end time
      */
-    createBusinessHour: function (dayOfWeek, startTime, endTime) {
+    handleCreateBusinessHourStep1(){
+      this.$bvModal.show('createNewBusinessHour');
+    },
+    /**
+     * Step 2 of creating business hour:
+     * In the panel, selecting day of week, start time and end time
+     * Click OK to create
+     * @param dayOfWeek day of week of the business hour
+     * @param startTime start time of the business hour
+     * @param endTime end time of the business hour
+     */
+    handleCreateBusinessHourStep2(dayOfWeek, startTime, endTime){
+      console.log(this.businessHourDayOfWeek)
       const form_data = new FormData()
       form_data.append('dayOfWeek', parseInt(dayOfWeek))
       form_data.append('startTime', startTime)
       form_data.append('endTime', endTime)
       AXIOS.post('/businessHours/createBusinessHour', form_data, {})
         .then(response => {
-          this.businessHours.push(response.data)
+          this.refreshBusinessHour()
+          this.toastMessage("Create Successfully")
         })
         .catch(e => {
-          this.errorBusinessHour = e
+          if(startTime>endTime){
+            this.toastMessage("Start time cannot be latter than end time!")
+          }else{
+            this.toastMessage("Business hour of this day of week already exists!")
+          }
+
         })
     },
     /**
-     * Update timeslot of a business hour of a day of week
-     * @param dayOfWeek  day of week of the business hour
-     * @param startTime new start time
-     * @param endTime new end time
+     * Step 1 of updating business hour:
+     * Open the panel of updating business hour
+     * @param selectedBusinessHours the business hour we want to update
      */
-    updateBusinessHour: function (dayOfWeek, startTime, endTime) {
-      AXIOS.put('/businessHours/updateBusinessHourTime?dayOfWeek=' + (this.selectedBusinessHours[0].id) + '&startTime=' + startTime + '&endTime=' + endTime)
+    handleUpdateBusinessHourStep1(selectedBusinessHours){
+      if(selectedBusinessHours.length>0){
+        this.$bvModal.show('updateBusinessHour');
+      }else{
+        this.toastMessage("No Selected Business Hour")
+      }
+    },
+    /**
+     * Step 2 of updating business hour:
+     * In the panel, selecting start time and end time
+     * Click OK to update
+     * @param selectedBusinessHours the business hour we want to update
+     * @param businessHourStartTime new start time the business hour updates to
+     * @param businessHourEndTime new end time the business hour updates to
+     */
+    handleUpdateBusinessHourStep2(selectedBusinessHours,businessHourStartTime,businessHourEndTime){
+      AXIOS.put('/businessHours/updateBusinessHourTime?dayOfWeek=' + (selectedBusinessHours[0].id) + '&startTime=' + businessHourStartTime + '&endTime=' + businessHourEndTime)
         .then(response => {
-          this.businessHours = []
-          //refresh the content in the table
-          AXIOS.get('/businessHours/businessHourList')
-            .then(response => {
-              for (var index in response.data) {
-                this.businessHours.push(
-                  {
-                    id: response.data[index].id,
-                    dayOfWeek: response.data[index].dayOfWeek.toString(),
-                    startTime: response.data[index].startTime,
-                    endTime: response.data[index].endTime,
-                  }
-                )
-              }
-            })
-            .catch(e => {
-              this.errorBusinessHour = e
-            })
+          this.refreshBusinessHour()
+          this.toastMessage("Update Successfully")
         })
         .catch(e => {
-          this.errorBusinessHour = e
+          if(businessHourStartTime>businessHourEndTime){
+            this.toastMessage("Start time cannot be latter than end time!")
+          }else{
+            this.toastMessage("Fail to update")
+          }
         })
+
     },
-    onRowSelected(businessHours) {
-      this.selectedBusinessHours = businessHours
-    },
-    handleCancel() {
-      this.$emit('close');
-    }
   },
   created: function () {
-    AXIOS.get('/businessHours/businessHourList')
-      .then(response => {
-        for (var index in response.data) {
-          this.businessHours.push(
-            {
-              id: response.data[index].id,
-              dayOfWeek: response.data[index].dayOfWeek.toString(),
-              startTime: response.data[index].startTime,
-              endTime: response.data[index].endTime,
-            }
-          )
-        }
-      })
-      .catch(e => {
-        this.errorBusinessHour = e
-      })
+    this.refreshBusinessHour()
   }
 }
