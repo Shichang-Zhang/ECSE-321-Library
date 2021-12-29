@@ -27,6 +27,10 @@ export default {
       librarianName: '',
       librarianAddress: '',
       librarianBusinessHour: '',
+      //current head librarian data
+      currentLibrarianId:'',
+      //Option of selecting day of week (Monday - Sunday) when assignning business hour
+      dayOfWeekOptions:[{text:'Monday',value:1},{text:'Tuesday',value:2},{text:'Wednesday',value:3},{text:'Thursday',value:4},{text:'Friday',value:5},{text:'Saturday',value:6},{text:'Sunday',value:7}]
     }
   },
   computed: {
@@ -66,95 +70,6 @@ export default {
       AXIOS.get('/librarians/librarianList')
         .then(response => {
           this.librarians = response.data
-        })
-        .catch(e => {
-          this.errorLibrarian = e
-        })
-    },
-    /**
-     * Create a new librarian
-     * @param name name of the librarian
-     * @param address address of the librarian
-     */
-    hireLibrarian: function (name, address) {
-      AXIOS.post('/librarians/createLibrarian?headLibrarianId=' + currentLibrarianData.currentLibrarianId + '&name=' + name + '&address=' + address + '&isHead=false')
-        .then(response => {
-          this.librarians = []
-          AXIOS.get('/librarians/librarianList')
-            .then(response => {
-              for (var index in response.data) {
-                this.librarians.push(
-                  {
-                    id: response.data[index].id,
-                    name: response.data[index].name,
-                    isHeadLibrarian: response.data[index].headLibrarian,
-                    businessHours: response.data[index].businessHourDtos
-                  }
-                )
-              }
-            })
-            .catch(e => {
-              this.errorLibrarian = e
-            })
-        })
-        .catch(e => {
-          this.errorLibrarian = e
-        })
-    },
-    /**
-     * Delete a librarian from the system
-     * @param id id of the librarian
-     */
-    fireLibrarian: function (id) {
-      AXIOS.delete('/librarians/fireLibrarian?headLibrarianId=' + currentLibrarianData.currentLibrarianId + '&librarianId=' + id)
-        .then(response => {
-          this.librarians = []
-          AXIOS.get('/librarians/librarianList')
-            .then(response => {
-              for (var index in response.data) {
-                this.librarians.push(
-                  {
-                    id: response.data[index].id,
-                    name: response.data[index].name,
-                    isHeadLibrarian: response.data[index].headLibrarian,
-                    businessHours: response.data[index].businessHourDtos
-                  }
-                )
-              }
-            })
-            .catch(e => {
-              this.errorLibrarian = e
-            })
-        })
-        .catch(e => {
-          this.errorLibrarian = e
-        })
-    },
-    /**
-     * Assign a business hour to a librarian
-     * @param id id of the librarian
-     * @param dayOfWeek day of week assigned to the librarian
-     */
-    assignBusinessHour: function (id, dayOfWeek) {
-      AXIOS.put('/librarians/assignBusinessHour?headLibrarianId=' + currentLibrarianData.currentLibrarianId + '&librarianId=' + id + '&dayOfWeek=' + dayOfWeek)
-        .then(response => {
-          this.librarians = []
-          AXIOS.get('/librarians/librarianList')
-            .then(response => {
-              for (var index in response.data) {
-                this.librarians.push(
-                  {
-                    id: response.data[index].id,
-                    name: response.data[index].name,
-                    isHeadLibrarian: response.data[index].headLibrarian,
-                    businessHours: response.data[index].businessHourDtos
-                  }
-                )
-              }
-            })
-            .catch(e => {
-              this.errorLibrarian = e
-            })
         })
         .catch(e => {
           this.errorLibrarian = e
@@ -225,24 +140,120 @@ export default {
     },
     handleCancel() {
       this.$emit('close');
+    },
+    refreshLibrarian(){
+      this.librarians=[]
+      AXIOS.get('/librarians/librarianList')
+        .then(response => {
+          for (var index in response.data) {
+            this.librarians.push(
+              {
+                id: response.data[index].id,
+                name: response.data[index].name,
+                address: response.data[index].address,
+                isHeadLibrarian: response.data[index].headLibrarian,
+                businessHours: response.data[index].businessHourDtos
+              }
+            )
+          }
+        })
+        .catch(e => {
+          this.errorLibrarian = e
+        })
+    },
+    toastMessage(content){
+      this.$bvToast.toast(content, {
+        title: 'Tips',
+        autoHideDelay: 2000,
+        variant: 'warning',
+        solid: true,
+        appendToast: false
+      });
+    },
+    hireStep1(){
+      this.$bvModal.show('createNewLibrarian');
+    },
+    hireStep2(name,address){
+      AXIOS.post('/librarians/createLibrarian?headLibrarianId=' + this.currentLibrarianId + '&name=' + name + '&address=' + address + '&isHead=false')
+        .then(response => {
+          this.refreshLibrarian()
+          this.toastMessage("Hire Successfully")
+        })
+        .catch(e => {
+          this.toastMessage("Fail to hire")
+        })
+    },
+    fireLibrarian(selectedLibrarians){
+      if(selectedLibrarians.length>0){
+        AXIOS.delete('/librarians/fireLibrarian?headLibrarianId=' + this.currentLibrarianId + '&librarianId=' + selectedLibrarians[0].id)
+          .then(response => {
+            this.refreshLibrarian()
+            this.toastMessage("Fire Successfully")
+          })
+          .catch(e => {
+            this.toastMessage("Fail to fire")
+          })
+      }else{
+        this.toastMessage("No Selected Librarian")
+      }
+    },
+    updateIsHeadStep1(selectedLibrarians){
+      if(selectedLibrarians.length>0){
+        this.$bvModal.show('updateIsHeadWarning');
+      }else{
+        this.toastMessage("No Selected Librarian")
+      }
+
+    },
+    updateIsHeadStep2(selectedLibrarians){
+      AXIOS.put('/librarians/updateIsHeadLibrarian?headLibrarianId=' + this.currentLibrarianId + '&librarianId=' + selectedLibrarians[0].id)
+        .then(response => {
+          this.refreshLibrarian()
+          this.$router.push('/');
+        })
+        .catch(e => {
+          this.toastMessage("Fail to update")
+        })
+    },
+    assignBusinessHourStep1(selectedLibrarians){
+      if(selectedLibrarians.length>0){
+        this.$bvModal.show('assignBusinessHour');
+      }else{
+        this.toastMessage("No Selected Librarian")
+      }
+    },
+    assignBusinessHourStep2(selectedLibrarians,librarianBusinessHour){
+      AXIOS.put('/librarians/assignBusinessHour?headLibrarianId=' + this.currentLibrarianId + '&librarianId=' + selectedLibrarians[0].id + '&dayOfWeek=' + librarianBusinessHour)
+        .then(response => {
+          this.refreshLibrarian()
+          this.toastMessage("Assign successfully")
+        })
+        .catch(e => {
+          this.toastMessage("Fail to assign")
+        })
+
+    },
+    unassignBusinessHourStep1(selectedLibrarians){
+      if(selectedLibrarians.length>0){
+        this.$bvModal.show('unassignBusinessHour');
+      }else{
+        this.toastMessage("No Selected Librarian")
+      }
+    },
+    unassignBusinessHourStep2(selectedLibrarians,librarianBusinessHour){
+      AXIOS.put('/librarians/unassignBusinessHour?headLibrarianId=' + this.currentLibrarianId + '&librarianId=' + selectedLibrarians[0].id + '&dayOfWeek=' + librarianBusinessHour)
+        .then(response => {
+          this.refreshLibrarian()
+          this.toastMessage("Unassign successfully")
+        })
+        .catch(e => {
+          this.toastMessage("Fail to unassign")
+        })
+
     }
   },
   created: function () {
-    AXIOS.get('/librarians/librarianList')
-      .then(response => {
-        for (var index in response.data) {
-          this.librarians.push(
-            {
-              id: response.data[index].id,
-              name: response.data[index].name,
-              isHeadLibrarian: response.data[index].headLibrarian,
-              businessHours: response.data[index].businessHourDtos
-            }
-          )
-        }
-      })
-      .catch(e => {
-        this.errorLibrarian = e
-      })
+    this.currentLibrarianId= decodeURIComponent((new RegExp('[?|&]' + "id" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+    this.refreshLibrarian()
   }
 }
