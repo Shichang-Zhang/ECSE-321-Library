@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.library.servicetest;
+package servicetest;
 
 import java.sql.Date;
 import java.sql.Time;

@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.library.servicetest;
+package servicetest;
 
 import ca.mcgill.ecse321.library.dao.PersonRepository;
 import ca.mcgill.ecse321.library.model.Person;

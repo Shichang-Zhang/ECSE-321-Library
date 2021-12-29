@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.library.servicetest;
+package servicetest;
 
 import java.sql.Time;
 import java.time.LocalTime;
