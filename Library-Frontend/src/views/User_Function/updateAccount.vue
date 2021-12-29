@@ -4,10 +4,7 @@
     <div class="mainBody" style="height: 65vh">
       <!--Buttons to select the information want to update, located in the left of the page-->
       <div class="leftBar">
-        <div @click="showAddressUpdateContent()">Update Address</div>
-        <div @click="showUsernameUpdateContent()">Update Username</div>
-        <div @click="showPasswordUpdateContent()">Update Password</div>
-        <div @click="showEmailUpdateContent">Update Email</div>
+        <div v-for="(list,index) in leftPart" @click="showUpdateContent(index)" :class="{ changeBackgroundColor:changeLeftBackground === index}">{{list.name}}</div>
       </div>
 
       <div class="update-form" style="float: right">
@@ -248,6 +245,10 @@
 
 .currentUserInfo {
   margin-bottom: 5px;
+}
+
+.changeBackgroundColor{
+  background-color: yellow;
 }
 
 </style>

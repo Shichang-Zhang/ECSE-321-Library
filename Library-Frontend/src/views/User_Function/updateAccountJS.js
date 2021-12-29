@@ -1,5 +1,6 @@
 import axios from 'axios'
 import currentUserData from './CurrentUserData'
+import Vue from "vue";
 
 var config = require('../../../config')
 
@@ -46,10 +47,39 @@ export default {
       currentUserUsername: '',
       currentUserEmail: '',
       showNewPasswordInputBox:'',
+      activeColor:'',
+      leftPart: [
+        { name: "Update Address" },
+        { name: "Update Username" },
+        { name: "Update Password" },
+        { name: "Update Email" }
+      ],
+      changeLeftBackground: '',
     }
 
   },
   methods: {
+    /**
+     * show update form content according to index
+     * @param index index of the leftPart data
+     */
+    showUpdateContent(index) {
+      this.changeLeftBackground = index;
+      switch(index) {
+        case 0:
+          this.showAddressUpdateContent()
+          break;
+        case 1:
+          this.showUsernameUpdateContent()
+          break;
+        case 2:
+          this.showPasswordUpdateContent()
+          break;
+        case 3:
+          this.showEmailUpdateContent()
+          break;
+      }
+    },
 
     /**
      * close the popout window
@@ -170,9 +200,6 @@ export default {
      * check whether the user input the correct old password
      */
     checkOldPassword() {
-      console.log(this.form)
-      console.log(this.currentUserId)
-      console.log(this.form.confirmPassword)
       const form_data = new FormData()
       form_data.append('uid', parseInt(this.currentUserId))
       form_data.append('password', this.form.confirmPassword)
@@ -183,7 +210,6 @@ export default {
           this.$bvModal.msgBoxOk(`old password correct`)
           //show next part
           this.showNewPasswordInputBox = true;
-          console.log(this.showNewPasswordInputBox)
         })
         .catch(e => {
           this.form.error = 'incorrect old password'
@@ -228,6 +254,10 @@ export default {
             this.form.error = ""
             this.$bvModal.msgBoxOk(`Success update: ${"address: " + response.data.address}`)
             this.refreshUserInformation()
+            this.form.addressTown=''
+            this.form.addressStreet=''
+            this.form.addressPostalCode = ''
+            this.form.address = ''
           }
         )
         .catch(e => {
@@ -253,8 +283,10 @@ export default {
         .then(response => {
           // JSON responses are automatically parsed.
           this.form.error = ""
-          this.$bvModal.msgBoxOk(`Success update: ${"\n new username :" + response.data.onlineAccountDto.username}`)
+          confirm("Success update!! New username : "+response.data.onlineAccountDto.username)
           this.refreshUserInformation()
+          this.form.username=''
+          location.reload();
         })
         .catch(e => {
           this.form.error = 'update fail, please check the input comment'
@@ -280,6 +312,7 @@ export default {
           this.form.error = ""
           this.$bvModal.msgBoxOk(`Success update: ${"\nnew email address : " + response.data.onlineAccountDto.email}`)
           this.refreshUserInformation()
+          this.form.email=''
         })
         .catch(e => {
           this.form.error = 'update fail, please check the input comment'
@@ -303,6 +336,7 @@ export default {
         .then(response => {
           // JSON responses are automatically parsed.
           this.form.error = ""
+          this.refreshUserInformation()
           confirm("Success update password")
           this.$router.push('/login')
         })
