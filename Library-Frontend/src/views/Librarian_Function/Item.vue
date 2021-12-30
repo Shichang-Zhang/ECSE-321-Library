@@ -46,10 +46,12 @@
     </div>
     <!--Setting of buttons in the bottom of the page-->
     <div class="btns" style="text-align: right;border-top: #e7e7e7 1px solid;padding-top: 20px">
-      <b-button variant="outline-primary" @click="handleCancel">Close</b-button>
+
       <b-button v-on:click="handleCreateItemStep1()" variant="primary">Create New Item</b-button>
       <b-button v-on:click="handleUpdateItemNameStep1(selectedItems)" variant="primary">Update Name</b-button>
+      <b-button v-on:click="viewItemReservation(selectedItems)" variant="primary">View Reservation</b-button>
       <b-button v-on:click="deleteItem(selectedItems)" variant="primary">Delete</b-button>
+      <b-button variant="outline-primary" @click="handleCancel">Close</b-button>
     </div>
     <!--Setting of panel of creating an item-->
     <b-modal id="createNewItem" title="Create New Item"
@@ -97,6 +99,21 @@
             ></b-form-input>
           </b-form-group>
         </b-form>
+      </div>
+    </b-modal>
+    <!--    Setting of panel of viewing item reservations of an item-->
+    <b-modal id="viewItemReservation" title="View Item Reservation of" size="xl">
+      <div>Number of Item Reservation Record: {{ numberOfItemReservation }}</div>
+      <div>Item Id: {{ selectedItems.length > 0 ? selectedItems[0].id : null }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        Item Name: {{ selectedItems.length > 0 ? selectedItems[0].name : null }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        Item Category: {{ selectedItems.length > 0 ? selectedItems[0].itemCategory : null }}
+      </div>
+      <div>
+        <b-table style="margin-top: 40px;" hover :items="itemReservationDisplay"
+                 @row-selected="onRowSelected"
+                 select-mode="single"
+                 selectable>
+        </b-table>
       </div>
     </b-modal>
   </div>

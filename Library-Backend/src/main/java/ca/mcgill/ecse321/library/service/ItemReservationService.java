@@ -434,6 +434,11 @@ public class ItemReservationService {
         return HelperMethods.toList(itemReservationRepository.findAll());
     }
 
+    @Transactional
+    public List<ItemReservation> findItemReservationsByItem(int itemId){
+        return itemReservationRepository.findByItem(itemRepository.findItemById(itemId));
+    }
+
     /**
      * create the timeslot with the input time fields
      *
@@ -474,7 +479,7 @@ public class ItemReservationService {
 
         //create the time slot
         TimeSlot timeSlot = new TimeSlot();
-        timeSlot.setId(timeSlot.hashCode() * startTime.hashCode());
+        timeSlot.setId(Math.abs(timeSlot.hashCode() * startTime.hashCode()));
         timeSlot.setStartDate(startDate);
         timeSlot.setEndDate(endDate);
         timeSlot.setStartTime(startTime);

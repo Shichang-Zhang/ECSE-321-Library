@@ -54,7 +54,7 @@ public class PersonService {
         } else {
             person = new User();
         }
-        person.setId((person.hashCode() + name.hashCode()) * (address.hashCode() - userRole.hashCode()));
+        person.setId(Math.abs((person.hashCode() + name.hashCode()) * (address.hashCode() - userRole.hashCode())));
         person.setName(name);
         person.setAddress(address);
 

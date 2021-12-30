@@ -28,16 +28,59 @@ public class ItemService {
     public void initItem(){
         Item.ItemCategory book = Item.ItemCategory.Book;
 
-        //create 5 books
-        for(int i=0; i<5; i++){
-            Item item=new Item();
-            item.setId(item.hashCode()*book.hashCode());
-            item.setItemCategory(book);
-            item.setName("book"+i);
-            item.setIsInLibrary(true);
-            item.setIsReserved(false);
-            itemRepository.save(item);
-        }
+        Item item1=new Item();
+        item1.setId(Math.abs(item1.hashCode()*book.hashCode()));
+        item1.setItemCategory(Item.ItemCategory.Book);
+        item1.setName("Harry Potter");
+        item1.setIsInLibrary(true);
+        item1.setIsReserved(false);
+
+        Item item2=new Item();
+        item2.setId(Math.abs(item2.hashCode()*book.hashCode()));
+        item2.setItemCategory(Item.ItemCategory.Newspaper);
+        item2.setName("China Newspaper");
+        item2.setIsInLibrary(true);
+        item2.setIsReserved(false);
+
+        Item item3=new Item();
+        item3.setId(Math.abs(item3.hashCode()*book.hashCode()));
+        item3.setItemCategory(Item.ItemCategory.Movie);
+        item3.setName("The Shawshank Redemption");
+        item3.setIsInLibrary(true);
+        item3.setIsReserved(false);
+
+        Item item4=new Item();
+        item4.setId(Math.abs(item4.hashCode()*book.hashCode()));
+        item4.setItemCategory(Item.ItemCategory.MusicAlbum);
+        item4.setName("Jay Chou 2001");
+        item4.setIsInLibrary(true);
+        item4.setIsReserved(false);
+
+        Item item5=new Item();
+        item5.setId(Math.abs(item5.hashCode()*book.hashCode()));
+        item5.setItemCategory(Item.ItemCategory.Archive);
+        item5.setName("Final Exam Problem Set");
+        item5.setIsInLibrary(true);
+        item5.setIsReserved(false);
+
+        itemRepository.save(item1);
+        itemRepository.save(item2);
+        itemRepository.save(item3);
+        itemRepository.save(item4);
+        itemRepository.save(item5);
+
+
+
+//        //create 5 books
+//        for(int i=0; i<5; i++){
+//            Item item=new Item();
+//            item.setId(item.hashCode()*book.hashCode());
+//            item.setItemCategory(book);
+//            item.setName("book"+i);
+//            item.setIsInLibrary(true);
+//            item.setIsReserved(false);
+//            itemRepository.save(item);
+//        }
     }
 
     /**
@@ -60,7 +103,7 @@ public class ItemService {
         }
 
         Item item=new Item();
-        item.setId(item.hashCode()*itemCategory.hashCode());
+        item.setId(Math.abs(item.hashCode()*itemCategory.hashCode()));
         item.setItemCategory(itemCategory);
 
         //When being created, it should be in library and not reserved by any person.

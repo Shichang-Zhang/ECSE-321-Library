@@ -27,7 +27,10 @@ public class BusinessHourService {
     @Transactional
     public void initBusinessHour() {
         this.createBusinessHour(1, Time.valueOf("10:00:00"), Time.valueOf("18:00:00"));
+        this.createBusinessHour(2, Time.valueOf("10:00:00"), Time.valueOf("18:00:00"));
         this.createBusinessHour(3, Time.valueOf("10:00:00"), Time.valueOf("18:00:00"));
+        this.createBusinessHour(4, Time.valueOf("10:00:00"), Time.valueOf("18:00:00"));
+        this.createBusinessHour(5, Time.valueOf("11:00:00"), Time.valueOf("15:00:00"));
     }
 
     /**

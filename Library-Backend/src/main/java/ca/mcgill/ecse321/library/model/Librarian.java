@@ -29,7 +29,7 @@ public class Librarian extends Person
         this.BusinessHours = businessHours;
     }
 
-    @OneToMany(cascade = { CascadeType.ALL },fetch = FetchType.EAGER)
+    @ManyToMany(cascade = { CascadeType.ALL },fetch = FetchType.EAGER)
     public Set<BusinessHour> getBusinessHours() {
         return BusinessHours;
     }

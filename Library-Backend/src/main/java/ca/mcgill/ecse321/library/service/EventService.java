@@ -30,9 +30,11 @@ public class EventService {
      */
     @Transactional
     public void initEvent() {
-        this.createEvent("event1", Date.valueOf("2022-12-20"), Date.valueOf("2022-12-21"), Time.valueOf("10:00:00"), Time.valueOf("12:00:00"));
-        this.createEvent("event2", Date.valueOf("2022-12-22"), Date.valueOf("2022-12-23"), Time.valueOf("10:00:00"), Time.valueOf("12:00:00"));
-        this.createEvent("event3", Date.valueOf("2022-12-24"), Date.valueOf("2022-12-25"), Time.valueOf("10:00:00"), Time.valueOf("12:00:00"));
+        this.createEvent("ECSE100 Lecture", Date.valueOf("2030-12-20"), Date.valueOf("2030-12-21"), Time.valueOf("10:00:00"), Time.valueOf("12:00:00"));
+        this.createEvent("ECSE200 Lecture", Date.valueOf("2030-12-22"), Date.valueOf("2030-12-23"), Time.valueOf("10:00:00"), Time.valueOf("12:00:00"));
+        this.createEvent("ECSE300 Lecture", Date.valueOf("2030-12-24"), Date.valueOf("2030-12-25"), Time.valueOf("10:00:00"), Time.valueOf("12:00:00"));
+        this.createEvent("ECSE400 Lecture", Date.valueOf("2030-12-26"), Date.valueOf("2030-12-28"), Time.valueOf("10:00:00"), Time.valueOf("12:00:00"));
+        this.createEvent("ECSE500 Lecture", Date.valueOf("2030-12-28"), Date.valueOf("2030-12-29"), Time.valueOf("10:00:00"), Time.valueOf("12:00:00"));
     }
 
     /**
@@ -70,14 +72,14 @@ public class EventService {
 
         //create the event
         TimeSlot timeSlot = new TimeSlot();
-        timeSlot.setId(timeSlot.hashCode() * startTime.hashCode());
+        timeSlot.setId(Math.abs(timeSlot.hashCode() * startTime.hashCode()));
         timeSlot.setStartDate(startDate);
         timeSlot.setEndDate(endDate);
         timeSlot.setStartTime(startTime);
         timeSlot.setEndTime(endTime);
         timeSlotRepository.save(timeSlot);
         Event event = new Event();
-        event.setId(event.hashCode() + name.hashCode() * timeSlot.hashCode());
+        event.setId(Math.abs(event.hashCode() + name.hashCode() * timeSlot.hashCode()));
         event.setName(name);
         event.setTimeSlot(timeSlot);
         eventRepository.save(event);

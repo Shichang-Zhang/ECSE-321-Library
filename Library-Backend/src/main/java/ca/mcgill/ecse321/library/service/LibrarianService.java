@@ -46,12 +46,12 @@ public class LibrarianService extends PersonService {
     @Transactional
     public void initLibrarian() {
         //create first librarian
-        Librarian librarian = (Librarian) createPerson("Joe", "LibraryAddress1", "Librarian");
+        Librarian librarian = (Librarian) createPerson("Joe", "Montreal", "Librarian");
         librarian.setIsHeadLibrarian(false);
         librarianRepository.save(librarian);
 
         //create second librarian
-        Librarian librarian1 = (Librarian) createPerson("Messi", "LibraryAddress1", "Librarian");
+        Librarian librarian1 = (Librarian) createPerson("Messi", "China", "Librarian");
         librarian1.setIsHeadLibrarian(false);
         librarianRepository.save(librarian1);
     }

@@ -65,7 +65,7 @@ public class EventRegistrationService {
         }
 
         EventRegistration eventRegistration=new EventRegistration();
-        eventRegistration.setId((eventRegistration.hashCode()*(person.hashCode()+event.hashCode())));
+        eventRegistration.setId(Math.abs(eventRegistration.hashCode()*(person.hashCode()+event.hashCode())));
         eventRegistration.setPerson(person);
         eventRegistration.setEvent(event);
         eventRegistrationRepository.save(eventRegistration);

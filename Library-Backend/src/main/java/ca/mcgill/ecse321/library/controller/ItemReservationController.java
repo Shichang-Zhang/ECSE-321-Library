@@ -150,6 +150,23 @@ public class ItemReservationController {
     }
 
     /**
+     * call service method to find all item reservation of an item
+     * @param itemId id of the item
+     * @return a list of transfer objects of the item reservations
+     * @throws IllegalArgumentException
+     */
+    @GetMapping(value = {"/getItemReservationsByItem","/getItemReservationsByItem/"})
+    public List<ItemReservationDto> getItemReservationsByItem(@RequestParam(name="itemId") int itemId)  throws IllegalArgumentException{
+        List<ItemReservation> itemReservations = itemReservationService.findItemReservationsByItem(itemId);
+        ArrayList<ItemReservationDto> itemReservationDtos = new ArrayList<>();
+        for (ItemReservation itemReservation:itemReservations){
+            ItemReservationDto itemReservationDto = new ItemReservationDto(itemReservation.getId(),HelperMethods.convertToDto(itemReservation.getPerson()),HelperMethods.convertToDto(itemReservation.getItem()),HelperMethods.convertToDto(itemReservation.getTimeSlot()));
+            itemReservationDtos.add(itemReservationDto);
+        }
+        return itemReservationDtos;
+    }
+
+    /**
      * call service method to find all item reservation done by the person to the item
      * @param pid
      * @param itemId

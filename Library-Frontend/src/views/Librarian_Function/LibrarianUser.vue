@@ -25,8 +25,9 @@
     </div>
     <!--Setting of buttons in the bottom of the page-->
     <div class="btns" style="text-align: right;border-top: #e7e7e7 1px solid;padding-top: 20px">
-      <b-button variant="outline-primary" @click="handleCancel">Close</b-button>
+
       <b-button @click="deleteUser(selectedUser)" variant="primary">Delete</b-button>
+      <b-button variant="outline-primary" @click="handleCancel">Close</b-button>
     </div>
 
   </div>

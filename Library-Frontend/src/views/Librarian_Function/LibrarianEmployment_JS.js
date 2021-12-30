@@ -146,13 +146,18 @@ export default {
       AXIOS.get('/librarians/librarianList')
         .then(response => {
           for (var index in response.data) {
+            var tempBusinessHour=[]
+            for(var index2 in response.data[index].businessHourDtos){
+              tempBusinessHour.push(response.data[index].businessHourDtos[index2].dayOfWeek.toString())
+              tempBusinessHour.sort()
+            }
             this.librarians.push(
               {
                 id: response.data[index].id,
                 name: response.data[index].name,
                 address: response.data[index].address,
                 isHeadLibrarian: response.data[index].headLibrarian,
-                businessHours: response.data[index].businessHourDtos
+                businessHours: (tempBusinessHour.length>0?tempBusinessHour:null)
               }
             )
           }

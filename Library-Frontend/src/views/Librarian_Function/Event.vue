@@ -34,11 +34,12 @@
     </div>
 <!--Setting of buttons in the bottom of the page-->
     <div class="btns" style="text-align: right;border-top: #e7e7e7 1px solid;padding-top: 20px">
+      <b-button variant="primary" @click="handleCreateStep1">Create New Event</b-button>
+      <b-button variant="primary" @click="handleUpdateNameStep1(selectedEvent)">Update Name</b-button>
+      <b-button variant="primary" @click="handleUpdateTimeSlotStep1(selectedEvent)">Update TimeSlot</b-button>
+      <b-button variant="primary" @click="viewEventRegistrationStep1(selectedEvent)">View attendee</b-button>
+      <b-button variant="primary" @click="deleteEvent(selectedEvent)">Delete</b-button>
       <b-button variant="outline-primary" @click="handleCancel">Close</b-button>
-      <b-button variant="outline-primary" @click="handleCreateStep1">Create New Event</b-button>
-      <b-button variant="outline-primary" @click="handleUpdateNameStep1(selectedEvent)">Update Name</b-button>
-      <b-button variant="outline-primary" @click="handleUpdateTimeSlotStep1(selectedEvent)">Update TimeSlot</b-button>
-      <b-button variant="outline-primary" @click="deleteEvent(selectedEvent)">Delete</b-button>
     </div>
 <!--Setting of panel of creating a new event-->
     <b-modal id="createNewEventPanel" title="Create New Event"
@@ -136,6 +137,17 @@
             <b-form-timepicker id="newEventEndTime" v-model="newEventEndTime" class="mb-2" locale="en"></b-form-timepicker>
           </b-form-group>
         </b-form>
+      </div>
+    </b-modal>
+    <!--    Setting of panel of viewing event registration of an event-->
+    <b-modal id="viewAttendees" title="View Attendees" size="xl">
+      <div>Number of attendees: {{numberOfAttendee}}</div>
+      <div>
+            <b-table style="margin-top: 40px;" hover :items="eventRegistrationDisplay"
+                     @row-selected="onRowSelected"
+                     select-mode="single"
+                     selectable>
+            </b-table>
       </div>
     </b-modal>
   </div>

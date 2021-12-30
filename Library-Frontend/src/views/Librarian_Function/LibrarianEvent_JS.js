@@ -40,6 +40,9 @@ export default {
       newEventStartTime:'',
       newEventEndDate:'',
       newEventEndTime:'',
+      //event registration display
+      eventRegistrationDisplay:[],
+      numberOfAttendee:'',
       //error data
       error: '',
     }
@@ -175,6 +178,10 @@ export default {
         this.toastMessage("No Selected Event")
       }
     },
+    /**
+     * Find event by name
+     * @param name name of the event
+     */
     findEventsByName(name){
       if(name.length==0){
         this.refreshEvent()
@@ -201,6 +208,36 @@ export default {
           this.errorItem = e
         })
 
+    },
+    viewEventRegistrationStep1(selectedEvent){
+      if(selectedEvent.length>0){
+        this.eventRegistrationDisplay=[]
+        AXIOS.get('eventRegistrations/getPersonByEvent?eid='+selectedEvent[0].eventId)
+          .then(response => {
+            for (var index in response.data) {
+              this.eventRegistrationDisplay.push(
+                {
+                  userId: response.data[index].id,
+                  userName: response.data[index].name,
+                  userAddress: response.data[index].address
+                }
+              )
+            }
+          })
+          .catch(e => {
+            this.errorItem = e
+          })
+        AXIOS.get('eventRegistrations/getParticipantsNumber?eid='+selectedEvent[0].eventId)
+          .then(response => {
+            this.numberOfAttendee=response.data
+          })
+          .catch(e => {
+            this.errorItem = e
+          })
+        this.$bvModal.show("viewAttendees")
+      }else{
+        this.toastMessage("No Selected Event")
+      }
     },
     /**
      * Refresh event in display table

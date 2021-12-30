@@ -36,6 +36,9 @@ export default {
       itemItemCategory: '',
       itemInLibrary: '',
       errorItem: '',
+      //item reservation display
+      itemReservationDisplay:[],
+      numberOfItemReservation:'',
       //time data
       zeroClock: '00:00:00',
 
@@ -158,6 +161,36 @@ export default {
         this.toastMessage("No Selected Item")
       }
 
+    },
+    viewItemReservation(selectedItems){
+      if(selectedItems.length>0){
+
+        this.itemReservationDisplay=[]
+        AXIOS.get('itemReservations/getItemReservationsByItem?itemId='+selectedItems[0].id)
+          .then(response => {
+            this.numberOfItemReservation=response.data.length
+            for (var index in response.data) {
+              this.itemReservationDisplay.push(
+                {
+                  itemReservationId:response.data[index].id,
+                  personId:response.data[index].personDto.id,
+                  personName:response.data[index].personDto.name,
+                  startDate: response.data[index].timeSlotDto.startDate,
+                  startTime: response.data[index].timeSlotDto.startTime,
+                  endDate: response.data[index].timeSlotDto.endDate,
+                  endTime: response.data[index].timeSlotDto.endTime
+                }
+              )
+            }
+          })
+          .catch(e => {
+            this.errorItem = e
+          })
+        this.$bvModal.show("viewItemReservation")
+
+      }else{
+        this.toastMessage("No Selected Item")
+      }
     },
     linkGen(pageNum) {
       return pageNum === 1 ? '?' : `?page=${pageNum}`
