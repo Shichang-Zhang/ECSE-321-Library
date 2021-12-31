@@ -74,6 +74,15 @@
         The systems will automatically logout after this operation.
       </div>
     </b-modal>
+<!--Confirm window when updating successfullt-->
+    <b-modal id="updateSuccess" title="Success"
+             @ok="gotoHome" ok-only>
+      <div>
+        Transfer head librarian successfully<br>
+        Click OK to log out
+      </div>
+    </b-modal>
+
 
     <!--Setting of panel of assigning business hour to a librarian-->
     <b-modal id="assignBusinessHour" title="Assign Business Hour"

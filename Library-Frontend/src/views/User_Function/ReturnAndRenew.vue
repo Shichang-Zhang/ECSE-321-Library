@@ -30,15 +30,13 @@
     </div>
     <!--Setting of the buttons in the bottom of the page-->
     <div class="btns" style="text-align: right;padding-top: 10px">
-      <b-button variant="outline-primary" @click="handleCancel">Close</b-button>
-      <b-button variant="primary" @click="handleRenewChooseDate(selectedItemReservation)" style="margin-left: 30px;">
-        Renew
-      </b-button>
+      <b-button variant="primary" @click="handleRenewChooseDate(selectedItemReservation)" style="margin-left: 30px;">Renew</b-button>
       <b-button v-on:click="returnItem(selectedItemReservation)" variant="primary">Return</b-button>
       <b-button v-on:click="cancelItemReservation(selectedItemReservation)" variant="primary">Cancel</b-button>
+      <b-button variant="outline-primary" @click="handleCancel">Close</b-button>
     </div>
     <!--Setting of the date and time pickers, which are used to select time and date when renewing an item-->
-    <b-modal id="date-modal" title="Choose Date"
+    <b-modal id="renewItem" title="Choose Date"
              @ok="handleRenewConfirm(currentUserId,selectedItemReservation,renewEndDate,renewEndTime)">
       <div>
         <b-form>

@@ -50,6 +50,9 @@ export default {
     gotoStart() {
       this.$router.push('/librarianMenu');
     },
+    gotoHome(){
+      this.$router.push('/');
+    },
     /**
      * Find a librarian by id
      * @param id id of the librarian
@@ -213,9 +216,8 @@ export default {
     updateIsHeadStep2(selectedLibrarians){
       AXIOS.put('/librarians/updateIsHeadLibrarian?headLibrarianId=' + this.currentLibrarianId + '&librarianId=' + selectedLibrarians[0].id)
         .then(response => {
-          confirm("update success")
+          this.$bvModal.show("updateSuccess")
           this.refreshLibrarian()
-          this.$router.push('/');
         })
         .catch(e => {
           this.toastMessage("Fail to update")
@@ -256,7 +258,8 @@ export default {
           this.toastMessage("Fail to unassign")
         })
 
-    }
+    },
+
   },
   created: function () {
     this.currentLibrarianId= decodeURIComponent((new RegExp('[?|&]' + "id" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null

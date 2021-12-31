@@ -60,26 +60,55 @@ export default {
         name: name,
         itemCategory: itemCategory
       }
-      let category = {
+      let onlyCategory = {
         itemCategory: itemCategory
       }
-      if (name) {
-        AXIOS.get('items/findItem', {params: nameAndCategory})
-          .then(response => {
-            this.itemList = response.data
-          })
-          .catch(e => {
-            this.errorItem = e
-          })
-      } else {
-        AXIOS.get('items/findItemByItemCategory', {params: category})
-          .then(response => {
-            this.itemList = response.data
-          })
-          .catch(e => {
-            this.errorItem = e
-          })
+      let onlyName = {
+        name:name
       }
+      //Case when both name and item category are null
+      if(name.length==0 && itemCategory==null){
+        return
+        //Case when name is null
+      }else if(name.length==0){
+        //Display all
+        if(itemCategory=="All" || itemCategory == null){
+          this.refreshItem()
+        }else{
+          //Find item only by category
+          AXIOS.get('items/findItemByItemCategory', {params: onlyCategory})
+            .then(response => {
+              this.itemList = response.data
+            })
+            .catch(e => {
+              this.errorItem = e
+            })
+        }
+        //Case when name is not null
+      }else {
+        if (itemCategory == "All" || itemCategory == null) {
+          //Find item only by its name
+          AXIOS.get('items/findItemByName', {params: onlyName})
+            .then(response => {
+              this.itemList = response.data
+            })
+            .catch(e => {
+              this.errorItem = e
+            })
+        } else {
+          //Find item by name and category
+          AXIOS.get('items/findItem', {params: nameAndCategory})
+            .then(response => {
+              this.itemList = response.data
+            })
+            .catch(e => {
+              this.errorItem = e
+            })
+        }
+      }
+      this.itemName=''
+      this.form.ItemCategory=null
+
     },
     /**
      * Display all items in the Item table

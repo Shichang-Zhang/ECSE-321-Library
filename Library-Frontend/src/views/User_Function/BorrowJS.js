@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       //current user data
-      currentUserId: currentUserData.id,
+      currentUserId:'',
       //UI set up data
       perPage: 3,
       currentPage: 1,
@@ -64,39 +64,61 @@ export default {
         name: name,
         itemCategory: itemCategory
       }
-      let category = {
+      let onlyCategory = {
         itemCategory: itemCategory
       }
-      if (name) {
-        AXIOS.get('items/findItem', {params: nameAndCategory})
-          .then(response => {
-            this.itemList = response.data
-          })
-          .catch(e => {
-            this.errorItem = e
-          })
-      } else {
-        AXIOS.get('items/findItemByItemCategory', {params: category})
-          .then(response => {
-            this.itemList = response.data
-          })
-          .catch(e => {
-            this.errorItem = e
-          })
+      let onlyName = {
+        name:name
       }
+      //Case when both name and item category are null
+      if(name.length==0 && itemCategory==null){
+        return
+        //Case when name is null
+      }else if(name.length==0){
+        //Display all
+        if(itemCategory=="All" || itemCategory == null){
+          this.refreshItem()
+        }else{
+          //Find item only by category
+          AXIOS.get('items/findItemByItemCategory', {params: onlyCategory})
+            .then(response => {
+              this.itemList = response.data
+            })
+            .catch(e => {
+              this.errorItem = e
+            })
+        }
+        //Case when name is not null
+      }else {
+        if (itemCategory == "All" || itemCategory == null) {
+          //Find item only by its name
+          AXIOS.get('items/findItemByName', {params: onlyName})
+            .then(response => {
+              this.itemList = response.data
+            })
+            .catch(e => {
+              this.errorItem = e
+            })
+        } else {
+          //Find item by name and category
+          AXIOS.get('items/findItem', {params: nameAndCategory})
+            .then(response => {
+              this.itemList = response.data
+            })
+            .catch(e => {
+              this.errorItem = e
+            })
+        }
+      }
+      this.itemName=''
+      this.form.ItemCategory=null
 
     },
     /**
      * Display all items in the "Borrow" panel
      */
     showAllItems: function () {
-      AXIOS.get('/items/itemList')
-        .then(response => {
-          this.itemList = response.data
-        })
-        .catch(e => {
-          this.errorItem = e
-        })
+      this.refreshItem()
     },
     /**
      * Check out an item(Directly borrow it)
@@ -115,7 +137,6 @@ export default {
         form_data.append('startTime', time)
         AXIOS.post('/itemReservations/checkout', form_data, {})
           .then(response => {
-            this.itemReservationList = response.data
             this.$bvModal.msgBoxOk(`Success checkout: ${item[0].name}`)
             this.refreshItem()
           })
@@ -123,23 +144,11 @@ export default {
             var errorMsg = error.message
             if (errorMsg === "Request failed with status code 500")
               this.errorItem = errorMsg
-            this.$bvToast.toast("Fail to borrow the item!", {
-              title: 'Tips',
-              autoHideDelay: 2000,
-              variant: 'warning',
-              solid: true,
-              appendToast: false
-            });
+            this.toastMessage("Fail to borrow the item!")
           })
 
       } else {
-        this.$bvToast.toast('No Selected Items', {
-          title: 'Tips',
-          autoHideDelay: 2000,
-          variant: 'warning',
-          solid: true,
-          appendToast: false
-        });
+        this.toastMessage('No Selected Items')
       }
     },
     /**
@@ -151,13 +160,7 @@ export default {
       if (item.length > 0) {
         this.$bvModal.show('date-modal');
       } else {
-        this.$bvToast.toast('No Selected Items', {
-          title: 'Tips',
-          autoHideDelay: 3000,
-          variant: 'warning',
-          solid: true,
-          appendToast: false
-        });
+        this.toastMessage("No Selected Item")
       }
     },
     /**
@@ -175,20 +178,14 @@ export default {
       form_data.append('endTime', this.zeroClock)
       AXIOS.post('/itemReservations/reserve', form_data, {})
         .then(response => {
-          this.itemReservationList = response.data
+          this.refreshItem()
           this.$bvModal.msgBoxOk(`Success Reserve: ${startDate} ${this.zeroClock} To ${endDate} ${this.zeroClock}`)
         })
         .catch(error => {
           var errorMsg = error.message
           if (errorMsg === "Request failed with status code 500")
             this.errorItem = errorMsg
-          this.$bvToast.toast("Item not available at this timeslot!", {
-            title: 'Tips',
-            autoHideDelay: 2000,
-            variant: 'warning',
-            solid: true,
-            appendToast: false
-          });
+          this.toastMessage("Item not available at this timeslot!")
         })
 
 
@@ -204,6 +201,15 @@ export default {
         .catch(e => {
           this.errorItem = e
         })
+    },
+    toastMessage(content){
+      this.$bvToast.toast(content, {
+        title: 'Tips',
+        autoHideDelay: 2000,
+        variant: 'warning',
+        solid: true,
+        appendToast: false
+      });
     },
     linkGen(pageNum) {
       return pageNum === 1 ? '?' : `?page=${pageNum}`

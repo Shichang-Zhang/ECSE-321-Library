@@ -50,15 +50,9 @@ export default {
     handleRenewChooseDate(itemReservation) {
       //do something
       if (itemReservation.length > 0) {
-        this.$bvModal.show('date-modal');
+        this.$bvModal.show('renewItem');
       } else {
-        this.$bvToast.toast('No Selected Items', {
-          title: 'Tips',
-          autoHideDelay: 3000,
-          variant: 'warning',
-          solid: true,
-          appendToast: false
-        });
+        this.toastMessage('No Selected Item Reservation')
       }
     },
     /**
@@ -75,28 +69,14 @@ export default {
       form_data.append('endTime', endTime)
       AXIOS.put('/itemReservations/renew', form_data, {})
         .then(response => {
-
-
+          this.refreshMyItem()
           this.$bvModal.msgBoxOk(`Success Renew To: ${this.renewEndDate} ${this.renewEndTime}`)
             .then(value => {
-              this.$emit('close');
             })
-
         })
         .catch(error => {
-          var errorMsg = error.message
-          if (errorMsg === "Request failed with status code 500")
-            this.errorItem = errorMsg
-          this.$bvToast.toast("Renew fail! Please check time", {
-            title: 'Tips',
-            autoHideDelay: 2000,
-            variant: 'warning',
-            solid: true,
-            appendToast: false
-          });
+          this.toastMessage("Renew fail! Please check time validity")
         })
-
-
     },
     /**
      * Return an item
@@ -114,35 +94,14 @@ export default {
         form_data.append('endTime', time)
         AXIOS.put('/itemReservations/return', form_data, {})
           .then(response => {
+            this.refreshMyItem()
             this.$bvModal.msgBoxOk(`Success Return ${itemReservation[0].itemName}`)
-              .then(value => {
-                this.$emit('close');
-              })
-              .catch(err => {
-                // An error occurred
-              })
-            // setTimeout(() => { this.$emit('close'); }, 2000)
           })
           .catch(error => {
-            var errorMsg = error.message
-            if (errorMsg === "Request failed with status code 500")
-              this.errorItem = errorMsg
-            this.$bvToast.toast("Fail to return the item!", {
-              title: 'Tips',
-              autoHideDelay: 2000,
-              variant: 'warning',
-              solid: true,
-              appendToast: false
-            });
+            this.toastMessage("Fail to return item!")
           })
       } else {
-        this.$bvToast.toast('No Selected Items', {
-          title: 'Tips',
-          autoHideDelay: 2000,
-          variant: 'warning',
-          solid: true,
-          appendToast: false
-        });
+        this.toastMessage('No Selected Item Reservation')
       }
     },
     /**
@@ -201,13 +160,8 @@ export default {
     },
     handleConfirm() {
       console.log(this.selected, this.startTime, this.endTime);
+      this.refreshMyItem()
       this.$bvModal.msgBoxOk(`Success Renew: To  ${this.endDate} ${this.endTime}`)
-        .then(value => {
-          this.$emit('close');
-        })
-        .catch(err => {
-          // An error occurred
-        })
     },
     /**
      * Cancel an item reservation
@@ -218,13 +172,7 @@ export default {
       var currentTime = getCurrentTime()[1]
       if (itemReservation.length > 0) {
         if (itemReservation[0].startDate <= currentDate) {
-          this.$bvToast.toast("Fail to cancel the reservation! Please checkout/return first!", {
-            title: 'Tips',
-            autoHideDelay: 2000,
-            variant: 'warning',
-            solid: true,
-            appendToast: false
-          });
+          this.toastMessage("Fail to cancel the reservation! Please checkout/return first!")
         } else {
           let param = {
             pid: parseInt(this.currentUserId),
@@ -233,68 +181,64 @@ export default {
           }
           AXIOS.delete('/itemReservations/cancelReservation', {params: param})
             .then(response => {
+              this.refreshMyItem()
               this.$bvModal.msgBoxOk(`Success cancel the reservation of ${itemReservation[0].itemName}`)
-                .then(value => {
-                  this.$emit('close');
-                })
-                .catch(err => {
-                  // An error occurred
-                })
-
             })
             .catch(error => {
-              var errorMsg = error.message
-              if (errorMsg === "Request failed with status code 500")
-                this.errorItem = errorMsg
-              this.$bvToast.toast("Fail to cancel the reservation!", {
-                title: 'Tips',
-                autoHideDelay: 2000,
-                variant: 'warning',
-                solid: true,
-                appendToast: false
-              });
+              this.toastMessage("Fail to cancel the reservation!")
             })
         }
 
       } else {
-        this.$bvToast.toast('No Selected Item Reservation', {
-          title: 'Tips',
-          autoHideDelay: 2000,
-          variant: 'warning',
-          solid: true,
-          appendToast: false
-        });
+        this.toastMessage('No Selected Item Reservation')
       }
+    },
+    /**
+     * Refresh my item display table
+     */
+    refreshMyItem(){
+      this.currentUserId = decodeURIComponent((new RegExp('[?|&]' + "uid" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+      this.itemReservationDisplay = []
+      let param = {
+        pid: parseInt(this.currentUserId)
+      }
+      AXIOS.get('/itemReservations/getItemReservationList', {params: param})
+        .then(response => {
+          for (var index in response.data) {
+            if (response.data[index].personDto.id == this.currentUserId) {
+              this.itemReservationDisplay.push(
+                {
+                  reservationId: response.data[index].id,
+                  itemId: response.data[index].itemDto.id,
+                  itemName: response.data[index].itemDto.name,
+                  itemCategory: response.data[index].itemDto.itemCategory,
+                  startDate: response.data[index].timeSlotDto.startDate,
+                  startTime: response.data[index].timeSlotDto.startTime,
+                  endDate: response.data[index].timeSlotDto.endDate,
+                  endTime: response.data[index].timeSlotDto.endTime
+                }
+              )
+            }
+          }
+          this.itemReservationList = this.itemReservationDisplay
+          this.selectedItemReservationStatus="All"
+        })
+        .catch(e => {
+          this.error = e
+        })
+    },
+    toastMessage(content){
+      this.$bvToast.toast(content, {
+        title: 'Tips',
+        autoHideDelay: 2000,
+        variant: 'warning',
+        solid: true,
+        appendToast: false
+      });
     }
   },
   created: function () {
     this.currentUserId = decodeURIComponent((new RegExp('[?|&]' + "uid" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
-    this.itemReservationDisplay = []
-    let param = {
-      pid: parseInt(this.currentUserId)
-    }
-    AXIOS.get('/itemReservations/getItemReservationList', {params: param})
-      .then(response => {
-        for (var index in response.data) {
-          if (response.data[index].personDto.id == this.currentUserId) {
-            this.itemReservationDisplay.push(
-              {
-                reservationId: response.data[index].id,
-                itemId: response.data[index].itemDto.id,
-                itemName: response.data[index].itemDto.name,
-                itemCategory: response.data[index].itemDto.itemCategory,
-                startDate: response.data[index].timeSlotDto.startDate,
-                startTime: response.data[index].timeSlotDto.startTime,
-                endDate: response.data[index].timeSlotDto.endDate,
-                endTime: response.data[index].timeSlotDto.endTime
-              }
-            )
-          }
-        }
-        this.itemReservationList = this.itemReservationDisplay
-      })
-      .catch(e => {
-        this.error = e
-      })
+    this.refreshMyItem()
   }
 }
