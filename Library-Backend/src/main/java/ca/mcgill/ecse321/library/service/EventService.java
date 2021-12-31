@@ -35,6 +35,20 @@ public class EventService {
         this.createEvent("ECSE300 Lecture", Date.valueOf("2030-12-24"), Date.valueOf("2030-12-25"), Time.valueOf("10:00:00"), Time.valueOf("12:00:00"));
         this.createEvent("ECSE400 Lecture", Date.valueOf("2030-12-26"), Date.valueOf("2030-12-28"), Time.valueOf("10:00:00"), Time.valueOf("12:00:00"));
         this.createEvent("ECSE500 Lecture", Date.valueOf("2030-12-28"), Date.valueOf("2030-12-29"), Time.valueOf("10:00:00"), Time.valueOf("12:00:00"));
+
+        //library had an event in the past
+        TimeSlot timeSlot = new TimeSlot();
+        timeSlot.setId(Math.abs(timeSlot.hashCode() * "2020-12-20".hashCode()));
+        timeSlot.setStartDate(Date.valueOf("2020-12-20"));
+        timeSlot.setEndDate(Date.valueOf("2020-12-21"));
+        timeSlot.setStartTime(Time.valueOf("10:00:00"));
+        timeSlot.setEndTime(Time.valueOf("10:00:00"));
+        timeSlotRepository.save(timeSlot);
+        Event event = new Event();
+        event.setId(Math.abs(event.hashCode() + "ECSE353 Lecture".hashCode() * timeSlot.hashCode()));
+        event.setName("ECSE353 Lecture");
+        event.setTimeSlot(timeSlot);
+        eventRepository.save(event);
     }
 
     /**

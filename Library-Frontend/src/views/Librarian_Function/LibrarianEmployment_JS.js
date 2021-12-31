@@ -213,6 +213,7 @@ export default {
     updateIsHeadStep2(selectedLibrarians){
       AXIOS.put('/librarians/updateIsHeadLibrarian?headLibrarianId=' + this.currentLibrarianId + '&librarianId=' + selectedLibrarians[0].id)
         .then(response => {
+          confirm("update success")
           this.refreshLibrarian()
           this.$router.push('/');
         })

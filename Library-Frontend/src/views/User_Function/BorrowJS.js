@@ -27,7 +27,7 @@ export default {
         ItemCategory: null,
         isReserved: null
       },
-      ItemCategory: [{text: 'Select One', value: null}, 'Book', 'Movie', 'MusicAlbum', 'Newspaper', 'Archive'],
+      ItemCategory: [{text: 'Select One', value: null}, 'All','Book', 'Movie', 'MusicAlbum', 'Newspaper', 'Archive'],
       //item data
       items: [],
       response: [],
