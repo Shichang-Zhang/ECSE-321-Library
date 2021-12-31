@@ -158,11 +158,18 @@ export default {
     }
   },
   created: function () {
+    let currentDate = getCurrentTime()[0]
+    let currentTime = getCurrentTime()[1]
     this.currentUserId = decodeURIComponent((new RegExp('[?|&]' + "uid" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
     this.eventDisplay = []
     AXIOS.get('/events/eventList')
       .then(response => {
-        for (var index in response.data) {
+        for (let index in response.data) {
+          //event in the past time
+          if (response.data[index].timeSlotDto.endDate < currentDate ||
+            (response.data[index].timeSlotDto.endDate == currentDate && response.data[index].timeSlotDto.endTime < currentTime)){
+            continue
+          }
           this.eventDisplay.push(
             {
               eventId: response.data[index].id,

@@ -58,12 +58,12 @@ public class ItemReservationController {
 
     /**
      * a person wants to reserve the item, call corresponding service method
-     * @param pid
-     * @param itemId
-     * @param startDate
-     * @param startTime
-     * @param endDate
-     * @param endTime
+     * @param pid person id
+     * @param itemId item id
+     * @param startDate start date
+     * @param startTime start time
+     * @param endDate end date
+     * @param endTime end time
      * @return a data transfer object of item reservation record if successful
      */
     @PostMapping(value = {"/reserve","/reserve/"})

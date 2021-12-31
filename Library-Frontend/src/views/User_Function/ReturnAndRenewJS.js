@@ -55,10 +55,13 @@ export default {
         this.toastMessage('No Selected Item Reservation')
       }
     },
+
     /**
      * Confirm renew an item to a new end date/time
-     * @param startDate
+     * @param pid
+     * @param itemReservation
      * @param endDate
+     * @param endTime
      */
     handleRenewConfirm(pid, itemReservation, endDate, endTime) {
       const form_data = new FormData()
@@ -70,6 +73,7 @@ export default {
       AXIOS.put('/itemReservations/renew', form_data, {})
         .then(response => {
           this.refreshMyItem()
+
           this.$bvModal.msgBoxOk(`Success Renew To: ${this.renewEndDate} ${this.renewEndTime}`)
             .then(value => {
             })
@@ -112,8 +116,8 @@ export default {
      * @param selectedItemReservation
      */
     showItemReservation(selectedItemReservation) {
-      var currentDate = getCurrentTime()[0]
-      var currentTime = getCurrentTime()[1]
+      let currentDate = getCurrentTime()[0]
+      let currentTime = getCurrentTime()[1]
       let param = {
         pid: parseInt(this.currentUserId)
       }
