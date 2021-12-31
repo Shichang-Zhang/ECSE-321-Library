@@ -1,9 +1,9 @@
 <template>
   <div class="LibrarianMenu">
     <div class="librarian-main">
-      <div class="librarian-info">
-        <b-button @click="gotoStart" variant="primary">Home</b-button>
-        <div style="margin: 0 auto">
+      <div>
+        <b-button @click="gotoStart" variant="primary" class="goToHome">Home</b-button>
+        <div class="librarian-info">
           Welcome librarian login!
         </div>
       </div>
@@ -61,11 +61,11 @@
 .librarian-info {
   font-size: 32px;
   font-weight: bold;
-  display: flex;
   text-align: center;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
   padding: 10px;
   background: #fff;
+  margin: 0 auto;
 }
 
 .menu-items {
@@ -86,6 +86,13 @@
 
 .errorMessage {
   color: #dd2222;
+}
+
+.goToHome{
+  margin: 13px;
+  float: left;
+  position: absolute;
+  left: 0
 }
 
 </style>

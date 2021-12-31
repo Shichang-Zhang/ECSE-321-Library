@@ -1,9 +1,9 @@
 <template>
   <div class="user-main">
     <!--Go to home page button-->
-    <div class="user-info">
-      <b-button @click="gotoStart" variant="primary">Home</b-button>
-      <div style="margin: 0 auto">
+    <div>
+      <b-button @click="gotoStart" variant="primary" class="goToHome">Home</b-button>
+      <div class="user-info">
         Welcome User! Please log in or sign up!
       </div>
     </div>
@@ -62,11 +62,11 @@ export default {
 .user-info {
   font-size: 32px;
   font-weight: bold;
-  display: flex;
   text-align: center;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
   padding: 10px;
   background: #fff;
+  margin: 0 auto;
 }
 
 
@@ -98,6 +98,13 @@ export default {
 
 .goToSignUp:hover {
   background-color: #0000ff;
+}
+
+.goToHome {
+  float: left;
+  position: absolute;
+  left: 0;
+  margin: 13px;
 }
 
 </style>

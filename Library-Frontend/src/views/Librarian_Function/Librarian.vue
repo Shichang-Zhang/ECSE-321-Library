@@ -47,7 +47,6 @@
   height: 80px;
   font-size: 32px;
   font-weight: bold;
-  align-items: center;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
   letter-spacing: 0rem;
   padding: 20px;
@@ -56,8 +55,8 @@
 
 .menu-item {
   transition: all .3s;
-  width: 300px;
-  height: 300px;
+  width: 360px;
+  height: 360px;
   border-radius: 20px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin: 40px;

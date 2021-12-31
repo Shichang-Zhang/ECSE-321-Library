@@ -1,14 +1,14 @@
 <template>
   <div class="user-main">
-<!--    User's information and current time display-->
+    <!--    User's information and current time display-->
     <div class="user-info">
-        <div>Welcome: {{currentUsername}}</div>
-      <div>      </div>
-        <div style="padding-left: 63%">{{currentDateAndTime}}</div>
+      <div style="float: left">Welcome: {{ currentUsername }}</div>
+      <div></div>
+      <div style="float: right">{{ currentDateAndTime }}</div>
     </div>
     <div>
     </div>
-<!--    Setting of style of buttons-->
+    <!--    Setting of style of buttons-->
     <div class="menu-items">
       <div class="menu-item"
            @click="execCommand(item)"
@@ -16,10 +16,10 @@
         {{ item.name }}
       </div>
     </div>
-<!--    Setting of function when clicking the buttons -->
+    <!--    Setting of function when clicking the buttons -->
     <div class="myModel" v-if="curView">
       <div class="myModel-inner">
-        <div class="myModel-title">{{modelTitle}}</div>
+        <div class="myModel-title">{{ modelTitle }}</div>
         <component :is="curView" @close="curView=''"></component>
       </div>
     </div>
@@ -45,12 +45,13 @@
 .user-info {
   font-size: 25px;
   font-weight: bold;
-  display: flex;
   align-items: center;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
   letter-spacing: 0rem;
   padding: 20px;
   background: #fff;
+  height: 80px;
+
 }
 
 .menu-item {
@@ -71,7 +72,7 @@
 }
 
 .menu-item:hover {
-  transform:rotateZ(5deg);
+  transform: rotateZ(5deg);
 }
 
 .menu-item:active {
@@ -79,26 +80,28 @@
   top: 2px;
 }
 
-.myModel{
+.myModel {
   position: fixed;
-  background: rgba(0,0,0,.6);
+  background: rgba(0, 0, 0, .6);
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
 }
-.myModel-inner{
+
+.myModel-inner {
   width: 1200px;
   height: 85vh;
-  padding:20px 40px;
+  padding: 20px 40px;
   border-radius: 10px;
   background: #ffffff;
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
-.myModel-title{
+
+.myModel-title {
   font-size: 24px;
   font-weight: bold;
   border-bottom: solid 1px #e7e7e7;

@@ -1,11 +1,14 @@
 <template id="signup">
   <div class="user-main">
-    <div class="user-info">
-      <b-button @click="gotoStart" variant="primary">Home</b-button>
-      <div style="padding: 0 27% 0 41%">
-        Sign Up
+
+    <div>
+      <div>
+        <b-button @click="gotoStart" variant="primary" style="float: left; margin: 13px; position: absolute; left:0">Home</b-button>
+        <b-button @click="goToLogin" variant="primary" style="float: right;margin: 13px; position: absolute; right: 0">Already have online account?</b-button>
       </div>
-      <b-button @click="goToLogin" variant="primary">Already have online account?</b-button>
+      <div class="user-info">Sign Up
+      </div>
+
     </div>
 
     <div class="menu-items">
@@ -162,17 +165,17 @@
 }
 
 .user-info {
+  width: 100%;
   font-size: 32px;
   font-weight: bold;
-  display: flex;
-  align-items: center;
+  text-align: center;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
   padding: 10px;
   background: #fff;
 }
 
 .menu-items {
-  margin-top: 50px;
+  margin-top: 40px;
 }
 
 .signup-form {

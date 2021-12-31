@@ -1,8 +1,8 @@
 <template id="login">
   <div class="user-main">
-    <div class="user-info">
-      <b-button @click="gotoStart" variant="primary">Home</b-button>
-      <div style="padding: 0 30% 0 42%">
+    <div>
+      <b-button @click="gotoStart" variant="primary" class="goToHome">Home</b-button>
+      <div class="user-info">
         Login
       </div>
 
@@ -78,11 +78,11 @@
 .user-info {
   font-size: 32px;
   font-weight: bold;
-  display: flex;
   text-align: center;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
   padding: 10px;
   background: #fff;
+  margin: 0 auto;
 }
 
 .menu-items {
@@ -90,7 +90,7 @@
 }
 
 .signup-form {
-  margin: 0px 400px 0px 400px;
+  margin: 0 400px 0 400px;
   padding-bottom: 50px;
 }
 
@@ -112,6 +112,13 @@
 
 .formInputError {
   color: #dd2222;
+}
+
+.goToHome{
+  float: left;
+  position: absolute;
+  left: 0;
+  margin: 13px;
 }
 
 </style>
