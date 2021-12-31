@@ -44,53 +44,6 @@ export default {
     handleCancel() {
       this.$emit('close');
     },
-    /**
-     * Delete a user
-     * @param user selected user's transfer object
-     */
-    deleteUser(user){
-        if(user.length>0){
-          let param={
-            lid:parseInt(this.currentLibrarianId),
-            uid:parseInt(user[0].userId)
-          }
-          console.log(param)
-          AXIOS.delete('/librarians/deleteUser',{params:param})
-            .then(response => {
-              console.log(response)
-              this.$bvModal.msgBoxOk(`Success Delete ${user[0].name}`)
-              // this.userDisplayList.pop(user[0])
-                .then(value => {
-                  this.$emit('close');
-                })
-                .catch(err => {
-                  // An error occurred
-                })
-
-            })
-            .catch(error => {
-              var errorMsg = error.message
-              if(errorMsg==="Request failed with status code 500")
-                this.errorItem=errorMsg
-              this.$bvToast.toast("Fail to delete user!",{
-                title: 'Tips',
-                autoHideDelay: 2000,
-                variant: 'warning',
-                solid:true,
-                appendToast: false
-              });
-            })
-        }else{
-          this.$bvToast.toast('No Selected User',{
-            title: 'Tips',
-            autoHideDelay: 2000,
-            variant: 'warning',
-            solid:true,
-            appendToast: false
-          });
-        }
-
-    },
     signUpPage(){
       window.location.href = frontendUrl + '/#/signup'
     }

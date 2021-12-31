@@ -91,7 +91,7 @@
 
 .myModel-inner {
   width: 1200px;
-  height: 85vh;
+  height: 80vh;
   padding: 20px 40px;
   border-radius: 10px;
   background: #ffffff;

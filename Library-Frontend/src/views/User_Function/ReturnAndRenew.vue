@@ -1,19 +1,19 @@
 <template>
   <div>
     <!--    Setting of selecting form in the top of the page-->
-    <b-form inline>
+    <b-form inline style="margin: 15px 0">
       <b-form-select
         id="input-3"
         v-model="selectedItemReservationStatus"
         :options="itemReservationStatus"
         required
       ></b-form-select>
-      <b-button v-on:click="showItemReservation(selectedItemReservationStatus)" variant="primary">Show</b-button>
+      <b-button v-on:click="showItemReservation(selectedItemReservationStatus)" variant="primary" style="margin: 0 10px">Show</b-button>
 
     </b-form>
     <!--    Setting of the bootstrap table in the middle of the page-->
-    <div class="table" style="overflow: auto;height: 51vh;">
-      <b-table style="margin-top: 40px;" hover :items="itemReservationDisplay"
+    <div class="table" style="overflow: auto;height: 49vh;">
+      <b-table hover :items="itemReservationDisplay"
                @row-selected="onRowSelected"
                select-mode="single"
                selectable>
@@ -29,7 +29,7 @@
       ></b-pagination>
     </div>
     <!--Setting of the buttons in the bottom of the page-->
-    <div class="btns" style="text-align: right;border-top: #e7e7e7 1px solid;padding-top: 20px">
+    <div class="btns" style="text-align: right;padding-top: 10px">
       <b-button variant="outline-primary" @click="handleCancel">Close</b-button>
       <b-button variant="primary" @click="handleRenewChooseDate(selectedItemReservation)" style="margin-left: 30px;">
         Renew

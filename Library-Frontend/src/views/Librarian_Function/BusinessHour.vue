@@ -1,9 +1,5 @@
 <template>
   <div class="Start">
-    <!-- input boxes in the top of the page    -->
-<!--    <b-form inline>-->
-
-<!--    </b-form>-->
     <!--    Setting of the bootstrap table in the middle of the page-->
     <div class="table" style="overflow: auto;height: 55vh;">
       <b-table style="margin-top: 40px;" hover :items="businessHours"
@@ -22,7 +18,7 @@
       ></b-pagination>
     </div>
     <!-- Buttons in the bottom of the page-->
-    <div class="btns" style="text-align: right;border-top: #e7e7e7 1px solid;padding-top: 20px">
+    <div class="btns" style="text-align: right;padding-top: 20px">
       <b-button variant="primary" @click="handleCreateBusinessHourStep1" type="reset">Create</b-button>
       <b-button variant="primary" @click="handleUpdateBusinessHourStep1(selectedBusinessHours)"  type="reset">Update</b-button>
       <b-button variant="outline-primary" @click="handleCancel">Close</b-button>

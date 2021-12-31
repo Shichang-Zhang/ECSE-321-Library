@@ -14,7 +14,7 @@
           <div class="updateAddressForm" v-show=addressUpdateShow>
 
             <b-form v-if="show">
-              <div>
+              <div style="font-weight: bold">
                 Address Update:
               </div>
               <div class="innerForm">
@@ -72,7 +72,7 @@
           <div class="updateUsernameForm" v-show=usernameUpdateShow>
 
             <b-form v-if="show">
-              <div>
+              <div style="font-weight: bold">
                 Username update:
               </div>
               <div class="innerForm">
@@ -102,7 +102,7 @@
           <div class="updatePasswordForm" v-show=passwordUpdateShow>
 
             <b-form v-if="show">
-              <div>
+              <div style="font-weight: bold">
                 Password Update:
               </div>
 
@@ -150,7 +150,7 @@
           <div class="updateEmailForm" v-show=emailUpdateShow>
 
             <b-form v-if="show">
-              <div>
+              <div style="font-weight: bold">
                 Email address Update:
               </div>
 
@@ -184,7 +184,7 @@
 
     </div>
 <!--Buttons to update information or quit, located in the bottom of the page-->
-    <div class="btns" style="text-align: right;border-top: #e7e7e7 1px solid;padding-top: 20px">
+    <div class="btns" style="text-align: right;margin-top: 30px">
       <b-button variant="outline-primary" @click="handleCancel">Close</b-button>
       <b-button @click="updateUserInfo()" variant="primary">Update</b-button>
     </div>

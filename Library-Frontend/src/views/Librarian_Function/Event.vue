@@ -1,23 +1,19 @@
 <template>
   <div>
-    <b-form inline>
+    <b-form inline style="margin: 15px 0">
       <b-form-group
-        label="Search Events By Name: "
         label-for="eventSearchName">
         <b-form-input
           id="newEventNameInput"
           placeholder="Event Name"
           v-model="eventSearchName"
         ></b-form-input>
-      </b-form-group>
-      <b-form-group>
         <b-button variant="outline-primary" @click="findEventsByName(eventSearchName)">Search</b-button>
         <b-button variant="outline-primary" @click="refreshEvent()">Show All</b-button>
       </b-form-group>
-
     </b-form>
-    <div class="table" style="overflow: auto;height: 51vh;">
-      <b-table style="margin-top: 40px;" hover :items="eventDisplay"
+    <div class="table" style="overflow: auto;height: 49vh;">
+      <b-table hover :items="eventDisplay"
                @row-selected="onRowSelected"
                select-mode="single"
                selectable>
@@ -33,7 +29,7 @@
       ></b-pagination>
     </div>
 <!--Setting of buttons in the bottom of the page-->
-    <div class="btns" style="text-align: right;border-top: #e7e7e7 1px solid;padding-top: 20px">
+    <div class="btns" style="text-align: right;padding-top: 10px">
       <b-button variant="primary" @click="handleCreateStep1">Create New Event</b-button>
       <b-button variant="primary" @click="handleUpdateNameStep1(selectedEvent)">Update Name</b-button>
       <b-button variant="primary" @click="handleUpdateTimeSlotStep1(selectedEvent)">Update TimeSlot</b-button>

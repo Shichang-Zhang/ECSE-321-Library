@@ -1,9 +1,9 @@
 <template>
   <div>
     <!--    Input boxes and buttons in the top of the page-->
-    <b-form inline>
+    <b-form inline style="margin: 15px 0">
       <!--      input of item name-->
-      <b-form-group id="input-group-3" label="Name:" style="margin: 0 20px;" label-for="input-1">
+      <b-form-group id="input-group-3" label="Name:" label-for="input-1">
         <b-form-input
           id="input-1"
           class="mb-2 mr-sm-2 mb-sm-0"
@@ -21,15 +21,15 @@
         ></b-form-select>
       </b-form-group>
       <!--button of finding a item-->
-      <b-button v-on:click="findItems(itemName,form.ItemCategory)" variant="primary" style="margin-left: 30px;"
+      <b-button v-on:click="findItems(itemName,form.ItemCategory)" variant="primary" style="margin-left: 10px;"
                 type="reset">Search
       </b-button>
       <!--button to show all items-->
-      <b-button v-on:click="showAllItems" variant="primary" style="margin-left: 30px;" type="reset">Show All</b-button>
+      <b-button v-on:click="showAllItems" variant="primary" style="margin-left: 10px;" type="reset">Show All</b-button>
     </b-form>
     <!--    Setting of bootstrap table in the middle of the page-->
-    <div class="table" style="overflow: auto;height: 51vh;">
-      <b-table style="margin-top: 40px;" hover :items="itemList"
+    <div class="table" style="overflow: auto;height: 49vh;">
+      <b-table hover :items="itemList"
                @row-selected="onRowSelected"
                select-mode="single"
                selectable>
@@ -45,7 +45,7 @@
       ></b-pagination>
     </div>
     <!--Setting of buttons in the bottom of the page-->
-    <div class="btns" style="text-align: right;border-top: #e7e7e7 1px solid;padding-top: 20px">
+    <div class="btns" style="text-align: right;margin-top: 10px">
       <b-button variant="outline-primary" @click="handleCancel">Close</b-button>
       <b-button v-on:click="checkout(selectedItems)" variant="primary">Borrow</b-button>
       <b-button v-on:click="handleReserveChooseDate(selectedItems)" variant="primary">Reserve</b-button>
