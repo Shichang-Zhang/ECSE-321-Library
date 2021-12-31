@@ -2,9 +2,9 @@
   <div class="user-main">
     <!--    User's information and current time display-->
     <div class="user-info">
-      <div>Welcome: {{ currentLibrarianName }}</div>
+      <div style="float: left">Welcome: {{ currentLibrarianName }}</div>
       <div></div>
-      <div style="padding-left: 65%">{{ currentDateAndTime }}</div>
+      <div style="float: right">{{ currentDateAndTime }}</div>
     </div>
     <div>
     </div>
@@ -23,7 +23,7 @@
         <component :is="curView" @close="curView=''"></component>
       </div>
     </div>
-    <div style="padding-top: 200px"></div>
+    <div style="padding-top: 80px"></div>
   </div>
 </template>
 
@@ -43,9 +43,10 @@
 }
 
 .user-info {
+  width: 100%;
+  height: 80px;
   font-size: 32px;
   font-weight: bold;
-  display: flex;
   align-items: center;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
   letter-spacing: 0rem;

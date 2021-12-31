@@ -2,9 +2,10 @@
   <div class="user-main">
     <div class="user-info">
       <b-button @click="gotoStart" variant="primary">Home</b-button>
-      <div style="padding-left: 40%">
+      <div style="padding: 0 30% 0 42%">
         Login
       </div>
+
     </div>
 
     <div class="menu-items">
@@ -56,7 +57,7 @@
           <b-button @click="signUpPage" size="lg" type="submit" variant="success">Don't have an online acount?
           </b-button>
         </div>
-        <div style="padding-top: 550px"></div>
+        <div style="padding-top: 14vh"></div>
 
       </div>
     </div>

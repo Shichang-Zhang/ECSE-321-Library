@@ -3,7 +3,7 @@
     <!--Go to home page button-->
     <div class="user-info">
       <b-button @click="gotoStart" variant="primary">Home</b-button>
-      <div style="padding-left: 40%">
+      <div style="margin: 0 auto">
         Welcome User! Please log in or sign up!
       </div>
     </div>

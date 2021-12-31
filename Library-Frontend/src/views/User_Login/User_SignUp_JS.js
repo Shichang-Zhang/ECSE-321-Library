@@ -207,6 +207,9 @@ export default {
     },
     gotoStart() {
       this.$router.push('/');
+    },
+    goToLogin(){
+      this.$router.push('/login');
     }
 
   },

@@ -84,7 +84,7 @@ export default {
     },
     gotoStart() {
       this.$router.push('/');
-    }
+    },
 
   }
 }

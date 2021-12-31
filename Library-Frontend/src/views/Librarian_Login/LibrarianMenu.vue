@@ -3,7 +3,7 @@
     <div class="librarian-main">
       <div class="librarian-info">
         <b-button @click="gotoStart" variant="primary">Home</b-button>
-        <div style="padding-left: 200px">
+        <div style="margin: 0 auto">
           Welcome librarian login!
         </div>
       </div>

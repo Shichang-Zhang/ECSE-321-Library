@@ -4,7 +4,7 @@
     <div class="user-info">
         <div>Welcome: {{currentUsername}}</div>
       <div>      </div>
-        <div style="padding-left: 65%">{{currentDateAndTime}}</div>
+        <div style="padding-left: 63%">{{currentDateAndTime}}</div>
     </div>
     <div>
     </div>
@@ -43,7 +43,7 @@
 }
 
 .user-info {
-  font-size: 20px;
+  font-size: 25px;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -55,8 +55,8 @@
 
 .menu-item {
   transition: all .3s;
-  width: 300px;
-  height: 300px;
+  width: 360px;
+  height: 360px;
   border-radius: 20px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin: 40px;
