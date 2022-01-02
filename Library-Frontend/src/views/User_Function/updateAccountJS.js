@@ -4,8 +4,8 @@ import Vue from "vue";
 
 var config = require('../../../config')
 
-var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'https://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
