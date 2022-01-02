@@ -159,18 +159,18 @@ export default {
     showAllEvents: function () {
       this.eventDisplay = this.eventList
     },
-    refreshEvent(){
+    refreshEvent() {
       //Refresh time
       AXIOS.get('/businessHours/getCurrentTime')
         .then(response => {
-          this.time=response.data
+          this.time = response.data
         })
         .catch(error => {
           console.log(error)
         })
       AXIOS.get('/businessHours/getCurrentDate')
         .then(response => {
-          this.date=response.data
+          this.date = response.data
         })
         .catch(error => {
           console.log(error)
@@ -183,7 +183,7 @@ export default {
           for (let index in response.data) {
             //event in the past time
             if (response.data[index].timeSlotDto.endDate < this.date ||
-              (response.data[index].timeSlotDto.endDate == this.date && response.data[index].timeSlotDto.endTime < this.time)){
+              (response.data[index].timeSlotDto.endDate == this.date && response.data[index].timeSlotDto.endTime < this.time)) {
               continue
             }
             this.eventDisplay.push(
@@ -194,6 +194,7 @@ export default {
                 startTime: response.data[index].timeSlotDto.startTime,
                 endDate: response.data[index].timeSlotDto.endDate,
                 endTime: response.data[index].timeSlotDto.endTime,
+                numberOfAttendee: 0
               }
             )
           }
@@ -202,6 +203,17 @@ export default {
         .catch(e => {
           this.errorItem = e
         })
+
+      // for (let index2 in this.eventList) {
+      //   AXIOS.get('/eventRegistrations/getParticipantsNumber?eid=' + '210296900')
+      //     .then(response => {
+      //       console.log(response.data)
+      //       this.eventDisplay[index].numberOfAttendee=response.data
+      //     })
+      //     .catch(e => {
+      //       this.errorItem = e
+      //     })
+      // }
     }
   },
   created: function () {
