@@ -4,8 +4,8 @@ import {getCurrentTime} from './CurrentUserData'
 
 var config = require('../../../config')
 
-var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'https://' + config.dev.backendHost + ':' + config.dev.backendPort
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
@@ -119,37 +119,33 @@ export default {
      * @param selectedItemReservation
      */
     showItemReservation(selectedItemReservation) {
+      this.refreshTime()
       let currentDate = this.date
       let currentTime = this.time
       console.log(currentDate,currentTime)
       let param = {
         pid: parseInt(this.currentUserId)
       }
-      this.itemReservationDisplay = this.itemReservationList
 
       if (selectedItemReservation == "All") {
-        var allList = []
-        for (var index in this.itemReservationDisplay) {
-          allList.push(this.itemReservationDisplay[index])
-        }
-        this.itemReservationDisplay = allList
+        this.refreshMyItem()
       } else if (selectedItemReservation == "Valid") {
         var validList = []
-        for (var index in this.itemReservationDisplay) {
-          if (this.itemReservationDisplay[index].endDate > currentDate) {
-            validList.push(this.itemReservationDisplay[index])
-          } else if (this.itemReservationDisplay[index].endDate == currentDate && this.itemReservationDisplay[index].endTime >= currentTime) {
-            validList.push(this.itemReservationDisplay[index])
+        for (var index in this.itemReservationList) {
+          if (this.itemReservationList[index].endDate > currentDate) {
+            validList.push(this.itemReservationList[index])
+          } else if (this.itemReservationList[index].endDate == currentDate && this.itemReservationList[index].endTime >= currentTime) {
+            validList.push(this.itemReservationList[index])
           }
         }
         this.itemReservationDisplay = validList
       } else if (selectedItemReservation == "Expired") {
         var expiredList = []
-        for (var index in this.itemReservationDisplay) {
-          if (this.itemReservationDisplay[index].endDate < currentDate) {
-            expiredList.push(this.itemReservationDisplay[index])
-          } else if (this.itemReservationDisplay[index].endDate == currentDate && this.itemReservationDisplay[index].endTime < currentTime) {
-            expiredList.push(this.itemReservationDisplay[index])
+        for (var index in this.itemReservationList) {
+          if (this.itemReservationList[index].endDate < currentDate) {
+            expiredList.push(this.itemReservationList[index])
+          } else if (this.itemReservationList[index].endDate == currentDate && this.itemReservationList[index].endTime < currentTime) {
+            expiredList.push(this.itemReservationList[index])
           }
         }
         this.itemReservationDisplay = expiredList
@@ -176,8 +172,8 @@ export default {
      * @param itemReservation selected item reservation transfer object
      */
     cancelItemReservation(itemReservation) {
-      var currentDate = getCurrentTime()[0]
-      var currentTime = getCurrentTime()[1]
+      let currentDate = this.date
+      let currentTime = this.time
       if (itemReservation.length > 0) {
         if (itemReservation[0].startDate <= currentDate) {
           this.toastMessage("Fail to cancel the reservation! Please checkout/return first!")
@@ -235,6 +231,10 @@ export default {
           this.error = e
         })
       //Refresh time
+      this.refreshTime()
+    },
+    refreshTime(){
+      //Refresh time
       AXIOS.get('/businessHours/getCurrentTime')
         .then(response => {
           this.time=response.data
@@ -263,5 +263,6 @@ export default {
   created: function () {
     this.currentUserId = decodeURIComponent((new RegExp('[?|&]' + "uid" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
     this.refreshMyItem()
+    this.itemReservationList=this.itemReservationDisplay
   }
 }

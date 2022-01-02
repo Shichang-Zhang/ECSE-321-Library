@@ -608,6 +608,7 @@ public class ItemReservationService {
             }
 
         } else {
+            Time tempTime = endTime;
             endTime.setSeconds(59);
             if (compareTimeString(endTime,HelperMethods.toList(librarySystemRepository.findAll()).get(0).getCurrenTTime())<0) {
                 error = error + "can not reserve/checkout with past time";
