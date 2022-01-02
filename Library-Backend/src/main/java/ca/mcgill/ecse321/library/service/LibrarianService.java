@@ -128,6 +128,17 @@ public class LibrarianService extends PersonService {
         return librarianRepository.findLibrarianById(id);
     }
 
+
+    /**
+     * get a list of librarian by their names
+     * @param name name of the librarians
+     * @return a list of librarians of this name
+     */
+    @Transactional
+    public List<Librarian> getLibrarianByName(String name){
+        return librarianRepository.findByName(name);
+    }
+
     /**
      * head librarian can assign the business hour for librarians
      *

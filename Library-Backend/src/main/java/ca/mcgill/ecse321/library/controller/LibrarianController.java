@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.library.controller;
 
 import ca.mcgill.ecse321.library.dto.*;
 import ca.mcgill.ecse321.library.model.Librarian;
+import ca.mcgill.ecse321.library.model.User;
 import ca.mcgill.ecse321.library.service.LibrarianService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +54,17 @@ public class LibrarianController {
             throws IllegalArgumentException{
         Librarian librarian= librarianService.getLibrarianById(id);
         return HelperMethods.convertToDto(librarian);
+    }
+
+    /**
+     *
+     * @param name
+     * @return
+     */
+    @GetMapping ("/getLibrarianByName")
+    List<LibrarianDto> getLibrarianByName(@RequestParam("name") String name) throws IllegalArgumentException{
+        List<Librarian> librarianList=librarianService.getLibrarianByName(name);
+        return librarianList.stream().map(l->HelperMethods.convertToDto((Librarian)l)).collect(Collectors.toList());
     }
 
     /**

@@ -148,5 +148,17 @@ public class BusinessHourService {
         return date.toString() + " " + time.toString();
     }
 
+    @Transactional
+    public String getSystemDate() {
+        Date date = HelperMethods.toList(librarySystemRepository.findAll()).get(0).getCurrenTDate();
+        return date.toString();
+    }
+
+    @Transactional
+    public String getSystemTime() {
+        Time time = HelperMethods.toList(librarySystemRepository.findAll()).get(0).getCurrenTTime();
+        return time.toString();
+    }
+
 
 }

@@ -45,7 +45,8 @@ export default {
       itemReservationEndDate: '',
       //time data
       zeroClock: '00:00:00',
-
+      date:'',
+      time:'',
     }
   },
   computed: {
@@ -127,14 +128,12 @@ export default {
     checkout: function (item) {
       if (item.length > 0) {
         const form_data = new FormData()
-        var date = getCurrentTime()[0]
-        var time = getCurrentTime()[1]
-        console.log(date + time)
-        console.log(this.currentUserId)
+        // console.log(this.date + this.time)
+        // console.log(this.currentUserId)
         form_data.append('pid', parseInt(this.currentUserId))
         form_data.append('itemId', parseInt(item[0].id))
-        form_data.append('startDate', date)
-        form_data.append('startTime', time)
+        form_data.append('startDate', this.date)
+        form_data.append('startTime', this.time)
         AXIOS.post('/itemReservations/checkout', form_data, {})
           .then(response => {
             this.$bvModal.msgBoxOk(`Success checkout: ${item[0].name}`)
@@ -200,6 +199,21 @@ export default {
         })
         .catch(e => {
           this.errorItem = e
+        })
+      //Refresh time
+      AXIOS.get('/businessHours/getCurrentTime')
+        .then(response => {
+          this.time=response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      AXIOS.get('/businessHours/getCurrentDate')
+        .then(response => {
+          this.date=response.data
+        })
+        .catch(error => {
+          console.log(error)
         })
     },
     toastMessage(content){

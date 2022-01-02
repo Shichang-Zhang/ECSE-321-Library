@@ -77,7 +77,7 @@ export default {
   created:function (){
     this.currentUserId=decodeURIComponent((new RegExp('[?|&]' + "uid" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
     // this.currentUserId=currentUserData.id
-    AXIOS.get('/businessHours/getCurrentTime')
+    AXIOS.get('/businessHours/getCurrentDateAndTime')
       .then(response => {
         this.currentDateAndTime = response.data
       })

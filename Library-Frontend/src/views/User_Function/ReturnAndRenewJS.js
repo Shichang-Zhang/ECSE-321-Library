@@ -33,7 +33,10 @@ export default {
       //Error data
       error: '',
       //drop down text
-      dropDownTitle: "All"
+      dropDownTitle: "All",
+      //time data
+      time:'',
+      date:''
     }
 
   },
@@ -89,19 +92,19 @@ export default {
     returnItem(itemReservation) {
       if (itemReservation.length > 0) {
         const form_data = new FormData()
-        var date = getCurrentTime()[0]
-        var time = getCurrentTime()[1]
         form_data.append('pid', parseInt(this.currentUserId))
         form_data.append('itemId', parseInt(itemReservation[0].itemId))
         form_data.append('itemReservationId', parseInt(itemReservation[0].reservationId))
-        form_data.append('endDate', date)
-        form_data.append('endTime', time)
+        this.refreshMyItem()
+        form_data.append('endDate', this.date)
+        form_data.append('endTime', this.time)
         AXIOS.put('/itemReservations/return', form_data, {})
           .then(response => {
             this.refreshMyItem()
             this.$bvModal.msgBoxOk(`Success Return ${itemReservation[0].itemName}`)
           })
           .catch(error => {
+            console.log(this.date+" "+this.time)
             this.toastMessage("Fail to return item!")
           })
       } else {
@@ -116,8 +119,9 @@ export default {
      * @param selectedItemReservation
      */
     showItemReservation(selectedItemReservation) {
-      let currentDate = getCurrentTime()[0]
-      let currentTime = getCurrentTime()[1]
+      let currentDate = this.date
+      let currentTime = this.time
+      console.log(currentDate,currentTime)
       let param = {
         pid: parseInt(this.currentUserId)
       }
@@ -229,6 +233,21 @@ export default {
         })
         .catch(e => {
           this.error = e
+        })
+      //Refresh time
+      AXIOS.get('/businessHours/getCurrentTime')
+        .then(response => {
+          this.time=response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      AXIOS.get('/businessHours/getCurrentDate')
+        .then(response => {
+          this.date=response.data
+        })
+        .catch(error => {
+          console.log(error)
         })
     },
     toastMessage(content){

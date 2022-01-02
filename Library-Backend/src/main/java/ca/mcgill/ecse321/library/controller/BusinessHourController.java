@@ -87,9 +87,21 @@ public class BusinessHourController {
         return HelperMethods.convertToDto(businessHour);
     }
 
+    @GetMapping("/getCurrentDateAndTime")
+    public String getCurrentDateAndTime()
+            throws IllegalArgumentException {
+        return businessHourService.getSystemDateAndTime();
+    }
+
+    @GetMapping("/getCurrentDate")
+    public String getCurrentDate()
+            throws IllegalArgumentException {
+        return businessHourService.getSystemDate();
+    }
+
     @GetMapping("/getCurrentTime")
     public String getCurrentTime()
             throws IllegalArgumentException {
-        return businessHourService.getSystemDateAndTime();
+        return businessHourService.getSystemTime();
     }
 }

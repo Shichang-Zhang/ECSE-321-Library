@@ -1,13 +1,16 @@
 <template>
   <div>
     <b-form inline style="margin: 15px 0">
-      <b-form-select
-        id="input-3"
-        v-model="selectedItemReservationStatus"
-        :options="itemReservationStatus"
-        required
-      ></b-form-select>
-      <b-button v-on:click="showItemReservation(selectedItemReservationStatus)" variant="primary" style="margin: 0 10px">Show</b-button>
+      <b-form-group id="input-group-3" label="Event Registration Status: " label-for="input-1">
+        <b-form-select
+          id="input-3"
+          v-model="selectedEventRegistrationStatus"
+          :options="eventRegistrationStatusOption"
+          required
+        ></b-form-select>
+        </b-form-group>
+
+      <b-button v-on:click="searchEventRegistrationByStatus(selectedEventRegistrationStatus)" variant="primary" style="margin: 0 10px">Show</b-button>
 
     </b-form>
     <!--    Setting of the table of Bootstrap table in the middle of the page-->

@@ -27,6 +27,7 @@ export default {
       librarianName: '',
       librarianAddress: '',
       librarianBusinessHour: '',
+      librarianSearchName:'',
       //current head librarian data
       currentLibrarianId:'',
       //Option of selecting day of week (Monday - Sunday) when assignning business hour
@@ -85,36 +86,6 @@ export default {
      */
     unassignBusinessHour: function (id, dayOfWeek) {
       AXIOS.put('/librarians/unassignBusinessHour?headLibrarianId=' + currentLibrarianData.currentLibrarianId + '&librarianId=' + id + '&dayOfWeek=' + dayOfWeek)
-        .then(response => {
-          this.librarians = []
-          AXIOS.get('/librarians/librarianList')
-            .then(response => {
-              for (var index in response.data) {
-                this.librarians.push(
-                  {
-                    id: response.data[index].id,
-                    name: response.data[index].name,
-                    isHeadLibrarian: response.data[index].headLibrarian,
-                    businessHours: response.data[index].businessHourDtos
-                  }
-                )
-              }
-            })
-            .catch(e => {
-              this.errorLibrarian = e
-            })
-        })
-        .catch(e => {
-          this.errorLibrarian = e
-        })
-    },
-    /**
-     * Update a normal librarian to Head librarian
-     * Set the current login head librarian to normal librarian
-     * @param id id of the normal librarian
-     */
-    updateHead: function (id) {
-      AXIOS.put('/librarians/updateIsHeadLibrarian?headLibrarianId=' + currentLibrarianData.currentLibrarianId + '&librarianId=' + id)
         .then(response => {
           this.librarians = []
           AXIOS.get('/librarians/librarianList')
@@ -259,6 +230,34 @@ export default {
         })
 
     },
+    searchLibrarianByName(name){
+      if(name.length<=0 || name==null){
+        return
+      }
+      this.librarians=[]
+      AXIOS.get('/librarians/getLibrarianByName?name='+name)
+        .then(response => {
+          for (var index in response.data) {
+            var tempBusinessHour=[]
+            for(var index2 in response.data[index].businessHourDtos){
+              tempBusinessHour.push(response.data[index].businessHourDtos[index2].dayOfWeek.toString())
+              tempBusinessHour.sort()
+            }
+            this.librarians.push(
+              {
+                id: response.data[index].id,
+                name: response.data[index].name,
+                address: response.data[index].address,
+                isHeadLibrarian: response.data[index].headLibrarian,
+                businessHours: (tempBusinessHour.length>0?tempBusinessHour:null)
+              }
+            )
+          }
+        })
+        .catch(e => {
+          this.errorLibrarian = e
+        })
+    }
 
   },
   created: function () {

@@ -2,12 +2,16 @@
   <div>
     <!--    Setting of selecting form in the top of the page-->
     <b-form inline style="margin: 15px 0">
-      <b-form-select
-        id="input-3"
-        v-model="selectedItemReservationStatus"
-        :options="itemReservationStatus"
-        required
-      ></b-form-select>
+      <b-form-group id="input-group-3" label="Item Reservation Status:" label-for="input-1">
+        <b-form-select
+          id="input-3"
+          v-model="selectedItemReservationStatus"
+          :options="itemReservationStatus"
+          required
+        ></b-form-select>
+
+      </b-form-group>
+
       <b-button v-on:click="showItemReservation(selectedItemReservationStatus)" variant="primary" style="margin: 0 10px">Show</b-button>
 
     </b-form>

@@ -81,7 +81,7 @@ export default {
       })
 
     console.log(this.currentLibrarianId + "!!! ")
-    AXIOS.get('/businessHours/getCurrentTime')
+    AXIOS.get('/businessHours/getCurrentDateAndTime')
       .then(response => {
         this.currentDateAndTime = response.data
       })

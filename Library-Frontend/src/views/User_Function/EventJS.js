@@ -38,6 +38,9 @@ export default {
       eventSearchName: '',
       //error data
       error: '',
+      //time data
+      time:'',
+      date:''
     }
   },
   computed: {
@@ -155,36 +158,54 @@ export default {
      */
     showAllEvents: function () {
       this.eventDisplay = this.eventList
+    },
+    refreshEvent(){
+      //Refresh time
+      AXIOS.get('/businessHours/getCurrentTime')
+        .then(response => {
+          this.time=response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      AXIOS.get('/businessHours/getCurrentDate')
+        .then(response => {
+          this.date=response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+      this.eventDisplay = []
+
+      AXIOS.get('/events/eventList')
+        .then(response => {
+          for (let index in response.data) {
+            //event in the past time
+            if (response.data[index].timeSlotDto.endDate < this.date ||
+              (response.data[index].timeSlotDto.endDate == this.date && response.data[index].timeSlotDto.endTime < this.time)){
+              continue
+            }
+            this.eventDisplay.push(
+              {
+                eventId: response.data[index].id,
+                name: response.data[index].name,
+                startDate: response.data[index].timeSlotDto.startDate,
+                startTime: response.data[index].timeSlotDto.startTime,
+                endDate: response.data[index].timeSlotDto.endDate,
+                endTime: response.data[index].timeSlotDto.endTime,
+              }
+            )
+          }
+          this.eventList = this.eventDisplay
+        })
+        .catch(e => {
+          this.errorItem = e
+        })
     }
   },
   created: function () {
-    let currentDate = getCurrentTime()[0]
-    let currentTime = getCurrentTime()[1]
     this.currentUserId = decodeURIComponent((new RegExp('[?|&]' + "uid" + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
-    this.eventDisplay = []
-    AXIOS.get('/events/eventList')
-      .then(response => {
-        for (let index in response.data) {
-          //event in the past time
-          if (response.data[index].timeSlotDto.endDate < currentDate ||
-            (response.data[index].timeSlotDto.endDate == currentDate && response.data[index].timeSlotDto.endTime < currentTime)){
-            continue
-          }
-          this.eventDisplay.push(
-            {
-              eventId: response.data[index].id,
-              name: response.data[index].name,
-              startDate: response.data[index].timeSlotDto.startDate,
-              startTime: response.data[index].timeSlotDto.startTime,
-              endDate: response.data[index].timeSlotDto.endDate,
-              endTime: response.data[index].timeSlotDto.endTime,
-            }
-          )
-        }
-        this.eventList = this.eventDisplay
-      })
-      .catch(e => {
-        this.errorItem = e
-      })
+    this.refreshEvent()
   }
 }

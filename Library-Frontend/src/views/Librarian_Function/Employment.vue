@@ -3,14 +3,14 @@
     <!--    Setting of buttons and input boxes in the top of the page-->
     <b-form inline style="margin: 15px 0">
       <b-form-group
-        label-for="eventSearchName">
+        label-for="librarianSearchName">
         <b-form-input
-          id="newEventNameInput"
+          id="librarianSearchName"
           placeholder="Librarian Name"
-          v-model="eventSearchName"
+          v-model="librarianSearchName"
         ></b-form-input>
-        <b-button variant="outline-primary" @click="findEventsByName(eventSearchName)">Search</b-button>
-        <b-button variant="outline-primary" @click="refreshEvent()">Show All</b-button>
+        <b-button variant="outline-primary" @click="searchLibrarianByName(librarianSearchName)">Search</b-button>
+        <b-button variant="outline-primary" @click="refreshLibrarian">Show All</b-button>
       </b-form-group>
     </b-form>
     <!--Setting of bootstrap table in the middle of the page-->
@@ -74,7 +74,7 @@
         The systems will automatically logout after this operation.
       </div>
     </b-modal>
-<!--Confirm window when updating successfullt-->
+<!--Confirm window when updating successfully-->
     <b-modal id="updateSuccess" title="Success"
              @ok="gotoHome" ok-only>
       <div>
