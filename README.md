@@ -19,6 +19,10 @@ It has a database access object tier that load and save the necessary data into 
 a service tier that processes business logic and a web tier that 
 allows the read and write opeations on the displays UI surface on the website or the mobile frontend.
 
+Code of Web Backend and Frontend: https://github.com/McGill-ECSE321-Fall2021/project-group-18
+
+Code of Mobile Frontend: https://github.com/McGill-ECSE321-Fall2021/project-group-18/tree/android
+
 
 *********
 # Team Member
@@ -79,6 +83,42 @@ allows the read and write opeations on the displays UI surface on the website or
 * [Software Quality Assurance Plan and Report](https://github.com/McGill-ECSE321-Fall2021/project-group-18/wiki/Software-Quality-Assurance-Plan-and-Report)
 
 * [Project Report](https://github.com/McGill-ECSE321-Fall2021/project-group-18/wiki/Deliverable-2-Project-Report)
+
+## Deliverable 3
+
+### Overview Table
+| Team member | Total hours | Responsibility |
+|------------------ |-------------| ---------------|
+| Shichang Zhang    |40| Frontend user signup and login<br>Integration of Web Frontend with Backend Services of login/signup <br> architecture modeling and project management | 
+| Junjian Chen | 50| Frontend UI for User<br>Integration of Web Frontend with Backend Services for User <br> user manual report|
+| Haipeng Yue   | 40 | Frontend UI for Librarian<br>Integration of Web Frontend with Backend Services for Librarian <br> user manual report|
+| Ruoli Wang   |15 | Frontend UI for User|
+| Maoyu Wang   |20 | Frontend UI for Librarian<br>Integration of Web Frontend with Backend Services for Librarian|
+
+* [Architecture Model](https://github.com/McGill-ECSE321-Fall2021/project-group-18/wiki/Architecture-Model)
+
+* [Project Report](https://github.com/McGill-ECSE321-Fall2021/project-group-18/wiki/Deliverable-3-Project-Report)
+
+* [Web Frontend User Manual](https://github.com/McGill-ECSE321-Fall2021/project-group-18/wiki/Web-Frontend-User-Manual)
+
+## Deliverable 4
+
+### Overview Table
+| Team member | Total hours | Responsibility |
+|------------------ |-------------| ---------------|
+| Shichang Zhang    | 30| Implementation of Mobile Frontend<br>Project Management and Project Report<br>Code Quality Check| 
+| Junjian Chen |  30| Implementation of Mobile Frontend<br>Project Management and Project Report<br>User Documentationt<br>Build System, Continuous Integration, and Delivery |
+| Haipeng Yue   | 20 | Implementation of Mobile Frontend<br>User Documentation |
+| Ruoli Wang   | 15| Implementation of Mobile Frontend|
+| Maoyu Wang   | 5| Implementation of Mobile Frontend|
+
+* [Web User Document](https://github.com/McGill-ECSE321-Fall2021/project-group-18/wiki/Web-User-Document)
+
+* [Android User Document](https://github.com/McGill-ECSE321-Fall2021/project-group-18/wiki/Android-User-Document)
+
+* [Project Report](https://github.com/McGill-ECSE321-Fall2021/project-group-18/wiki/Project-Report)
+
+
 
 
 
